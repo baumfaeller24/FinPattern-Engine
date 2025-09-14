@@ -29,6 +29,7 @@ def main():
         
         module_pages = {
             "🏠 Übersicht": "overview",
+            "📥 Dukascopy Download": "dukascopy",
             "📊 DataIngest": "data_ingest",
             "🏷️ Labeling": "labeling",
             "⚙️ FeatureEngine": "feature_engine",
@@ -75,6 +76,8 @@ def main():
     
     if page_key == "overview":
         show_overview()
+    elif page_key == "dukascopy":
+        show_dukascopy()
     elif page_key == "data_ingest":
         show_data_ingest()
     else:
@@ -171,6 +174,12 @@ def show_overview():
             st.info("Noch keine Läufe ausgeführt.")
     else:
         st.info("Runs-Verzeichnis noch nicht erstellt.")
+
+
+def show_dukascopy():
+    """Show Dukascopy downloader page."""
+    from dukascopy_downloader import show_dukascopy_downloader
+    show_dukascopy_downloader()
 
 
 def show_data_ingest():
