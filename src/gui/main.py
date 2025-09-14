@@ -184,9 +184,9 @@ def show_dukascopy():
 
 def show_data_ingest():
     """Show DataIngest module page."""
-    # Import and run the DataIngest GUI
-    from data_ingest_gui import main as data_ingest_main
-    data_ingest_main()
+    # Import and run the enhanced DataIngest GUI v2.0 (95% Soll-Funktionen)
+    from data_ingest_gui_v2 import main as data_ingest_main_v2
+    data_ingest_main_v2()
 
 
 def show_coming_soon(module_name):
