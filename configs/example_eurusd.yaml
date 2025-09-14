@@ -1,0 +1,114 @@
+# FinPattern-Engine Configuration
+# Beispiel für EUR/USD Mustererkennung
+
+# Global Settings
+run_id: "eurusd_2025_09_14"
+seed: 42
+log_level: "INFO"
+
+# Data Ingestion
+data_ingest:
+  raw_data_path: "./data/eurusd_ticks_202508.csv"
+  time_zone: "UTC"
+  bar_intervals:
+    - type: "time"
+      unit: "1m"
+    - type: "tick" 
+      count: 100
+    - type: "tick"
+      count: 1000
+  max_missing_gap_seconds: 60
+  out_format: "parquet"
+
+# Labeling
+labeling:
+  method: "triple_barrier"
+  take_profit_pips: 10
+  stop_loss_pips: 10
+  timeout_bars: 50
+  min_return_threshold: 0.0001
+
+# Feature Engineering
+feature_engine:
+  indicators:
+    - name: "SMA"
+      periods: [10, 20, 50, 200]
+    - name: "EMA"
+      periods: [12, 26]
+    - name: "RSI"
+      period: 14
+    - name: "MACD"
+      fast: 12
+      slow: 26
+      signal: 9
+    - name: "BOLLINGER"
+      period: 20
+      std: 2
+    - name: "ATR"
+      period: 14
+
+# Data Splitting
+splitter:
+  method: "walk_forward"
+  train_size: 0.6
+  validation_size: 0.2
+  test_size: 0.2
+  purge_gap: 24  # hours
+  embargo_gap: 12  # hours
+
+# Pattern Search
+free_search:
+  enabled: true
+  algorithm: "decision_tree"
+  max_depth: 5
+  min_samples_split: 100
+  min_samples_leaf: 50
+  max_features: "sqrt"
+
+db_search:
+  enabled: true
+  pattern_database: "./data/pattern_templates.json"
+  optimization_method: "grid_search"
+  
+# Reinforcement Learning Parameter Tuning
+rl_param_tuner:
+  enabled: false
+  algorithm: "ppo"
+  episodes: 1000
+  learning_rate: 0.001
+
+# Backtesting
+backtester:
+  initial_capital: 10000
+  commission: 0.0001  # 1 pip spread
+  slippage: 0.0001
+  position_size: 0.1  # 10% of capital per trade
+  max_positions: 1
+
+# Validation
+validator:
+  min_trades: 30
+  min_win_rate: 0.4
+  min_profit_factor: 1.2
+  max_drawdown: 0.15
+  min_sharpe_ratio: 0.5
+
+# Export
+exporter:
+  formats: ["pinescript", "csv", "json"]
+  pinescript_version: "v5"
+  include_comments: true
+
+# Reporting
+reporter:
+  generate_charts: true
+  chart_formats: ["png", "html"]
+  include_equity_curve: true
+  include_drawdown_chart: true
+  include_monthly_returns: true
+
+# Output
+output:
+  base_dir: "./runs"
+  save_intermediate: true
+  compress_results: false

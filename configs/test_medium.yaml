@@ -1,0 +1,28 @@
+symbol: EURUSD
+time_zone_in: UTC
+trim_weekend: true
+bar_frames:
+- type: time
+  unit: 1m
+- type: tick
+  count: 100
+- type: tick
+  count: 1000
+price_basis: mid
+out_dir: ./runs/test_medium
+max_missing_gap_seconds: 60
+outlier_zscore: 12.0
+csv:
+  path: ./samples/ticks/eurusd_medium.csv
+  sep: ','
+  header: true
+  dtype:
+    timestamp: str
+    bid: float64
+    ask: float64
+parquet:
+  row_group_mb: 128
+  compression: snappy
+seeds:
+  global: 42
+demo: false
