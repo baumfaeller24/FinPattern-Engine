@@ -10,6 +10,12 @@ import sys
 project_root = Path(__file__).parent.parent.parent
 sys.path.append(str(project_root))
 
+# Import GUI functions
+from .data_ingest_gui_v2 import main as show_data_ingest
+from .labeling_gui import show_labeling
+from .feature_engine_gui import show_feature_engine
+from .dukascopy_downloader import show_dukascopy_downloader
+
 
 def main():
     st.set_page_config(
@@ -56,7 +62,7 @@ def main():
         module_status = {
             "DataIngest": "✅ Vollständig",
             "Labeling": "✅ Vollständig",
-            "FeatureEngine": "📋 Geplant",
+            "FeatureEngine": "🚀 In Entwicklung",
             "Splitter": "📋 Geplant",
             "FreeSearch": "📋 Geplant",
             "DBSearch": "📋 Geplant",
@@ -77,11 +83,15 @@ def main():
     if page_key == "overview":
         show_overview()
     elif page_key == "dukascopy":
-        show_dukascopy()
+        show_dukascopy_downloader()
     elif page_key == "data_ingest":
         show_data_ingest()
     elif page_key == "labeling":
         show_labeling()
+    elif page_key == "feature_engine":
+        show_feature_engine()
+    else:
+        show_coming_soon(selected_page)
 
 
 def show_overview():
@@ -96,13 +106,13 @@ def show_overview():
         st.metric("Module Total", "14")
     
     with col2:
-        st.metric("Module Implementiert", "2", delta="DataIngest + Labeling")
+        st.metric("Module Implementiert", "2", delta="DataIngest, Labeling")
     
     with col3:
-        st.metric("Module in Entwicklung", "12")
+        st.metric("Module in Entwicklung", "1", delta="FeatureEngine")
     
     with col4:
-        st.metric("Test-Abdeckung", "95%", delta="DataIngest")
+        st.metric("Test-Abdeckung", "95%", delta="DataIngest + Labeling")
     
     # Architecture overview
     st.header("🏗️ Architektur")
@@ -123,8 +133,8 @@ def show_overview():
     
     status_data = [
         {"Modul": "DataIngest", "Status": "Vollständig", "Fortschritt": 100, "Beschreibung": "Tick-/Bar-Datenverarbeitung"},
-        {"Modul": "Labeling", "Status": "Geplant", "Fortschritt": 0, "Beschreibung": "Triple-Barrier Labels"},
-        {"Modul": "FeatureEngine", "Status": "Geplant", "Fortschritt": 0, "Beschreibung": "Technische Indikatoren"},
+        {"Modul": "Labeling", "Status": "Vollständig", "Fortschritt": 100, "Beschreibung": "Triple-Barrier Labels"},
+        {"Modul": "FeatureEngine", "Status": "In Entwicklung", "Fortschritt": 50, "Beschreibung": "Technische Indikatoren"},
         {"Modul": "Splitter", "Status": "Geplant", "Fortschritt": 0, "Beschreibung": "Walk-Forward CV"},
         {"Modul": "FreeSearch", "Status": "Geplant", "Fortschritt": 0, "Beschreibung": "ML-Mustererkennung"},
         {"Modul": "DBSearch", "Status": "Geplant", "Fortschritt": 0, "Beschreibung": "Template-Suche"},
@@ -135,7 +145,7 @@ def show_overview():
         {"Modul": "Reporter", "Status": "Geplant", "Fortschritt": 0, "Beschreibung": "Charts & Reports"},
         {"Modul": "Orchestrator", "Status": "Basis", "Fortschritt": 30, "Beschreibung": "Pipeline-Steuerung"},
         {"Modul": "Persistence", "Status": "Geplant", "Fortschritt": 0, "Beschreibung": "State Management"},
-        {"Modul": "GUI", "Status": "Basis", "Fortschritt": 20, "Beschreibung": "Web-Interface"}
+        {"Modul": "GUI", "Status": "Basis", "Fortschritt": 40, "Beschreibung": "Web-Interface"}
     ]
     
     df_status = pd.DataFrame(status_data)
@@ -147,53 +157,19 @@ def show_overview():
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        if st.button("📊 DataIngest starten", type="primary"):
-            st.switch_page("pages/data_ingest.py")
+        if st.button("📊 DataIngest starten"):
+            st.session_state.selected_page = "📊 DataIngest"
+            st.rerun()
     
     with col2:
-        if st.button("📖 Dokumentation", type="secondary"):
-            st.markdown("[GitHub Repository](https://github.com/baumfaeller24/Linux-Superhelfer-Floki)")
-    
+        if st.button("🏷️ Labeling starten"):
+            st.session_state.selected_page = "🏷️ Labeling"
+            st.rerun()
+
     with col3:
-        if st.button("🧪 Tests ausführen", type="secondary"):
-            st.code("pytest tests/ -v", language="bash")
-    
-    # Recent activity
-    st.header("📈 Letzte Aktivitäten")
-    
-    # Check for recent runs
-    runs_dir = Path("runs")
-    if runs_dir.exists():
-        recent_runs = sorted(runs_dir.iterdir(), key=lambda x: x.stat().st_mtime, reverse=True)[:5]
-        
-        if recent_runs:
-            for run_dir in recent_runs:
-                if run_dir.is_dir():
-                    st.write(f"📁 **{run_dir.name}** - {run_dir.stat().st_mtime}")
-        else:
-            st.info("Noch keine Läufe ausgeführt.")
-    else:
-        st.info("Runs-Verzeichnis noch nicht erstellt.")
-
-
-def show_dukascopy():
-    """Show Dukascopy downloader page."""
-    from dukascopy_downloader import show_dukascopy_downloader
-    show_dukascopy_downloader()
-
-
-def show_data_ingest():
-    """Show DataIngest module page."""
-    # Import and run the enhanced DataIngest GUI v2.0 (95% Soll-Funktionen)
-    from data_ingest_gui_v2 import main as data_ingest_main_v2
-    data_ingest_main_v2()
-
-
-def show_labeling():
-    """Show Labeling module page."""
-    # Import and run the Labeling GUI
-    from labeling_gui import main as labeling_main
-    labeling_main()
+        if st.button("⚙️ FeatureEngine starten"):
+            st.session_state.selected_page = "⚙️ FeatureEngine"
+            st.rerun()
 
 
 def show_coming_soon(module_name):
@@ -207,29 +183,9 @@ def show_coming_soon(module_name):
     
     Dieses Modul wird in einem zukünftigen Sprint implementiert. 
     Siehe die Roadmap in der Dokumentation für weitere Details.
-    
-    ### Entwicklungsstand:
-    - ✅ Spezifikation erstellt
-    - ✅ API-Design definiert
-    - 📋 Implementation geplant
-    - 📋 Tests vorbereitet
-    
-    ### Nächste Schritte:
-    1. Core-Funktionalität implementieren
-    2. Unit-Tests schreiben
-    3. Integration in Pipeline
-    4. GUI-Interface erstellen
     """)
-    
-    # Show placeholder for module interface
-    with st.expander("🔮 Vorschau der geplanten Oberfläche"):
-        st.markdown("*Hier wird die Benutzeroberfläche für dieses Modul erscheinen.*")
-        
-        # Mock interface elements
-        st.selectbox("Beispiel-Parameter", ["Option 1", "Option 2", "Option 3"], disabled=True)
-        st.slider("Beispiel-Wert", 0, 100, 50, disabled=True)
-        st.button("Modul ausführen", disabled=True)
 
 
 if __name__ == "__main__":
     main()
+

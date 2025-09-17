@@ -185,7 +185,136 @@
           }
         }
       }
+    },
+    {
+      "run_id": "run_20250917_161446_dcba88ec",
+      "module": "feature_engine",
+      "created_at": "2025-09-17T16:14:46.456444",
+      "config_hash": "dcba88ec",
+      "status": "success",
+      "config_file": "runs/run_20250917_161446_dcba88ec/feature_engine/config_used.yaml",
+      "run_dir": "runs/run_20250917_161446_dcba88ec/feature_engine",
+      "updated_at": "2025-09-17T16:14:46.863812",
+      "result": {
+        "success": true,
+        "run_id": "run_20250917_161446_dcba88ec",
+        "output_dir": "/tmp/pytest-of-ubuntu/pytest-7/test_run_feature_engine_module0/output",
+        "feature_data_path": "/tmp/pytest-of-ubuntu/pytest-7/test_run_feature_engine_module0/output/bars_labeled_features.parquet",
+        "report": {
+          "n_bars": 100,
+          "n_original_features": 8,
+          "n_new_features": 25,
+          "new_feature_names": [
+            "price_vs_sma20",
+            "stoch_k",
+            "macd",
+            "is_hammer",
+            "atr_14",
+            "stoch_d",
+            "sma_20",
+            "bb_middle",
+            "price_vs_ema20",
+            "bb_width",
+            "price_change",
+            "open_close_ratio",
+            "ema_50",
+            "bb_percent",
+            "rsi_14",
+            "bb_lower",
+            "cci_20",
+            "is_doji",
+            "macd_signal",
+            "bb_upper",
+            "macd_histogram",
+            "sma_50",
+            "volatility_20",
+            "ema_20",
+            "high_low_ratio"
+          ],
+          "config_used": {
+            "input_file": "/tmp/pytest-of-ubuntu/pytest-7/test_run_feature_engine_module0/input/bars_labeled.parquet",
+            "feature_categories": [
+              "momentum",
+              "trend",
+              "volatility"
+            ],
+            "out_dir": "/tmp/pytest-of-ubuntu/pytest-7/test_run_feature_engine_module0/output"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250917_161446_7a91cfaa",
+      "module": "feature_engine",
+      "created_at": "2025-09-17T16:14:46.895470",
+      "config_hash": "7a91cfaa",
+      "status": "error",
+      "config_file": "runs/run_20250917_161446_7a91cfaa/feature_engine/config_used.yaml",
+      "run_dir": "runs/run_20250917_161446_7a91cfaa/feature_engine",
+      "updated_at": "2025-09-17T16:14:46.997104",
+      "error": "Fehler in Modul 3 (FeatureEngine): Input file not found: /tmp/pytest-of-ubuntu/pytest-7/test_run_feature_engine_missin0/nonexistent.parquet"
+    },
+    {
+      "run_id": "run_20250917_161447_dba4efa0",
+      "module": "feature_engine",
+      "created_at": "2025-09-17T16:14:47.005049",
+      "config_hash": "dba4efa0",
+      "status": "success",
+      "config_file": "runs/run_20250917_161447_dba4efa0/feature_engine/config_used.yaml",
+      "run_dir": "runs/run_20250917_161447_dba4efa0/feature_engine",
+      "updated_at": "2025-09-17T16:14:47.035768",
+      "result": {
+        "success": true,
+        "run_id": "run_20250917_161447_dba4efa0",
+        "output_dir": "/tmp/pytest-of-ubuntu/pytest-7/test_pipeline_compatibility0/feature_output",
+        "feature_data_path": "/tmp/pytest-of-ubuntu/pytest-7/test_pipeline_compatibility0/feature_output/bars_labeled_features.parquet",
+        "report": {
+          "n_bars": 50,
+          "n_original_features": 8,
+          "n_new_features": 28,
+          "new_feature_names": [
+            "price_vs_sma20",
+            "stoch_k",
+            "macd",
+            "obv",
+            "is_hammer",
+            "atr_14",
+            "stoch_d",
+            "sma_20",
+            "bb_middle",
+            "price_vs_ema20",
+            "bb_width",
+            "price_change",
+            "open_close_ratio",
+            "ema_50",
+            "bb_percent",
+            "volume_sma_20",
+            "rsi_14",
+            "volume_ratio",
+            "bb_lower",
+            "cci_20",
+            "is_doji",
+            "macd_signal",
+            "bb_upper",
+            "macd_histogram",
+            "sma_50",
+            "volatility_20",
+            "ema_20",
+            "high_low_ratio"
+          ],
+          "config_used": {
+            "input_file": "/tmp/pytest-of-ubuntu/pytest-7/test_pipeline_compatibility0/bars_labeled.parquet",
+            "feature_categories": [
+              "momentum",
+              "trend",
+              "volatility",
+              "volume"
+            ],
+            "out_dir": "/tmp/pytest-of-ubuntu/pytest-7/test_pipeline_compatibility0/feature_output"
+          }
+        }
+      }
     }
   ],
-  "last_updated": "2025-09-17T15:47:00.115360"
+  "last_updated": "2025-09-17T16:14:47.035773"
 }
