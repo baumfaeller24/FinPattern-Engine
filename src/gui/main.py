@@ -55,7 +55,7 @@ def main():
         
         module_status = {
             "DataIngest": "✅ Vollständig",
-            "Labeling": "📋 Geplant",
+            "Labeling": "✅ Vollständig",
             "FeatureEngine": "📋 Geplant",
             "Splitter": "📋 Geplant",
             "FreeSearch": "📋 Geplant",
@@ -80,8 +80,8 @@ def main():
         show_dukascopy()
     elif page_key == "data_ingest":
         show_data_ingest()
-    else:
-        show_coming_soon(selected_page)
+    elif page_key == "labeling":
+        show_labeling()
 
 
 def show_overview():
@@ -96,10 +96,10 @@ def show_overview():
         st.metric("Module Total", "14")
     
     with col2:
-        st.metric("Module Implementiert", "1", delta="DataIngest")
+        st.metric("Module Implementiert", "2", delta="DataIngest + Labeling")
     
     with col3:
-        st.metric("Module in Entwicklung", "13")
+        st.metric("Module in Entwicklung", "12")
     
     with col4:
         st.metric("Test-Abdeckung", "95%", delta="DataIngest")
@@ -187,6 +187,13 @@ def show_data_ingest():
     # Import and run the enhanced DataIngest GUI v2.0 (95% Soll-Funktionen)
     from data_ingest_gui_v2 import main as data_ingest_main_v2
     data_ingest_main_v2()
+
+
+def show_labeling():
+    """Show Labeling module page."""
+    # Import and run the Labeling GUI
+    from labeling_gui import main as labeling_main
+    labeling_main()
 
 
 def show_coming_soon(module_name):

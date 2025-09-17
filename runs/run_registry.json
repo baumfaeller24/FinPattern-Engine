@@ -1,4 +1,191 @@
 {
-  "runs": [],
-  "last_updated": "2025-09-14T17:06:27.961723"
+  "runs": [
+    {
+      "run_id": "run_20250917_154325_a9131a80",
+      "module": "labeling",
+      "created_at": "2025-09-17T15:43:25.816278",
+      "config_hash": "a9131a80",
+      "status": "success",
+      "config_file": "runs/run_20250917_154325_a9131a80/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250917_154325_a9131a80/labeling",
+      "updated_at": "2025-09-17T15:43:26.359535",
+      "result": {
+        "success": true,
+        "run_id": "run_20250917_154325_a9131a80",
+        "output_dir": "/tmp/pytest-of-ubuntu/pytest-1/test_run_labeling_module0/output",
+        "labeled_data_path": "/tmp/pytest-of-ubuntu/pytest-1/test_run_labeling_module0/output/bars_labeled.parquet",
+        "report": {
+          "n_events": 200,
+          "label_counts": {
+            "0": 200
+          },
+          "avg_return": -5.261835967807133e-05,
+          "config_used": {
+            "input_file": "/tmp/pytest-of-ubuntu/pytest-1/test_run_labeling_module0/input/bars.parquet",
+            "tp_mult": 1.5,
+            "sl_mult": 1.5,
+            "timeout_bars": 10,
+            "volatility_span": 20,
+            "out_dir": "/tmp/pytest-of-ubuntu/pytest-1/test_run_labeling_module0/output"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250917_154343_635bf9b1",
+      "module": "labeling",
+      "created_at": "2025-09-17T15:43:43.774329",
+      "config_hash": "635bf9b1",
+      "status": "success",
+      "config_file": "runs/run_20250917_154343_635bf9b1/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250917_154343_635bf9b1/labeling",
+      "updated_at": "2025-09-17T15:43:44.352066",
+      "result": {
+        "success": true,
+        "run_id": "run_20250917_154343_635bf9b1",
+        "output_dir": "/tmp/pytest-of-ubuntu/pytest-2/test_run_labeling_module0/output",
+        "labeled_data_path": "/tmp/pytest-of-ubuntu/pytest-2/test_run_labeling_module0/output/bars_labeled.parquet",
+        "report": {
+          "n_events": 200,
+          "label_counts": {
+            "0": 200
+          },
+          "avg_return": -5.261835967807133e-05,
+          "config_used": {
+            "input_file": "/tmp/pytest-of-ubuntu/pytest-2/test_run_labeling_module0/input/bars.parquet",
+            "tp_mult": 1.5,
+            "sl_mult": 1.5,
+            "timeout_bars": 10,
+            "volatility_span": 20,
+            "out_dir": "/tmp/pytest-of-ubuntu/pytest-2/test_run_labeling_module0/output"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250917_154354_e6c68b7a",
+      "module": "labeling",
+      "created_at": "2025-09-17T15:43:54.861664",
+      "config_hash": "e6c68b7a",
+      "status": "success",
+      "config_file": "runs/run_20250917_154354_e6c68b7a/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250917_154354_e6c68b7a/labeling",
+      "updated_at": "2025-09-17T15:43:55.063146",
+      "result": {
+        "success": true,
+        "run_id": "run_20250917_154354_e6c68b7a",
+        "output_dir": "/tmp/pytest-of-ubuntu/pytest-3/test_run_labeling_module0/output",
+        "labeled_data_path": "/tmp/pytest-of-ubuntu/pytest-3/test_run_labeling_module0/output/bars_labeled.parquet",
+        "report": {
+          "n_events": 200,
+          "label_counts": {
+            "0": 200
+          },
+          "avg_return": -5.261835967807133e-05,
+          "config_used": {
+            "input_file": "/tmp/pytest-of-ubuntu/pytest-3/test_run_labeling_module0/input/bars.parquet",
+            "tp_mult": 1.5,
+            "sl_mult": 1.5,
+            "timeout_bars": 10,
+            "volatility_span": 20,
+            "out_dir": "/tmp/pytest-of-ubuntu/pytest-3/test_run_labeling_module0/output"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250917_154435_6b08bc74",
+      "module": "labeling",
+      "created_at": "2025-09-17T15:44:35.223867",
+      "config_hash": "6b08bc74",
+      "status": "success",
+      "config_file": "runs/run_20250917_154435_6b08bc74/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250917_154435_6b08bc74/labeling",
+      "updated_at": "2025-09-17T15:44:35.421829",
+      "result": {
+        "success": true,
+        "run_id": "run_20250917_154435_6b08bc74",
+        "output_dir": "/tmp/pytest-of-ubuntu/pytest-4/test_run_labeling_module0/output",
+        "labeled_data_path": "/tmp/pytest-of-ubuntu/pytest-4/test_run_labeling_module0/output/bars_labeled.parquet",
+        "report": {
+          "n_events": 200,
+          "label_counts": {
+            "0": 200
+          },
+          "avg_return": -0.00026454234998451906,
+          "config_used": {
+            "input_file": "/tmp/pytest-of-ubuntu/pytest-4/test_run_labeling_module0/input/bars.parquet",
+            "tp_mult": 1.5,
+            "sl_mult": 1.5,
+            "timeout_bars": 10,
+            "volatility_span": 20,
+            "out_dir": "/tmp/pytest-of-ubuntu/pytest-4/test_run_labeling_module0/output"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250917_154502_4aac7759",
+      "module": "labeling",
+      "created_at": "2025-09-17T15:45:02.837266",
+      "config_hash": "4aac7759",
+      "status": "success",
+      "config_file": "runs/run_20250917_154502_4aac7759/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250917_154502_4aac7759/labeling",
+      "updated_at": "2025-09-17T15:45:03.026536",
+      "result": {
+        "success": true,
+        "run_id": "run_20250917_154502_4aac7759",
+        "output_dir": "/tmp/pytest-of-ubuntu/pytest-5/test_run_labeling_module0/output",
+        "labeled_data_path": "/tmp/pytest-of-ubuntu/pytest-5/test_run_labeling_module0/output/bars_labeled.parquet",
+        "report": {
+          "n_events": 200,
+          "label_counts": {
+            "0": 200
+          },
+          "avg_return": -0.00026454234998451906,
+          "config_used": {
+            "input_file": "/tmp/pytest-of-ubuntu/pytest-5/test_run_labeling_module0/input/bars.parquet",
+            "tp_mult": 1.5,
+            "sl_mult": 1.5,
+            "timeout_bars": 10,
+            "volatility_span": 20,
+            "out_dir": "/tmp/pytest-of-ubuntu/pytest-5/test_run_labeling_module0/output"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250917_154659_9cf19005",
+      "module": "labeling",
+      "created_at": "2025-09-17T15:46:59.906703",
+      "config_hash": "9cf19005",
+      "status": "success",
+      "config_file": "runs/run_20250917_154659_9cf19005/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250917_154659_9cf19005/labeling",
+      "updated_at": "2025-09-17T15:47:00.115355",
+      "result": {
+        "success": true,
+        "run_id": "run_20250917_154659_9cf19005",
+        "output_dir": "/tmp/pytest-of-ubuntu/pytest-6/test_run_labeling_module0/output",
+        "labeled_data_path": "/tmp/pytest-of-ubuntu/pytest-6/test_run_labeling_module0/output/bars_labeled.parquet",
+        "report": {
+          "n_events": 200,
+          "label_counts": {
+            "0": 200
+          },
+          "avg_return": -0.00026454234998451906,
+          "config_used": {
+            "input_file": "/tmp/pytest-of-ubuntu/pytest-6/test_run_labeling_module0/input/bars.parquet",
+            "tp_mult": 1.5,
+            "sl_mult": 1.5,
+            "timeout_bars": 10,
+            "volatility_span": 20,
+            "out_dir": "/tmp/pytest-of-ubuntu/pytest-6/test_run_labeling_module0/output"
+          }
+        }
+      }
+    }
+  ],
+  "last_updated": "2025-09-17T15:47:00.115360"
 }
