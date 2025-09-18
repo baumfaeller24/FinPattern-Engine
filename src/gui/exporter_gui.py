@@ -11,6 +11,7 @@ from pathlib import Path
 import json
 import tempfile
 import zipfile
+import io
 from datetime import datetime
 
 # Import the exporter module
@@ -223,6 +224,21 @@ def _display_export_results(result, output_dir):
                 file_name=file_path_obj.name,
                 mime="text/plain"
             )
+
+    # Create a zip file with all exported files
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, "a", zipfile.ZIP_DEFLATED, False) as zip_file:
+        for format_name, file_path in result["output_files"].items():
+            file_path_obj = Path(file_path)
+            zip_file.writestr(file_path_obj.name, file_path_obj.read_bytes())
+
+    st.download_button(
+        label="📥 Download All as ZIP",
+        data=zip_buffer.getvalue(),
+     file_name=f"{summary['strategy_name']}_export.zip",
+        mime="application/zip"
+    )
+
     
     # Usage instructions
     st.subheader("📖 Usage Instructions")
