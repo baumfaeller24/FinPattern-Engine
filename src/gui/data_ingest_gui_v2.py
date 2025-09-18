@@ -129,6 +129,17 @@ class DataIngestGUI:
                     help="Verzeichnis für Ausgabedateien"
                 )
                 
+                # Pip Size (SOLL-FUNKTION)
+                pip_size = st.number_input(
+                    "Pip Size", 
+                    value=0.0001, 
+                    min_value=0.00001,
+                    max_value=0.01,
+                    step=0.00001,
+                    format="%.5f",
+                    help="Pip-Größe für das Symbol (z.B. 0.0001 für EUR/USD)"
+                )
+                
                 # Seed (SOLL-FUNKTION)
                 seed = st.number_input(
                     "Seed", 
@@ -144,7 +155,7 @@ class DataIngestGUI:
                 start_button = st.form_submit_button("🚀 Start", type="primary")
             
             # Konfiguration erstellen
-            cfg = self.build_config(symbol, frames, price_basis, gap, z, weekend, out_dir, seed, demo)
+            cfg = self.build_config(symbol, frames, price_basis, gap, z, weekend, out_dir, seed, pip_size, demo)
             
             # Vorprüfung (SOLL-FUNKTION)
             if submitted:
@@ -171,7 +182,7 @@ class DataIngestGUI:
     
     def build_config(self, symbol: str, frames: List[str], price_basis: str, 
                     gap: int, z: float, weekend: bool, out_dir: str, 
-                    seed: int, demo: bool) -> Dict[str, Any]:
+                    seed: int, pip_size: float, demo: bool) -> Dict[str, Any]:
         """Konfiguration erstellen (exakt wie im Soll-Dokument)"""
         
         # Bar-Frames konvertieren
@@ -192,6 +203,7 @@ class DataIngestGUI:
             "out_dir": out_dir,
             "max_missing_gap_seconds": int(gap),
             "outlier_zscore": float(z),
+            "pip_size": float(pip_size),
             "csv": {"path": "./ticks/eurusd_aug.csv"},  # wird überschrieben bei Upload
             "parquet": {"row_group_mb": 128, "compression": "snappy"},
             "seeds": {"global": int(seed)},

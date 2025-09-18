@@ -314,7 +314,869 @@
           }
         }
       }
+    },
+    {
+      "run_id": "run_20250918_031347_bf3b6afb",
+      "module": "labeling",
+      "created_at": "2025-09-18T03:13:47.457051",
+      "config_hash": "bf3b6afb",
+      "status": "success",
+      "config_file": "runs/run_20250918_031347_bf3b6afb/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250918_031347_bf3b6afb/labeling",
+      "updated_at": "2025-09-18T03:13:51.914226",
+      "result": {
+        "success": true,
+        "run_id": "run_20250918_031347_bf3b6afb",
+        "output_dir": "temp_e2e_test/labeling_output",
+        "labeled_data_path": "temp_e2e_test/labeling_output/bars_3tick_labeled_v2.parquet",
+        "report": {
+          "n_events": 2,
+          "label_counts": {
+            "1": 1,
+            "0": 1
+          },
+          "avg_return": 0.0,
+          "config_used": {
+            "input_file": "temp_e2e_test/data_ingest_output/bars_3tick.parquet",
+            "pip_size": 0.0001,
+            "volatility_window": 1,
+            "tp_sl_multipliers": [
+              2.0,
+              1.0
+            ],
+            "timeout_bars": 1,
+            "out_dir": "temp_e2e_test/labeling_output"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250918_031352_27c27229",
+      "module": "feature_engine",
+      "created_at": "2025-09-18T03:13:52.005771",
+      "config_hash": "27c27229",
+      "status": "error",
+      "config_file": "runs/run_20250918_031352_27c27229/feature_engine/config_used.yaml",
+      "run_dir": "runs/run_20250918_031352_27c27229/feature_engine",
+      "updated_at": "2025-09-18T03:13:52.107604",
+      "error": "Fehler in Modul 3 (FeatureEngine v2.0): name 'datetime' is not defined"
+    },
+    {
+      "run_id": "run_20250918_031405_bf3b6afb",
+      "module": "labeling",
+      "created_at": "2025-09-18T03:14:05.031269",
+      "config_hash": "bf3b6afb",
+      "status": "success",
+      "config_file": "runs/run_20250918_031405_bf3b6afb/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250918_031405_bf3b6afb/labeling",
+      "updated_at": "2025-09-18T03:14:06.486764",
+      "result": {
+        "success": true,
+        "run_id": "run_20250918_031405_bf3b6afb",
+        "output_dir": "temp_e2e_test/labeling_output",
+        "labeled_data_path": "temp_e2e_test/labeling_output/bars_3tick_labeled_v2.parquet",
+        "report": {
+          "n_events": 2,
+          "label_counts": {
+            "1": 1,
+            "0": 1
+          },
+          "avg_return": 0.0,
+          "config_used": {
+            "input_file": "temp_e2e_test/data_ingest_output/bars_3tick.parquet",
+            "pip_size": 0.0001,
+            "volatility_window": 1,
+            "tp_sl_multipliers": [
+              2.0,
+              1.0
+            ],
+            "timeout_bars": 1,
+            "out_dir": "temp_e2e_test/labeling_output"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250918_031406_27c27229",
+      "module": "feature_engine",
+      "created_at": "2025-09-18T03:14:06.584741",
+      "config_hash": "27c27229",
+      "status": "success",
+      "config_file": "runs/run_20250918_031406_27c27229/feature_engine/config_used.yaml",
+      "run_dir": "runs/run_20250918_031406_27c27229/feature_engine",
+      "updated_at": "2025-09-18T03:14:06.608918",
+      "result": {
+        "success": true,
+        "run_id": "run_20250918_031406_27c27229",
+        "output_dir": "temp_e2e_test/feature_engine_output",
+        "feature_data_path": "temp_e2e_test/feature_engine_output/bars_3tick_labeled_v2_features_v2.parquet",
+        "report": {
+          "n_features": 41,
+          "feature_columns": [
+            "symbol",
+            "frame",
+            "t_open_ns",
+            "t_close_ns",
+            "open",
+            "high",
+            "low",
+            "close",
+            "o_bid",
+            "o_ask",
+            "c_bid",
+            "c_ask",
+            "spread_mean",
+            "n_ticks",
+            "v_sum",
+            "tick_first_id",
+            "tick_last_id",
+            "gap_flag",
+            "ret",
+            "label",
+            "t_final",
+            "rsi",
+            "macd",
+            "macd_signal",
+            "macd_hist",
+            "sma_20",
+            "sma_50",
+            "ema_20",
+            "ema_50",
+            "bollinger_mid",
+            "bollinger_std",
+            "bollinger_upper",
+            "bollinger_lower",
+            "two_bar_reversal",
+            "hour",
+            "day_of_week",
+            "session_london",
+            "session_ny",
+            "session_asia",
+            "spread_vs_rolling_mean",
+            "tick_imbalance"
+          ],
+          "config_used": {
+            "input_file": "temp_e2e_test/labeling_output/bars_3tick_labeled_v2.parquet",
+            "features": {
+              "momentum": true,
+              "trend": true
+            },
+            "out_dir": "temp_e2e_test/feature_engine_output"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250918_031418_bf3b6afb",
+      "module": "labeling",
+      "created_at": "2025-09-18T03:14:18.241120",
+      "config_hash": "bf3b6afb",
+      "status": "success",
+      "config_file": "runs/run_20250918_031418_bf3b6afb/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250918_031418_bf3b6afb/labeling",
+      "updated_at": "2025-09-18T03:14:19.557336",
+      "result": {
+        "success": true,
+        "run_id": "run_20250918_031418_bf3b6afb",
+        "output_dir": "temp_e2e_test/labeling_output",
+        "labeled_data_path": "temp_e2e_test/labeling_output/bars_3tick_labeled_v2.parquet",
+        "report": {
+          "n_events": 2,
+          "label_counts": {
+            "1": 1,
+            "0": 1
+          },
+          "avg_return": 0.0,
+          "config_used": {
+            "input_file": "temp_e2e_test/data_ingest_output/bars_3tick.parquet",
+            "pip_size": 0.0001,
+            "volatility_window": 1,
+            "tp_sl_multipliers": [
+              2.0,
+              1.0
+            ],
+            "timeout_bars": 1,
+            "out_dir": "temp_e2e_test/labeling_output"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250918_031419_27c27229",
+      "module": "feature_engine",
+      "created_at": "2025-09-18T03:14:19.653202",
+      "config_hash": "27c27229",
+      "status": "success",
+      "config_file": "runs/run_20250918_031419_27c27229/feature_engine/config_used.yaml",
+      "run_dir": "runs/run_20250918_031419_27c27229/feature_engine",
+      "updated_at": "2025-09-18T03:14:19.675088",
+      "result": {
+        "success": true,
+        "run_id": "run_20250918_031419_27c27229",
+        "output_dir": "temp_e2e_test/feature_engine_output",
+        "feature_data_path": "temp_e2e_test/feature_engine_output/bars_3tick_labeled_v2_features_v2.parquet",
+        "report": {
+          "n_features": 41,
+          "feature_columns": [
+            "symbol",
+            "frame",
+            "t_open_ns",
+            "t_close_ns",
+            "open",
+            "high",
+            "low",
+            "close",
+            "o_bid",
+            "o_ask",
+            "c_bid",
+            "c_ask",
+            "spread_mean",
+            "n_ticks",
+            "v_sum",
+            "tick_first_id",
+            "tick_last_id",
+            "gap_flag",
+            "ret",
+            "label",
+            "t_final",
+            "rsi",
+            "macd",
+            "macd_signal",
+            "macd_hist",
+            "sma_20",
+            "sma_50",
+            "ema_20",
+            "ema_50",
+            "bollinger_mid",
+            "bollinger_std",
+            "bollinger_upper",
+            "bollinger_lower",
+            "two_bar_reversal",
+            "hour",
+            "day_of_week",
+            "session_london",
+            "session_ny",
+            "session_asia",
+            "spread_vs_rolling_mean",
+            "tick_imbalance"
+          ],
+          "config_used": {
+            "input_file": "temp_e2e_test/labeling_output/bars_3tick_labeled_v2.parquet",
+            "features": {
+              "momentum": true,
+              "trend": true
+            },
+            "out_dir": "temp_e2e_test/feature_engine_output"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250918_031437_bf3b6afb",
+      "module": "labeling",
+      "created_at": "2025-09-18T03:14:37.761742",
+      "config_hash": "bf3b6afb",
+      "status": "success",
+      "config_file": "runs/run_20250918_031437_bf3b6afb/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250918_031437_bf3b6afb/labeling",
+      "updated_at": "2025-09-18T03:14:39.225517",
+      "result": {
+        "success": true,
+        "run_id": "run_20250918_031437_bf3b6afb",
+        "output_dir": "temp_e2e_test/labeling_output",
+        "labeled_data_path": "temp_e2e_test/labeling_output/bars_3tick_labeled_v2.parquet",
+        "report": {
+          "n_events": 2,
+          "label_counts": {
+            "1": 1,
+            "0": 1
+          },
+          "avg_return": 0.0,
+          "config_used": {
+            "input_file": "temp_e2e_test/data_ingest_output/bars_3tick.parquet",
+            "pip_size": 0.0001,
+            "volatility_window": 1,
+            "tp_sl_multipliers": [
+              2.0,
+              1.0
+            ],
+            "timeout_bars": 1,
+            "out_dir": "temp_e2e_test/labeling_output"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250918_031439_27c27229",
+      "module": "feature_engine",
+      "created_at": "2025-09-18T03:14:39.326151",
+      "config_hash": "27c27229",
+      "status": "success",
+      "config_file": "runs/run_20250918_031439_27c27229/feature_engine/config_used.yaml",
+      "run_dir": "runs/run_20250918_031439_27c27229/feature_engine",
+      "updated_at": "2025-09-18T03:14:39.593309",
+      "result": {
+        "success": true,
+        "run_id": "run_20250918_031439_27c27229",
+        "output_dir": "temp_e2e_test/feature_engine_output",
+        "feature_data_path": "temp_e2e_test/feature_engine_output/bars_3tick_labeled_v2_features_v2.parquet",
+        "report": {
+          "n_features": 41,
+          "feature_columns": [
+            "symbol",
+            "frame",
+            "t_open_ns",
+            "t_close_ns",
+            "open",
+            "high",
+            "low",
+            "close",
+            "o_bid",
+            "o_ask",
+            "c_bid",
+            "c_ask",
+            "spread_mean",
+            "n_ticks",
+            "v_sum",
+            "tick_first_id",
+            "tick_last_id",
+            "gap_flag",
+            "ret",
+            "label",
+            "t_final",
+            "rsi",
+            "macd",
+            "macd_signal",
+            "macd_hist",
+            "sma_20",
+            "sma_50",
+            "ema_20",
+            "ema_50",
+            "bollinger_mid",
+            "bollinger_std",
+            "bollinger_upper",
+            "bollinger_lower",
+            "two_bar_reversal",
+            "hour",
+            "day_of_week",
+            "session_london",
+            "session_ny",
+            "session_asia",
+            "spread_vs_rolling_mean",
+            "tick_imbalance"
+          ],
+          "config_used": {
+            "input_file": "temp_e2e_test/labeling_output/bars_3tick_labeled_v2.parquet",
+            "features": {
+              "momentum": true,
+              "trend": true
+            },
+            "out_dir": "temp_e2e_test/feature_engine_output"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250918_031452_bf3b6afb",
+      "module": "labeling",
+      "created_at": "2025-09-18T03:14:52.649342",
+      "config_hash": "bf3b6afb",
+      "status": "success",
+      "config_file": "runs/run_20250918_031452_bf3b6afb/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250918_031452_bf3b6afb/labeling",
+      "updated_at": "2025-09-18T03:14:54.095319",
+      "result": {
+        "success": true,
+        "run_id": "run_20250918_031452_bf3b6afb",
+        "output_dir": "temp_e2e_test/labeling_output",
+        "labeled_data_path": "temp_e2e_test/labeling_output/bars_3tick_labeled_v2.parquet",
+        "report": {
+          "n_events": 2,
+          "label_counts": {
+            "1": 1,
+            "0": 1
+          },
+          "avg_return": 0.0,
+          "config_used": {
+            "input_file": "temp_e2e_test/data_ingest_output/bars_3tick.parquet",
+            "pip_size": 0.0001,
+            "volatility_window": 1,
+            "tp_sl_multipliers": [
+              2.0,
+              1.0
+            ],
+            "timeout_bars": 1,
+            "out_dir": "temp_e2e_test/labeling_output"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250918_031454_27c27229",
+      "module": "feature_engine",
+      "created_at": "2025-09-18T03:14:54.194154",
+      "config_hash": "27c27229",
+      "status": "success",
+      "config_file": "runs/run_20250918_031454_27c27229/feature_engine/config_used.yaml",
+      "run_dir": "runs/run_20250918_031454_27c27229/feature_engine",
+      "updated_at": "2025-09-18T03:14:54.218807",
+      "result": {
+        "success": true,
+        "run_id": "run_20250918_031454_27c27229",
+        "output_dir": "temp_e2e_test/feature_engine_output",
+        "feature_data_path": "temp_e2e_test/feature_engine_output/bars_3tick_labeled_v2_features_v2.parquet",
+        "report": {
+          "n_features": 41,
+          "feature_columns": [
+            "symbol",
+            "frame",
+            "t_open_ns",
+            "t_close_ns",
+            "open",
+            "high",
+            "low",
+            "close",
+            "o_bid",
+            "o_ask",
+            "c_bid",
+            "c_ask",
+            "spread_mean",
+            "n_ticks",
+            "v_sum",
+            "tick_first_id",
+            "tick_last_id",
+            "gap_flag",
+            "ret",
+            "label",
+            "t_final",
+            "rsi",
+            "macd",
+            "macd_signal",
+            "macd_hist",
+            "sma_20",
+            "sma_50",
+            "ema_20",
+            "ema_50",
+            "bollinger_mid",
+            "bollinger_std",
+            "bollinger_upper",
+            "bollinger_lower",
+            "two_bar_reversal",
+            "hour",
+            "day_of_week",
+            "session_london",
+            "session_ny",
+            "session_asia",
+            "spread_vs_rolling_mean",
+            "tick_imbalance"
+          ],
+          "config_used": {
+            "input_file": "temp_e2e_test/labeling_output/bars_3tick_labeled_v2.parquet",
+            "features": {
+              "momentum": true,
+              "trend": true
+            },
+            "out_dir": "temp_e2e_test/feature_engine_output"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250918_045906_74c2da11",
+      "module": "labeling",
+      "created_at": "2025-09-18T04:59:06.528822",
+      "config_hash": "74c2da11",
+      "status": "error",
+      "config_file": "runs/run_20250918_045906_74c2da11/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250918_045906_74c2da11/labeling",
+      "updated_at": "2025-09-18T04:59:06.630737",
+      "error": "Fehler in Modul 2 (Labeling v2.1): 0"
+    },
+    {
+      "run_id": "run_20250918_045922_74c2da11",
+      "module": "labeling",
+      "created_at": "2025-09-18T04:59:22.554220",
+      "config_hash": "74c2da11",
+      "status": "error",
+      "config_file": "runs/run_20250918_045922_74c2da11/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250918_045922_74c2da11/labeling",
+      "updated_at": "2025-09-18T04:59:22.656315",
+      "error": "Fehler in Modul 2 (Labeling v2.1): 0"
+    },
+    {
+      "run_id": "run_20250918_045931_74c2da11",
+      "module": "labeling",
+      "created_at": "2025-09-18T04:59:31.134581",
+      "config_hash": "74c2da11",
+      "status": "error",
+      "config_file": "runs/run_20250918_045931_74c2da11/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250918_045931_74c2da11/labeling",
+      "updated_at": "2025-09-18T04:59:31.236765",
+      "error": "Fehler in Modul 2 (Labeling v2.1): 0"
+    },
+    {
+      "run_id": "run_20250918_050030_74c2da11",
+      "module": "labeling",
+      "created_at": "2025-09-18T05:00:30.559111",
+      "config_hash": "74c2da11",
+      "status": "success",
+      "config_file": "runs/run_20250918_050030_74c2da11/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250918_050030_74c2da11/labeling",
+      "updated_at": "2025-09-18T05:00:33.150493",
+      "result": {
+        "success": true,
+        "run_id": "run_20250918_050030_74c2da11",
+        "output_dir": "temp_e2e_test_data_v2_1/labeling",
+        "labeled_data_path": "temp_e2e_test_data_v2_1/labeling/bars_1m_labeled_v2_1.parquet",
+        "report": {
+          "n_events": 167,
+          "label_counts": {
+            "-1": 148,
+            "1": 18,
+            "0": 1
+          },
+          "avg_return": -7.864403357851437e-05,
+          "config_used": {
+            "input_file": "temp_e2e_test_data_v2_1/data_ingest/bars_1m.parquet",
+            "tick_slice_file": "temp_e2e_test_data_v2_1/data_ingest/tick_slices_1m.parquet",
+            "out_dir": "temp_e2e_test_data_v2_1/labeling"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250918_050033_0caae564",
+      "module": "feature_engine",
+      "created_at": "2025-09-18T05:00:33.193111",
+      "config_hash": "0caae564",
+      "status": "success",
+      "config_file": "runs/run_20250918_050033_0caae564/feature_engine/config_used.yaml",
+      "run_dir": "runs/run_20250918_050033_0caae564/feature_engine",
+      "updated_at": "2025-09-18T05:00:33.224899",
+      "result": {
+        "success": true,
+        "run_id": "run_20250918_050033_0caae564",
+        "output_dir": "temp_e2e_test_data_v2_1/feature_engine",
+        "feature_data_path": "temp_e2e_test_data_v2_1/feature_engine/bars_1m_labeled_v2_1_features_v2_1.parquet",
+        "report": {
+          "n_features": 44,
+          "feature_columns": [
+            "symbol",
+            "frame",
+            "t_open_ns",
+            "t_close_ns",
+            "open",
+            "high",
+            "low",
+            "close",
+            "o_bid",
+            "o_ask",
+            "c_bid",
+            "c_ask",
+            "spread_mean",
+            "n_ticks",
+            "v_sum",
+            "tick_first_id",
+            "tick_last_id",
+            "gap_flag",
+            "ret",
+            "label",
+            "t_final",
+            "rsi",
+            "macd",
+            "macd_signal",
+            "macd_hist",
+            "sma_20",
+            "sma_50",
+            "ema_20",
+            "ema_50",
+            "bollinger_mid",
+            "bollinger_std",
+            "bollinger_upper",
+            "bollinger_lower",
+            "two_bar_reversal",
+            "hour",
+            "day_of_week",
+            "session_london",
+            "session_ny",
+            "session_asia",
+            "spread_vs_rolling_mean",
+            "tick_imbalance",
+            "tick_imbalance_5",
+            "tick_imbalance_20",
+            "liquidity_stress"
+          ],
+          "config_used": {
+            "input_file": "temp_e2e_test_data_v2_1/labeling/bars_1m_labeled_v2_1.parquet",
+            "out_dir": "temp_e2e_test_data_v2_1/feature_engine"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250918_050149_687b4b1d",
+      "module": "labeling",
+      "created_at": "2025-09-18T05:01:49.844564",
+      "config_hash": "687b4b1d",
+      "status": "error",
+      "config_file": "runs/run_20250918_050149_687b4b1d/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250918_050149_687b4b1d/labeling",
+      "updated_at": "2025-09-18T05:01:57.806129",
+      "error": "Fehler in Modul 2 (Labeling v2.1): getitem out of range"
+    },
+    {
+      "run_id": "run_20250918_050224_687b4b1d",
+      "module": "labeling",
+      "created_at": "2025-09-18T05:02:24.185612",
+      "config_hash": "687b4b1d",
+      "status": "error",
+      "config_file": "runs/run_20250918_050224_687b4b1d/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250918_050224_687b4b1d/labeling",
+      "updated_at": "2025-09-18T05:02:30.119981",
+      "error": "Fehler in Modul 2 (Labeling v2.1): getitem out of range"
+    },
+    {
+      "run_id": "run_20250918_050252_687b4b1d",
+      "module": "labeling",
+      "created_at": "2025-09-18T05:02:52.570984",
+      "config_hash": "687b4b1d",
+      "status": "error",
+      "config_file": "runs/run_20250918_050252_687b4b1d/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250918_050252_687b4b1d/labeling",
+      "updated_at": "2025-09-18T05:02:59.345943",
+      "error": "Fehler in Modul 2 (Labeling v2.1): getitem out of range"
+    },
+    {
+      "run_id": "run_20250918_050346_687b4b1d",
+      "module": "labeling",
+      "created_at": "2025-09-18T05:03:46.681918",
+      "config_hash": "687b4b1d",
+      "status": "error",
+      "config_file": "runs/run_20250918_050346_687b4b1d/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250918_050346_687b4b1d/labeling",
+      "updated_at": "2025-09-18T05:03:53.052755",
+      "error": "Fehler in Modul 2 (Labeling v2.1): getitem out of range"
+    },
+    {
+      "run_id": "run_20250918_050908_687b4b1d",
+      "module": "labeling",
+      "created_at": "2025-09-18T05:09:08.683503",
+      "config_hash": "687b4b1d",
+      "status": "error",
+      "config_file": "runs/run_20250918_050908_687b4b1d/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250918_050908_687b4b1d/labeling",
+      "updated_at": "2025-09-18T05:09:13.893540",
+      "error": "Fehler in Modul 2 (Labeling v2.1): getitem out of range"
+    },
+    {
+      "run_id": "run_20250918_050951_687b4b1d",
+      "module": "labeling",
+      "created_at": "2025-09-18T05:09:51.360728",
+      "config_hash": "687b4b1d",
+      "status": "error",
+      "config_file": "runs/run_20250918_050951_687b4b1d/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250918_050951_687b4b1d/labeling",
+      "updated_at": "2025-09-18T05:09:56.239274",
+      "error": "Fehler in Modul 2 (Labeling v2.1): can't unbox heterogeneous list: array(float64, 2d, F) != array(float64, 2d, C)"
+    },
+    {
+      "run_id": "run_20250918_051019_687b4b1d",
+      "module": "labeling",
+      "created_at": "2025-09-18T05:10:19.618751",
+      "config_hash": "687b4b1d",
+      "status": "success",
+      "config_file": "runs/run_20250918_051019_687b4b1d/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250918_051019_687b4b1d/labeling",
+      "updated_at": "2025-09-18T05:10:24.555035",
+      "result": {
+        "success": true,
+        "run_id": "run_20250918_051019_687b4b1d",
+        "output_dir": "temp_benchmark_data_v2_1/labeling",
+        "labeled_data_path": "temp_benchmark_data_v2_1/labeling/bars_1m_labeled_v2_1.parquet",
+        "report": {
+          "n_events": 14400,
+          "label_counts": {
+            "-1": 9254,
+            "0": 2881,
+            "1": 2265
+          },
+          "avg_return": -3.071163944187684e-05,
+          "config_used": {
+            "out_dir": "temp_benchmark_data_v2_1/labeling",
+            "input_file": "temp_benchmark_data_v2_1/data_ingest/bars_1m.parquet",
+            "tick_slice_file": "temp_benchmark_data_v2_1/data_ingest/tick_slices_1m.parquet"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250918_051024_28126e93",
+      "module": "feature_engine",
+      "created_at": "2025-09-18T05:10:24.634267",
+      "config_hash": "28126e93",
+      "status": "success",
+      "config_file": "runs/run_20250918_051024_28126e93/feature_engine/config_used.yaml",
+      "run_dir": "runs/run_20250918_051024_28126e93/feature_engine",
+      "updated_at": "2025-09-18T05:10:24.726906",
+      "result": {
+        "success": true,
+        "run_id": "run_20250918_051024_28126e93",
+        "output_dir": "temp_benchmark_data_v2_1/feature_engine",
+        "feature_data_path": "temp_benchmark_data_v2_1/feature_engine/bars_1m_labeled_v2_1_features_v2_1.parquet",
+        "report": {
+          "n_features": 44,
+          "feature_columns": [
+            "symbol",
+            "frame",
+            "t_open_ns",
+            "t_close_ns",
+            "open",
+            "high",
+            "low",
+            "close",
+            "o_bid",
+            "o_ask",
+            "c_bid",
+            "c_ask",
+            "spread_mean",
+            "n_ticks",
+            "v_sum",
+            "tick_first_id",
+            "tick_last_id",
+            "gap_flag",
+            "ret",
+            "label",
+            "t_final",
+            "rsi",
+            "macd",
+            "macd_signal",
+            "macd_hist",
+            "sma_20",
+            "sma_50",
+            "ema_20",
+            "ema_50",
+            "bollinger_mid",
+            "bollinger_std",
+            "bollinger_upper",
+            "bollinger_lower",
+            "two_bar_reversal",
+            "hour",
+            "day_of_week",
+            "session_london",
+            "session_ny",
+            "session_asia",
+            "spread_vs_rolling_mean",
+            "tick_imbalance",
+            "tick_imbalance_5",
+            "tick_imbalance_20",
+            "liquidity_stress"
+          ],
+          "config_used": {
+            "out_dir": "temp_benchmark_data_v2_1/feature_engine",
+            "input_file": "temp_benchmark_data_v2_1/labeling/bars_1m_labeled_v2_1.parquet"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250918_051055_687b4b1d",
+      "module": "labeling",
+      "created_at": "2025-09-18T05:10:55.177063",
+      "config_hash": "687b4b1d",
+      "status": "success",
+      "config_file": "runs/run_20250918_051055_687b4b1d/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250918_051055_687b4b1d/labeling",
+      "updated_at": "2025-09-18T05:11:01.267496",
+      "result": {
+        "success": true,
+        "run_id": "run_20250918_051055_687b4b1d",
+        "output_dir": "temp_benchmark_data_v2_1/labeling",
+        "labeled_data_path": "temp_benchmark_data_v2_1/labeling/bars_1m_labeled_v2_1.parquet",
+        "report": {
+          "n_events": 14400,
+          "label_counts": {
+            "-1": 9588,
+            "0": 2881,
+            "1": 1931
+          },
+          "avg_return": -3.734433045514967e-05,
+          "config_used": {
+            "out_dir": "temp_benchmark_data_v2_1/labeling",
+            "input_file": "temp_benchmark_data_v2_1/data_ingest/bars_1m.parquet",
+            "tick_slice_file": "temp_benchmark_data_v2_1/data_ingest/tick_slices_1m.parquet"
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250918_051101_28126e93",
+      "module": "feature_engine",
+      "created_at": "2025-09-18T05:11:01.337820",
+      "config_hash": "28126e93",
+      "status": "success",
+      "config_file": "runs/run_20250918_051101_28126e93/feature_engine/config_used.yaml",
+      "run_dir": "runs/run_20250918_051101_28126e93/feature_engine",
+      "updated_at": "2025-09-18T05:11:01.433169",
+      "result": {
+        "success": true,
+        "run_id": "run_20250918_051101_28126e93",
+        "output_dir": "temp_benchmark_data_v2_1/feature_engine",
+        "feature_data_path": "temp_benchmark_data_v2_1/feature_engine/bars_1m_labeled_v2_1_features_v2_1.parquet",
+        "report": {
+          "n_features": 44,
+          "feature_columns": [
+            "symbol",
+            "frame",
+            "t_open_ns",
+            "t_close_ns",
+            "open",
+            "high",
+            "low",
+            "close",
+            "o_bid",
+            "o_ask",
+            "c_bid",
+            "c_ask",
+            "spread_mean",
+            "n_ticks",
+            "v_sum",
+            "tick_first_id",
+            "tick_last_id",
+            "gap_flag",
+            "ret",
+            "label",
+            "t_final",
+            "rsi",
+            "macd",
+            "macd_signal",
+            "macd_hist",
+            "sma_20",
+            "sma_50",
+            "ema_20",
+            "ema_50",
+            "bollinger_mid",
+            "bollinger_std",
+            "bollinger_upper",
+            "bollinger_lower",
+            "two_bar_reversal",
+            "hour",
+            "day_of_week",
+            "session_london",
+            "session_ny",
+            "session_asia",
+            "spread_vs_rolling_mean",
+            "tick_imbalance",
+            "tick_imbalance_5",
+            "tick_imbalance_20",
+            "liquidity_stress"
+          ],
+          "config_used": {
+            "out_dir": "temp_benchmark_data_v2_1/feature_engine",
+            "input_file": "temp_benchmark_data_v2_1/labeling/bars_1m_labeled_v2_1.parquet"
+          }
+        }
+      }
     }
   ],
-  "last_updated": "2025-09-17T16:14:47.035773"
+  "last_updated": "2025-09-18T05:11:01.433177"
 }
