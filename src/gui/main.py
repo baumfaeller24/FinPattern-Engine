@@ -11,10 +11,18 @@ project_root = Path(__file__).parent.parent.parent
 sys.path.append(str(project_root))
 
 # Import GUI functions
-from .data_ingest_gui_v2 import main as show_data_ingest
-from .labeling_gui import show_labeling
-from .feature_engine_gui import show_feature_engine
-from .dukascopy_downloader import show_dukascopy_downloader
+try:
+    # Try relative imports first (for local development)
+    from .data_ingest_gui_v2 import main as show_data_ingest
+    from .labeling_gui import main as show_labeling
+    from .feature_engine_gui import show_feature_engine
+    from .dukascopy_downloader import show_dukascopy_downloader
+except ImportError:
+    # Fall back to absolute imports (for Streamlit Cloud)
+    from src.gui.data_ingest_gui_v2 import main as show_data_ingest
+    from src.gui.labeling_gui import main as show_labeling
+    from src.gui.feature_engine_gui import show_feature_engine
+    from src.gui.dukascopy_downloader import show_dukascopy_downloader
 
 
 def main():

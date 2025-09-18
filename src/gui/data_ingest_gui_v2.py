@@ -21,7 +21,7 @@ from typing import Dict, List, Any, Optional
 import sys
 sys.path.append(str(Path(__file__).parent.parent.parent))
 from core.data_ingest.data_ingest import run as run_data_ingest
-from core.data_ingest.errors import DataIngestError
+# from core.data_ingest.errors import DataIngestError  # Not available in current version
 
 
 class DataIngestGUI:
