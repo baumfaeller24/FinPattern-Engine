@@ -13,7 +13,7 @@ import json
 import sys
 sys.path.append(str(Path(__file__).parent.parent))
 
-from core.labeling.labeling import run as run_labeling, apply_labeling_numba, calculate_daily_volatility
+from core.labeling.labeling import run as run_labeling, _apply_labeling_numba, _calculate_daily_volatility
 
 
 @pytest.fixture
@@ -51,7 +51,7 @@ class TestLabelingCore:
 
     def test_calculate_daily_volatility(self, sample_bar_data):
         """Test volatility calculation."""
-        volatility = calculate_daily_volatility(sample_bar_data["close"], span=20)
+        volatility = _calculate_daily_volatility(sample_bar_data["close"], span=20)
         assert isinstance(volatility, pd.Series)
         assert len(volatility) == len(sample_bar_data)
         assert not volatility.isnull().any() # Should be filled with 0
@@ -64,7 +64,7 @@ class TestLabelingCore:
         pt_sl = np.array([0.03, 0.02])  # 3% TP, 2% SL
         timeout_bars = 3
 
-        results = apply_labeling_numba(prices, t_events, pt_sl, timeout_bars)
+        results = _apply_labeling_numba(prices, t_events, pt_sl, timeout_bars)
 
         # Event 1 (index 0, price 100): TP at 103, SL at 98
         # Should hit TP at index 3 (price 104)
@@ -133,3 +133,4 @@ class TestLabelingCore:
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
+
