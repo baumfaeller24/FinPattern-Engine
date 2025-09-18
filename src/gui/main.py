@@ -17,12 +17,14 @@ try:
     from .labeling_gui import main as show_labeling
     from .feature_engine_gui import show_feature_engine
     from .dukascopy_downloader import show_dukascopy_downloader
+    from .exporter_gui import show_exporter_gui
 except ImportError:
     # Fall back to absolute imports (for Streamlit Cloud)
     from src.gui.data_ingest_gui_v2 import main as show_data_ingest
     from src.gui.labeling_gui import main as show_labeling
     from src.gui.feature_engine_gui import show_feature_engine
     from src.gui.dukascopy_downloader import show_dukascopy_downloader
+    from src.gui.exporter_gui import show_exporter_gui
 
 
 def main():
@@ -70,14 +72,14 @@ def main():
         module_status = {
             "DataIngest": "✅ Vollständig",
             "Labeling": "✅ Vollständig",
-            "FeatureEngine": "🚀 In Entwicklung",
-            "Splitter": "📋 Geplant",
+            "FeatureEngine": "✅ Vollständig",
+            "Splitter": "✅ Vollständig",
+            "Exporter": "✅ Vollständig",
             "FreeSearch": "📋 Geplant",
             "DBSearch": "📋 Geplant",
             "RLParamTuner": "📋 Geplant",
             "Backtester": "📋 Geplant",
             "Validator": "📋 Geplant",
-            "Exporter": "📋 Geplant",
             "Reporter": "📋 Geplant",
             "Orchestrator": "⚠️ Basis"
         }
@@ -98,6 +100,8 @@ def main():
         show_labeling()
     elif page_key == "feature_engine":
         show_feature_engine()
+    elif page_key == "exporter":
+        show_exporter_gui()
     else:
         show_coming_soon(selected_page)
 
@@ -114,10 +118,10 @@ def show_overview():
         st.metric("Module Total", "14")
     
     with col2:
-        st.metric("Module Implementiert", "2", delta="DataIngest, Labeling")
+        st.metric("Module Implementiert", "5", delta="DataIngest, Labeling, FeatureEngine, Splitter, Exporter")
     
     with col3:
-        st.metric("Module in Entwicklung", "1", delta="FeatureEngine")
+        st.metric("Module in Entwicklung", "0", delta="Alle Kern-Module fertig")
     
     with col4:
         st.metric("Test-Abdeckung", "95%", delta="DataIngest + Labeling")
@@ -140,20 +144,20 @@ def show_overview():
     import pandas as pd
     
     status_data = [
-        {"Modul": "DataIngest", "Status": "Vollständig", "Fortschritt": 100, "Beschreibung": "Tick-/Bar-Datenverarbeitung"},
-        {"Modul": "Labeling", "Status": "Vollständig", "Fortschritt": 100, "Beschreibung": "Triple-Barrier Labels"},
-        {"Modul": "FeatureEngine", "Status": "In Entwicklung", "Fortschritt": 50, "Beschreibung": "Technische Indikatoren"},
-        {"Modul": "Splitter", "Status": "Geplant", "Fortschritt": 0, "Beschreibung": "Walk-Forward CV"},
+        {"Modul": "DataIngest", "Status": "Vollständig", "Fortschritt": 100, "Beschreibung": "Tick-Slice-Export, ZSTD-Kompression"},
+        {"Modul": "Labeling", "Status": "Vollständig", "Fortschritt": 100, "Beschreibung": "First-Hit-Logic, EWMA-Volatilität"},
+        {"Modul": "FeatureEngine", "Status": "Vollständig", "Fortschritt": 100, "Beschreibung": "Technische Indikatoren, Session-Features"},
+        {"Modul": "Splitter", "Status": "Vollständig", "Fortschritt": 100, "Beschreibung": "Walk-Forward CV, Leakage-Audit"},
+        {"Modul": "Exporter", "Status": "Vollständig", "Fortschritt": 100, "Beschreibung": "Pine Script v5, NautilusTrader"},
         {"Modul": "FreeSearch", "Status": "Geplant", "Fortschritt": 0, "Beschreibung": "ML-Mustererkennung"},
         {"Modul": "DBSearch", "Status": "Geplant", "Fortschritt": 0, "Beschreibung": "Template-Suche"},
         {"Modul": "RLParamTuner", "Status": "Geplant", "Fortschritt": 0, "Beschreibung": "RL-Optimierung"},
         {"Modul": "Backtester", "Status": "Geplant", "Fortschritt": 0, "Beschreibung": "Performance-Analyse"},
         {"Modul": "Validator", "Status": "Geplant", "Fortschritt": 0, "Beschreibung": "OOS-Validierung"},
-        {"Modul": "Exporter", "Status": "Geplant", "Fortschritt": 0, "Beschreibung": "PineScript Export"},
         {"Modul": "Reporter", "Status": "Geplant", "Fortschritt": 0, "Beschreibung": "Charts & Reports"},
         {"Modul": "Orchestrator", "Status": "Basis", "Fortschritt": 30, "Beschreibung": "Pipeline-Steuerung"},
         {"Modul": "Persistence", "Status": "Geplant", "Fortschritt": 0, "Beschreibung": "State Management"},
-        {"Modul": "GUI", "Status": "Basis", "Fortschritt": 40, "Beschreibung": "Web-Interface"}
+        {"Modul": "GUI", "Status": "Vollständig", "Fortschritt": 100, "Beschreibung": "Streamlit-Interface für alle Module"}
     ]
     
     df_status = pd.DataFrame(status_data)
