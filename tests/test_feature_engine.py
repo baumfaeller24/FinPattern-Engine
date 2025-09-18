@@ -15,12 +15,11 @@ import os
 # Import from our project
 from core.feature_engine.feature_engine import (
     run as run_feature_engine,
-    generate_features,
-    calculate_rsi,
-    calculate_macd,
-    calculate_bollinger_bands,
-    calculate_atr,
-    calculate_stochastic
+    add_momentum_features,
+    add_trend_features,
+    add_volatility_features,
+    add_volume_features,
+    standardize_ohlc_columns
 )
 
 
