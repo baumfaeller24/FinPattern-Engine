@@ -10,6 +10,7 @@ import tempfile
 import os
 from pathlib import Path
 import logging
+import pytz
 
 # Dukascopy Python Library
 try:
@@ -95,34 +96,35 @@ def show_dukascopy_downloader():
             index=1
         )
         
-        # Zeitraum berechnen
-        now = datetime.now()
+        # Zeitraum berechnen (UTC-korrigiert)
+        now_utc = datetime.now(pytz.utc)
         if preset == "Letzte 24 Stunden":
-            start_date = now - timedelta(days=1)
-            end_date = now
+            start_date = now_utc - timedelta(days=1)
+            end_date = now_utc
         elif preset == "Letzte 7 Tage":
-            start_date = now - timedelta(days=7)
-            end_date = now
+            start_date = now_utc - timedelta(days=7)
+            end_date = now_utc
         elif preset == "Letzter Monat":
-            start_date = now - timedelta(days=30)
-            end_date = now
+            start_date = now_utc - timedelta(days=30)
+            end_date = now_utc
         elif preset == "Letzte 3 Monate":
-            start_date = now - timedelta(days=90)
-            end_date = now
+            start_date = now_utc - timedelta(days=90)
+            end_date = now_utc
         else:
             # Benutzerdefiniert
-            start_date = st.date_input(
+            start_date_input = st.date_input(
                 "Start-Datum:",
-                value=now.date() - timedelta(days=7),
-                max_value=now.date()
+                value=now_utc.date() - timedelta(days=7),
+                max_value=now_utc.date()
             )
-            end_date = st.date_input(
+            end_date_input = st.date_input(
                 "End-Datum:",
-                value=now.date(),
-                max_value=now.date()
+                value=now_utc.date(),
+                max_value=now_utc.date()
             )
-            start_date = datetime.combine(start_date, datetime.min.time())
-            end_date = datetime.combine(end_date, datetime.max.time())
+            # Kombiniere Datum mit Zeit und mache es UTC-aware
+            start_date = pytz.utc.localize(datetime.combine(start_date_input, datetime.min.time()))
+            end_date = pytz.utc.localize(datetime.combine(end_date_input, datetime.max.time()))
     
     # Erweiterte Optionen
     with st.expander("🔧 Erweiterte Einstellungen"):
@@ -193,13 +195,20 @@ def download_dukascopy_data(symbol, start_date, end_date, offer_side, max_retrie
         status_text.text(f"📥 Lade {symbol} Tickdaten...")
         progress_bar.progress(30)
         
+        
+
+        # FINAL FIX: Convert to naive datetime objects representing UTC
+        start_ts = pd.Timestamp(start_date).to_pydatetime().replace(tzinfo=None)
+        end_ts = pd.Timestamp(end_date).to_pydatetime().replace(tzinfo=None)
+
+
         # Daten herunterladen (Tick-Level)
         df = dukascopy_python.fetch(
             instrument=instrument,
             interval=dukascopy_python.INTERVAL_TICK,
             offer_side=offer_side_param,
-            start=start_date,
-            end=end_date,
+            start=start_ts,
+            end=end_ts,
             max_retries=max_retries,
             debug=debug_mode
         )
