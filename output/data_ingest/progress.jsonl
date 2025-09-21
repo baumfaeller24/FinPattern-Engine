@@ -2212,3 +2212,21 @@
 {"timestamp": "2025-09-21T08:44:52.371646", "module": "data_ingest", "step": "init", "percent": 1, "message": "init"}
 {"timestamp": "2025-09-21T09:40:30.162265", "module": "data_ingest", "step": "done", "percent": 100, "message": "done"}
 {"timestamp": "2025-09-21T09:41:34.644607", "module": "data_ingest", "step": "done", "percent": 100, "message": "done"}
+{"timestamp": "2025-09-21T22:44:19.023235", "module": "data_ingest", "step": "init", "percent": 1, "message": "Starting DataIngest with Parquet input"}
+{"timestamp": "2025-09-21T22:44:23.581397", "module": "data_ingest", "step": "processing", "percent": 10, "message": "Processed 100,000 / 14,400,075 rows"}
+{"timestamp": "2025-09-21T22:44:28.272855", "module": "data_ingest", "step": "processing", "percent": 11, "message": "Processed 200,000 / 14,400,075 rows"}
+{"timestamp": "2025-09-21T22:44:33.064990", "module": "data_ingest", "step": "processing", "percent": 11, "message": "Processed 300,000 / 14,400,075 rows"}
+{"timestamp": "2025-09-21T22:44:37.617050", "module": "data_ingest", "step": "processing", "percent": 12, "message": "Processed 400,000 / 14,400,075 rows"}
+{"timestamp": "2025-09-21T22:44:42.906507", "module": "data_ingest", "step": "processing", "percent": 13, "message": "Processed 500,000 / 14,400,075 rows"}
+{"timestamp": "2025-09-21T22:44:47.721324", "module": "data_ingest", "step": "processing", "percent": 13, "message": "Processed 600,000 / 14,400,075 rows"}
+{"timestamp": "2025-09-21T22:44:52.405898", "module": "data_ingest", "step": "processing", "percent": 14, "message": "Processed 700,000 / 14,400,075 rows"}
+{"timestamp": "2025-09-21T22:44:57.009647", "module": "data_ingest", "step": "processing", "percent": 14, "message": "Processed 800,000 / 14,400,075 rows"}
+{"timestamp": "2025-09-21T22:45:01.583285", "module": "data_ingest", "step": "processing", "percent": 15, "message": "Processed 900,000 / 14,400,075 rows"}
+{"timestamp": "2025-09-21T22:45:06.307111", "module": "data_ingest", "step": "processing", "percent": 16, "message": "Processed 1,000,000 / 14,400,075 rows"}
+{"timestamp": "2025-09-21T22:45:10.955294", "module": "data_ingest", "step": "processing", "percent": 16, "message": "Processed 1,100,000 / 14,400,075 rows"}
+{"timestamp": "2025-09-21T22:45:15.696663", "module": "data_ingest", "step": "processing", "percent": 17, "message": "Processed 1,200,000 / 14,400,075 rows"}
+{"timestamp": "2025-09-21T22:45:20.248511", "module": "data_ingest", "step": "processing", "percent": 18, "message": "Processed 1,300,000 / 14,400,075 rows"}
+{"timestamp": "2025-09-21T22:45:24.726594", "module": "data_ingest", "step": "processing", "percent": 18, "message": "Processed 1,400,000 / 14,400,075 rows"}
+{"timestamp": "2025-09-21T22:45:29.243407", "module": "data_ingest", "step": "processing", "percent": 19, "message": "Processed 1,500,000 / 14,400,075 rows"}
+{"timestamp": "2025-09-21T22:45:33.841113", "module": "data_ingest", "step": "processing", "percent": 19, "message": "Processed 1,600,000 / 14,400,075 rows"}
+{"timestamp": "2025-09-21T22:45:38.669541", "module": "data_ingest", "step": "processing", "percent": 20, "message": "Processed 1,700,000 / 14,400,075 rows"}
