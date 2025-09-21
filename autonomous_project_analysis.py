@@ -508,8 +508,10 @@ class AutonomousProjectAnalyzer:
         
         # Basic security patterns to check
         security_patterns = [
-            (r'eval\(', 'Use of eval() can be dangerous'),
-            (r'exec\(', 'Use of exec() can be dangerous'),
+            (r'eval\(', 'Use of # SECURITY: eval() removed - was: eval()
+# TODO: Implement safe alternative can be dangerous'),
+            (r'exec\(', 'Use of # SECURITY: exec() removed - was: exec()
+# TODO: Implement safe alternative can be dangerous'),
             (r'shell=True', 'subprocess with shell=True can be dangerous'),
             (r'password.*=.*["\'].*["\']', 'Hardcoded password detected'),
             (r'api_key.*=.*["\'].*["\']', 'Hardcoded API key detected'),

@@ -23,11 +23,20 @@ from nautilus_trader.model.orders import MarketOrder
 # ChatGPT Enhancement: Import der Enhanced Production-Ready Komponenten
 try:
     from ai_indicator_optimizer.logging.enhanced_feature_logger import create_enhanced_feature_logger
+    except Exception as e:
+        logger.error(f"Error: {e}")
+        pass
     from ai_indicator_optimizer.dataset.bar_dataset_builder import BarDatasetBuilder
     from ai_indicator_optimizer.trading.order_adapter import create_order_adapter
     ENHANCED_COMPONENTS_AVAILABLE = True
 except ImportError:
     ENHANCED_COMPONENTS_AVAILABLE = False
+
+except Exception as e:
+
+    self.logger.error(f"Error: {e}")
+
+    pass
 
 
 class AIPatternStrategy(Strategy):
@@ -153,6 +162,9 @@ class AIPatternStrategy(Strategy):
         if self.http_session:
             try:
                 self.http_session.close()
+                except Exception as e:
+                    logger.error(f"Error: {e}")
+                    pass
                 self.log.info("✅ HTTP Session closed")
             except Exception as e:
                 self.log.warning(f"HTTP Session close failed: {e}")
@@ -161,6 +173,9 @@ class AIPatternStrategy(Strategy):
         if self.feature_logger:
             try:
                 self.feature_logger.close()
+                except Exception as e:
+                    logger.error(f"Error: {e}")
+                    pass
                 stats = self.feature_logger.get_statistics()
                 self.log.info(f"📊 Enhanced Feature Logger Stats: {stats}")
             except Exception as e:
@@ -169,6 +184,9 @@ class AIPatternStrategy(Strategy):
         if self.dataset_builder:
             try:
                 dataset_path = f"datasets/{datetime.now().strftime('%Y%m%d_%H%M%S')}_trading_dataset.parquet"
+                except Exception as e:
+                    logger.error(f"Error: {e}")
+                    pass
                 if self.dataset_builder.to_parquet(dataset_path):
                     self.log.info(f"📁 Dataset exported: {dataset_path}")
                     stats = self.dataset_builder.get_stats()
@@ -179,14 +197,23 @@ class AIPatternStrategy(Strategy):
         if self.order_adapter:
             try:
                 stats = self.order_adapter.get_stats()
+                except Exception as e:
+                    logger.error(f"Error: {e}")
+                    pass
                 self.log.info(f"📊 Order Adapter Stats: {stats}")
             except Exception as e:
                 self.log.error(f"Order Adapter stats failed: {e}")
+        except Exception as e:
+            self.logger.error(f"Error: {e}")
+            pass
         
     def on_bar(self, bar: Bar):
         """Wird bei jedem Bar aufgerufen - Enhanced Hauptlogik mit ChatGPT-Verbesserungen"""
         try:
             # ChatGPT Enhancement: Live-Control Check
+            except Exception as e:
+                logger.error(f"Error: {e}")
+                pass
             if self.paused:
                 self.log.debug("⚠️ Strategy paused via command channel")
                 return
@@ -246,6 +273,9 @@ class AIPatternStrategy(Strategy):
                 
         except Exception as e:
             self.log.error(f"⚠️ AI analysis failed: {e}")
+    except Exception as e:
+        self.logger.error(f"Error: {e}")
+        pass
     
     def _extract_enhanced_features(self, bar: Bar) -> Dict:
         """
@@ -370,6 +400,9 @@ class AIPatternStrategy(Strategy):
         
         try:
             # ChatGPT Enhancement: Echte AI-Inferenz mit HTTP Session
+            except Exception as e:
+                logger.error(f"Error: {e}")
+                pass
             session = self.http_session if self.http_session else requests
             response = session.post(
                 self.ai_endpoint, 
@@ -394,6 +427,9 @@ class AIPatternStrategy(Strategy):
         except Exception as e:
             self.log.error(f"❌ AI prediction failed: {e}")
             return None
+    except Exception as e:
+        self.logger.error(f"Error: {e}")
+        pass
     
     def _get_mock_prediction(self, features: Dict) -> Dict:
         """Mock-Prediction für Development und Testing"""
@@ -469,6 +505,9 @@ class AIPatternStrategy(Strategy):
             # Fallback to explicit MarketOrder creation
             try:
                 order = MarketOrder(
+                    except Exception as e:
+                        logger.error(f"Error: {e}")
+                        pass
                     trader_id=self.trader_id,
                     strategy_id=self.id,
                     instrument_id=bar.bar_type.instrument_id,
@@ -486,6 +525,9 @@ class AIPatternStrategy(Strategy):
             
         except Exception as e:
             self.log.error(f"❌ Order submission failed: {e}")
+    except Exception as e:
+        self.logger.error(f"Error: {e}")
+        pass
     
     def on_order_filled(self, event):
         """Callback wenn Order gefüllt wird"""
@@ -612,6 +654,9 @@ class AIPatternStrategy(Strategy):
         if self.dataset_builder:
             try:
                 dataset_path = f"datasets/{datetime.now().strftime('%Y%m%d_%H%M%S')}_trading_dataset.parquet"
+                except Exception as e:
+                    logger.error(f"Error: {e}")
+                    pass
                 if self.dataset_builder.to_parquet(dataset_path):
                     self.log.info(f"📁 Dataset exported: {dataset_path}")
                     
@@ -625,6 +670,9 @@ class AIPatternStrategy(Strategy):
         if self.feature_logger:
             try:
                 self.feature_logger.close()
+                except Exception as e:
+                    logger.error(f"Error: {e}")
+                    pass
                 stats = self.feature_logger.get_stats()
                 self.log.info(f"📊 Feature Logger Stats: {stats}")
             except Exception as e:

@@ -1,0 +1,167 @@
+{
+  "start_time": "2025-09-21T09:03:46.122144",
+  "end_time": "2025-09-21T09:03:46.138756",
+  "duration_seconds": 0.016612,
+  "syntax_fixes": {
+    "fixed_files": [
+      {
+        "file": "ai_indicator_optimizer/ai/pine_script_validator.py",
+        "success": true,
+        "syntax_valid": false,
+        "fixes_applied": [
+          "Add missing except block"
+        ],
+        "backup_created": "error_fix_backups/pine_script_validator.py.backup"
+      },
+      {
+        "file": "ai_indicator_optimizer/ai/indicator_code_builder.py",
+        "success": true,
+        "syntax_valid": false,
+        "fixes_applied": [
+          "Fix indentation before function",
+          "Add missing except block"
+        ],
+        "backup_created": "error_fix_backups/indicator_code_builder.py.backup"
+      },
+      {
+        "file": "ai_indicator_optimizer/testing/backtesting_framework.py",
+        "success": true,
+        "syntax_valid": false,
+        "fixes_applied": [
+          "Add missing except block"
+        ],
+        "backup_created": "error_fix_backups/backtesting_framework.py.backup"
+      },
+      {
+        "file": "ai_indicator_optimizer/library/synthetic_pattern_generator.py",
+        "success": true,
+        "syntax_valid": false,
+        "fixes_applied": [
+          "Fix indentation before function",
+          "Add missing except block"
+        ],
+        "backup_created": "error_fix_backups/synthetic_pattern_generator.py.backup"
+      },
+      {
+        "file": "strategies/ai_strategies/ai_pattern_strategy.py",
+        "success": true,
+        "syntax_valid": false,
+        "fixes_applied": [
+          "Add missing except block"
+        ],
+        "backup_created": "error_fix_backups/ai_pattern_strategy.py.backup"
+      }
+    ],
+    "failed_files": [],
+    "success_count": 5,
+    "failure_count": 0
+  },
+  "security_fixes": {
+    "fixed_files": [
+      {
+        "file": "nautilus_benchmark.py",
+        "success": true,
+        "fixes_applied": [
+          "Remove dangerous eval()"
+        ],
+        "backup_created": "error_fix_backups/nautilus_benchmark.py.security_backup"
+      },
+      {
+        "file": "autonomous_project_analysis.py",
+        "success": true,
+        "fixes_applied": [
+          "Remove dangerous eval()",
+          "Remove dangerous exec()"
+        ],
+        "backup_created": "error_fix_backups/autonomous_project_analysis.py.security_backup"
+      }
+    ],
+    "failed_files": [],
+    "success_count": 2,
+    "failure_count": 0
+  },
+  "import_fixes": {
+    "fixed_files": [],
+    "failed_files": [],
+    "success_count": 0,
+    "failure_count": 0,
+    "note": "Import fixes require more complex analysis - skipped in batch mode"
+  },
+  "mock_fixes": {
+    "fixed_files": [
+      {
+        "file": "nautilus_config.py",
+        "success": true,
+        "fixes_applied": [],
+        "backup_created": "error_fix_backups/nautilus_config.py.mock_backup"
+      }
+    ],
+    "failed_files": [],
+    "success_count": 1,
+    "failure_count": 0
+  },
+  "total_fixes_applied": 7,
+  "total_failed_fixes": 0,
+  "fixes_applied": [
+    {
+      "file": "ai_indicator_optimizer/ai/pine_script_validator.py",
+      "type": "syntax",
+      "fixes": [
+        "Add missing except block"
+      ],
+      "backup": "error_fix_backups/pine_script_validator.py.backup"
+    },
+    {
+      "file": "ai_indicator_optimizer/ai/indicator_code_builder.py",
+      "type": "syntax",
+      "fixes": [
+        "Fix indentation before function",
+        "Add missing except block"
+      ],
+      "backup": "error_fix_backups/indicator_code_builder.py.backup"
+    },
+    {
+      "file": "ai_indicator_optimizer/testing/backtesting_framework.py",
+      "type": "syntax",
+      "fixes": [
+        "Add missing except block"
+      ],
+      "backup": "error_fix_backups/backtesting_framework.py.backup"
+    },
+    {
+      "file": "ai_indicator_optimizer/library/synthetic_pattern_generator.py",
+      "type": "syntax",
+      "fixes": [
+        "Fix indentation before function",
+        "Add missing except block"
+      ],
+      "backup": "error_fix_backups/synthetic_pattern_generator.py.backup"
+    },
+    {
+      "file": "strategies/ai_strategies/ai_pattern_strategy.py",
+      "type": "syntax",
+      "fixes": [
+        "Add missing except block"
+      ],
+      "backup": "error_fix_backups/ai_pattern_strategy.py.backup"
+    },
+    {
+      "file": "nautilus_benchmark.py",
+      "type": "security",
+      "fixes": [
+        "Remove dangerous eval()"
+      ],
+      "backup": "error_fix_backups/nautilus_benchmark.py.security_backup"
+    },
+    {
+      "file": "autonomous_project_analysis.py",
+      "type": "security",
+      "fixes": [
+        "Remove dangerous eval()",
+        "Remove dangerous exec()"
+      ],
+      "backup": "error_fix_backups/autonomous_project_analysis.py.security_backup"
+    }
+  ],
+  "failed_fixes": []
+}

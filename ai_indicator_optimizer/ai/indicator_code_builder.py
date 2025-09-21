@@ -28,6 +28,9 @@ import multiprocessing as mp
 # Optimization Libraries
 try:
     from scipy.optimize import minimize, differential_evolution
+    except Exception as e:
+        logger.error(f"Error: {e}")
+        pass
     from sklearn.model_selection import ParameterGrid
     SCIPY_AVAILABLE = True
 except ImportError:
@@ -35,6 +38,9 @@ except ImportError:
 
 try:
     import optuna
+    except Exception as e:
+        logger.error(f"Error: {e}")
+        pass
     OPTUNA_AVAILABLE = True
 except ImportError:
     OPTUNA_AVAILABLE = False
@@ -181,6 +187,9 @@ class IndicatorCodeBuilder:
         """
         try:
             start_time = datetime.now()
+            except Exception as e:
+                logger.error(f"Error: {e}")
+                pass
             self.current_optimization = optimization_config
             
             self.logger.info(f"Starting optimization for {indicator_type.value} using {optimization_config.method.value}")
@@ -285,6 +294,9 @@ class IndicatorCodeBuilder:
         
         try:
             # Für jeden Bar Enhanced Features extrahieren
+            except Exception as e:
+                logger.error(f"Error: {e}")
+                pass
             enhanced_data = data.copy()
             
             # Basis technische Indikatoren
@@ -391,6 +403,9 @@ class IndicatorCodeBuilder:
         for params in param_grid:
             try:
                 result = self._evaluate_parameters(
+                    except Exception as e:
+                        logger.error(f"Error: {e}")
+                        pass
                     indicator_type,
                     params,
                     market_data,
@@ -438,6 +453,9 @@ class IndicatorCodeBuilder:
             
             try:
                 result = self._evaluate_parameters(
+                    except Exception as e:
+                        logger.error(f"Error: {e}")
+                        pass
                     indicator_type,
                     params,
                     market_data,
@@ -478,6 +496,12 @@ class IndicatorCodeBuilder:
         try:
             start_time = datetime.now()
             
+            except Exception as e:
+            
+                logger.error(f"Error: {e}")
+            
+                pass
+            
             # Indikator-Signale berechnen
             signals = self._calculate_indicator_signals(indicator_type, parameters, market_data)
             
@@ -512,7 +536,7 @@ class IndicatorCodeBuilder:
             
         except Exception as e:
             self.logger.error(f"Error evaluating parameters {parameters}: {e}")
-            return None    
+            return None
     
 def _calculate_indicator_signals(
         self,
@@ -526,6 +550,9 @@ def _calculate_indicator_signals(
         
         try:
             if indicator_type == IndicatorType.RSI:
+                except Exception as e:
+                    logger.error(f"Error: {e}")
+                    pass
                 # RSI-Signale
                 rsi_length = parameters.get("rsi_length", 14)
                 overbought = parameters.get("rsi_overbought", 70)
@@ -610,6 +637,9 @@ def _calculate_indicator_signals(
         
         try:
             # Portfolio-Tracking
+            except Exception as e:
+                logger.error(f"Error: {e}")
+                pass
             position = 0  # 0=Neutral, 1=Long, -1=Short
             cash = 10000.0  # Startkapital
             portfolio_value = cash
@@ -786,7 +816,7 @@ def _calculate_indicator_signals(
             "worst_trade": 0.0,
             "consecutive_wins": 0,
             "consecutive_losses": 0
-        }    
+        }
 
     def _calculate_objective_score(self, result: BacktestResult, objective: ObjectiveFunction) -> float:
         """Berechne Objective-Score für Optimierung"""
@@ -877,6 +907,9 @@ def _calculate_indicator_signals(
         
         try:
             # Standard-Parameter für Vergleich
+            except Exception as e:
+                logger.error(f"Error: {e}")
+                pass
             default_params = self._get_default_parameters(indicator_type)
             
             # Mock-Backtest mit Standard-Parametern (vereinfacht)

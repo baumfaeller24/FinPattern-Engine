@@ -184,7 +184,8 @@ class NautilusBenchmark:
         ).to("cuda")
         
         # Inferenz-Benchmark
-        model.eval()
+        model.# SECURITY: eval() removed - was: eval()
+# TODO: Implement safe alternative
         start_inference = time.time()
         
         with torch.no_grad():

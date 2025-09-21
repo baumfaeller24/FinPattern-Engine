@@ -194,7 +194,7 @@ class PatternTemplate:
             inverted_df.iloc[i, inverted_df.columns.get_loc("high")] = max(row_values) + abs(np.random.normal(0, config.noise_level/3))
             inverted_df.iloc[i, inverted_df.columns.get_loc("low")] = min(row_values) - abs(np.random.normal(0, config.noise_level/3))
         
-        return inverted_df    
+        return inverted_df
     
 def _generate_head_shoulders(self, config: SyntheticConfig) -> pd.DataFrame:
         """Generiert Head and Shoulders Pattern"""
@@ -615,6 +615,9 @@ class SyntheticPatternGenerator:
         if self.config.use_ai_generation:
             try:
                 model_factory = ModelFactory()
+                except Exception as e:
+                    logger.error(f"Error: {e}")
+                    pass
                 self.multimodal_ai = model_factory.create_multimodal_ai()
             except Exception as e:
                 self.logger.warning(f"AI generation disabled: {e}")
@@ -635,6 +638,9 @@ class SyntheticPatternGenerator:
         
         try:
             for i in range(self.config.variations_per_pattern):
+                except Exception as e:
+                    logger.error(f"Error: {e}")
+                    pass
                 # Variiere Konfiguration
                 varied_config = self._create_varied_config(i)
                 
@@ -697,6 +703,9 @@ class SyntheticPatternGenerator:
         
         try:
             # Pattern ID
+            except Exception as e:
+                logger.error(f"Error: {e}")
+                pass
             pattern_id = f"synthetic_{pattern_type}_{variation_id}_{int(time.time())}"
             
             # Price Data
@@ -754,6 +763,12 @@ class SyntheticPatternGenerator:
         try:
             indicators = {}
             
+            except Exception as e:
+            
+                logger.error(f"Error: {e}")
+            
+                pass
+            
             # RSI (vereinfacht)
             delta = ohlcv_df["close"].diff()
             gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
@@ -793,6 +808,9 @@ class SyntheticPatternGenerator:
         
         try:
             output_path = Path(output_dir)
+            except Exception as e:
+                logger.error(f"Error: {e}")
+                pass
             output_path.mkdir(parents=True, exist_ok=True)
             
             # JSON Export
@@ -809,6 +827,7 @@ class SyntheticPatternGenerator:
 
 
 # Convenience Functions
+
 def quick_synthetic_generation(pattern_type: str = "double_top", 
                              variations: int = 3) -> List[MinedPattern]:
     """Schnelle Synthetic Pattern Generation"""

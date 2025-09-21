@@ -120,6 +120,12 @@ class PineScriptValidator:
         try:
             start_time = datetime.now()
             
+            except Exception as e:
+            
+                logger.error(f"Error: {e}")
+            
+                pass
+            
             lines = pine_script.split('\n')
             total_lines = len(lines)
             pine_version = self._detect_pine_version(pine_script)
@@ -162,9 +168,9 @@ class PineScriptValidator:
                     message=f"Validation failed: {str(e)}",
                     rule_id="VALIDATION_ERROR"
                 )]
-            )    
-  
-  def _detect_pine_version(self, pine_script: str) -> Optional[str]:
+            )
+    
+    def _detect_pine_version(self, pine_script: str) -> Optional[str]:
         """Erkenne Pine Script Version"""
         version_match = re.search(r'//@version\s*=\s*(\d+)', pine_script)
         if version_match:
@@ -184,6 +190,9 @@ class PineScriptValidator:
         
         try:
             # Version-Check
+            except Exception as e:
+                logger.error(f"Error: {e}")
+                pass
             if not re.search(r'//@version\s*=\s*\d+', pine_script):
                 issues.append(ValidationIssue(
                     severity=ValidationSeverity.ERROR,
@@ -273,6 +282,9 @@ class PineScriptValidator:
         
         try:
             # Undefined Variable Check
+            except Exception as e:
+                logger.error(f"Error: {e}")
+                pass
             defined_vars = set()
             used_vars = set()
             
@@ -358,6 +370,9 @@ class PineScriptValidator:
         
         try:
             # Large Loop Detection
+            except Exception as e:
+                logger.error(f"Error: {e}")
+                pass
             for line_num, line in enumerate(lines, 1):
                 for_match = re.search(r'for\s+\w+\s*=\s*\d+\s+to\s+(\d+)', line)
                 if for_match:
@@ -416,6 +431,9 @@ class PineScriptValidator:
         
         try:
             # Code Documentation
+            except Exception as e:
+                logger.error(f"Error: {e}")
+                pass
             comment_lines = len([line for line in lines if line.strip().startswith('//')])
             code_lines = len([line for line in lines if line.strip() and not line.strip().startswith('//')])
             
@@ -475,6 +493,12 @@ class PineScriptValidator:
         try:
             complexity = 0
             
+            except Exception as e:
+            
+                logger.error(f"Error: {e}")
+            
+                pass
+            
             # Zyklomatische Komplexität
             complexity += len(re.findall(r'\bif\b', pine_script)) * 2
             complexity += len(re.findall(r'\bfor\b', pine_script)) * 3
@@ -498,6 +522,12 @@ class PineScriptValidator:
         try:
             performance_issues = [i for i in issues if i.category == ValidationCategory.PERFORMANCE]
             
+            except Exception as e:
+            
+                logger.error(f"Error: {e}")
+            
+                pass
+            
             if not performance_issues:
                 return 100.0
             
@@ -520,6 +550,12 @@ class PineScriptValidator:
         """Berechne Security-Score (100 = sicher, 0 = unsicher)"""
         try:
             security_issues = [i for i in issues if i.category == ValidationCategory.SECURITY]
+            
+            except Exception as e:
+            
+                logger.error(f"Error: {e}")
+            
+                pass
             
             if not security_issues:
                 return 100.0

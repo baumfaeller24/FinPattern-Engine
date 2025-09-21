@@ -29,6 +29,9 @@ import asyncio
 # Statistical Analysis
 try:
     from scipy import stats
+    except Exception as e:
+        logger.error(f"Error: {e}")
+        pass
     SCIPY_AVAILABLE = True
 except ImportError:
     SCIPY_AVAILABLE = False
@@ -36,6 +39,9 @@ except ImportError:
 # Plotting
 try:
     import matplotlib.pyplot as plt
+    except Exception as e:
+        logger.error(f"Error: {e}")
+        pass
     import seaborn as sns
     PLOTTING_AVAILABLE = True
 except ImportError:
@@ -641,6 +647,9 @@ class BacktestingFramework:
         for strategy in strategies:
             try:
                 # Standard-Backtest
+                except Exception as e:
+                    logger.error(f"Error: {e}")
+                    pass
                 result = await self._run_single_backtest(strategy, data)
                 results.append(result)
                 
@@ -679,9 +688,9 @@ class BacktestingFramework:
                         f"Sharpe: {result.sharpe_ratio:.2f}, "
                         f"Trades: {result.total_trades}")
         
-        return result    
- 
-   async def _run_walk_forward_analysis(self, strategy: TradingStrategy, 
+        return result
+    
+    async def _run_walk_forward_analysis(self, strategy: TradingStrategy, 
                                        data: pd.DataFrame) -> List[BacktestResult]:
         """Führe Walk-Forward-Analysis durch"""
         
@@ -719,6 +728,12 @@ class BacktestingFramework:
         
         try:
             mc_results = []
+            
+            except Exception as e:
+            
+                logger.error(f"Error: {e}")
+            
+                pass
             
             for run in range(self.monte_carlo_runs):
                 # Bootstrapping der Daten
@@ -902,6 +917,9 @@ class BacktestingFramework:
         
         try:
             if not self.backtest_results:
+                except Exception as e:
+                    logger.error(f"Error: {e}")
+                    pass
                 return {"error": "No backtest results available"}
             
             # Statistiken
@@ -975,6 +993,9 @@ class BacktestingFramework:
         
         try:
             # Equity-Curves-Chart
+            except Exception as e:
+                logger.error(f"Error: {e}")
+                pass
             equity_chart = self._create_equity_curves_chart(results)
             if equity_chart:
                 chart_files.append(str(equity_chart))
@@ -1004,6 +1025,12 @@ class BacktestingFramework:
         
         try:
             fig, ax = plt.subplots(figsize=(12, 8))
+            
+            except Exception as e:
+            
+                logger.error(f"Error: {e}")
+            
+                pass
             
             colors = ['blue', 'green', 'red', 'orange', 'purple', 'brown']
             
@@ -1047,6 +1074,12 @@ class BacktestingFramework:
         try:
             fig, ax = plt.subplots(figsize=(10, 6))
             
+            except Exception as e:
+            
+                logger.error(f"Error: {e}")
+            
+                pass
+            
             returns = [r.total_return * 100 for r in results]  # Convert to percentage
             
             ax.hist(returns, bins=20, alpha=0.7, color='blue', edgecolor='black')
@@ -1078,6 +1111,12 @@ class BacktestingFramework:
         
         try:
             fig, ax = plt.subplots(figsize=(10, 8))
+            
+            except Exception as e:
+            
+                logger.error(f"Error: {e}")
+            
+                pass
             
             returns = [r.total_return * 100 for r in results]
             risks = [r.max_drawdown * 100 for r in results]
@@ -1120,6 +1159,12 @@ class BacktestingFramework:
         
         try:
             fig, ax = plt.subplots(figsize=(12, 6))
+            
+            except Exception as e:
+            
+                logger.error(f"Error: {e}")
+            
+                pass
             
             # Zeige Drawdown für beste Strategy
             if not results:

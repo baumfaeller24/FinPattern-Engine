@@ -1,0 +1,1032 @@
+#!/usr/bin/env python3
+"""
+Indicator Code Builder für automatische Parameter-Optimierung
+Phase 3 Implementation - Enhanced Pine Script Code Generator
+
+Features:
+- Automatische Parameter-Optimierung für technische Indikatoren
+- Backtesting-Integration für Parameter-Validation
+- Performance-Metriken und Scoring
+- Multi-Objective-Optimierung (Profit, Drawdown, Sharpe Ratio)
+- Enhanced Feature Integration
+- Real-time Parameter-Anpassung
+"""
+
+import numpy as np
+import pandas as pd
+from typing import Dict, List, Optional, Any, Union, Tuple, Callable
+from datetime import datetime, timedelta
+from dataclasses import dataclass, field
+import logging
+from enum import Enum
+import json
+from pathlib import Path
+import itertools
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+import multiprocessing as mp
+
+# Optimization Libraries
+try:
+    from scipy.optimize import minimize, differential_evolution
+    from sklearn.model_selection import ParameterGrid
+    SCIPY_AVAILABLE = True
+except ImportError:
+    SCIPY_AVAILABLE = False
+
+try:
+    import optuna
+    OPTUNA_AVAILABLE = True
+except ImportError:
+    OPTUNA_AVAILABLE = False
+
+# Local Imports
+from .enhanced_feature_extractor import EnhancedFeatureExtractor
+from .pine_script_generator import PineScriptGenerator, PineScriptConfig, IndicatorType
+
+
+class OptimizationMethod(Enum):
+    """Unterstützte Optimierungs-Methoden"""
+    GRID_SEARCH = "grid_search"
+    RANDOM_SEARCH = "random_search"
+    BAYESIAN = "bayesian"
+    GENETIC_ALGORITHM = "genetic_algorithm"
+    DIFFERENTIAL_EVOLUTION = "differential_evolution"
+    OPTUNA = "optuna"
+
+
+class ObjectiveFunction(Enum):
+    """Optimierungs-Ziele"""
+    PROFIT_FACTOR = "profit_factor"
+    SHARPE_RATIO = "sharpe_ratio"
+    MAX_DRAWDOWN = "max_drawdown"
+    WIN_RATE = "win_rate"
+    TOTAL_RETURN = "total_return"
+    CALMAR_RATIO = "calmar_ratio"
+    SORTINO_RATIO = "sortino_ratio"
+    MULTI_OBJECTIVE = "multi_objective"
+
+
+@dataclass
+class ParameterRange:
+    """Parameter-Range für Optimierung"""
+    name: str
+    min_value: Union[int, float]
+    max_value: Union[int, float]
+    step: Optional[Union[int, float]] = None
+    param_type: str = "int"  # 'int', 'float', 'bool', 'choice'
+    choices: Optional[List[Any]] = None
+
+
+@dataclass
+class OptimizationConfig:
+    """Konfiguration für Parameter-Optimierung"""
+    method: OptimizationMethod = OptimizationMethod.GRID_SEARCH
+    objective: ObjectiveFunction = ObjectiveFunction.SHARPE_RATIO
+    parameter_ranges: List[ParameterRange] = field(default_factory=list)
+    max_iterations: int = 100
+    population_size: int = 50
+    convergence_threshold: float = 1e-6
+    parallel_jobs: int = -1  # -1 = alle verfügbaren CPUs
+    cross_validation_folds: int = 3
+    test_split_ratio: float = 0.2
+    random_seed: Optional[int] = 42
+
+
+@dataclass
+class BacktestResult:
+    """Ergebnis eines Backtests"""
+    parameters: Dict[str, Any]
+    total_return: float
+    sharpe_ratio: float
+    max_drawdown: float
+    win_rate: float
+    profit_factor: float
+    total_trades: int
+    avg_trade_duration: float
+    calmar_ratio: float
+    sortino_ratio: float
+    volatility: float
+    beta: Optional[float] = None
+    alpha: Optional[float] = None
+    information_ratio: Optional[float] = None
+    
+    # Zusätzliche Metriken
+    best_trade: float = 0.0
+    worst_trade: float = 0.0
+    consecutive_wins: int = 0
+    consecutive_losses: int = 0
+    
+    # Zeitstempel
+    backtest_start: Optional[datetime] = None
+    backtest_end: Optional[datetime] = None
+    execution_time: float = 0.0
+
+
+class IndicatorCodeBuilder:
+    """
+    Haupt-Builder für optimierte Indikator-Code-Generierung
+    
+    Features:
+    - Automatische Parameter-Optimierung
+    - Multi-Objective-Optimierung
+    - Backtesting-Integration
+    - Performance-Analyse
+    - Enhanced Feature Integration
+    """
+    
+    def __init__(self, config: Optional[Dict] = None):
+        self.config = config or {}
+        self.logger = logging.getLogger(__name__)
+        
+        # Components
+        self.feature_extractor = EnhancedFeatureExtractor()
+        self.pine_generator = PineScriptGenerator()
+        
+        # Optimization-State
+        self.optimization_history: List[BacktestResult] = []
+        self.best_parameters: Dict[str, Any] = {}
+        self.current_optimization: Optional[OptimizationConfig] = None
+        
+        # Performance-Tracking
+        self.stats = {
+            "optimizations_run": 0,
+            "total_backtests": 0,
+            "best_sharpe_ratio": -np.inf,
+            "best_profit_factor": 0.0,
+            "optimization_time_total": 0.0,
+            "parameter_combinations_tested": 0
+        }
+        
+        # Parallel-Processing
+        self.executor: Optional[Union[ThreadPoolExecutor, ProcessPoolExecutor]] = None
+        
+        self.logger.info("IndicatorCodeBuilder initialized")
+    
+    def optimize_indicator(
+        self,
+        indicator_type: IndicatorType,
+        market_data: pd.DataFrame,
+        optimization_config: OptimizationConfig
+    ) -> Dict[str, Any]:
+        """
+        Optimiere Indikator-Parameter
+        
+        Args:
+            indicator_type: Typ des Indikators
+            market_data: Historische Marktdaten
+            optimization_config: Optimierungs-Konfiguration
+            
+        Returns:
+            Optimierungs-Ergebnisse mit besten Parametern
+        """
+        try:
+            start_time = datetime.now()
+            self.current_optimization = optimization_config
+            
+            self.logger.info(f"Starting optimization for {indicator_type.value} using {optimization_config.method.value}")
+            
+            # Daten vorbereiten
+            prepared_data = self._prepare_market_data(market_data)
+            
+            # Parameter-Ranges validieren
+            if not optimization_config.parameter_ranges:
+                optimization_config.parameter_ranges = self._get_default_parameter_ranges(indicator_type)
+            
+            # Optimierung durchführen
+            if optimization_config.method == OptimizationMethod.GRID_SEARCH:
+                best_result = self._grid_search_optimization(indicator_type, prepared_data, optimization_config)
+            elif optimization_config.method == OptimizationMethod.RANDOM_SEARCH:
+                best_result = self._random_search_optimization(indicator_type, prepared_data, optimization_config)
+            else:
+                # Fallback zu Grid Search
+                best_result = self._grid_search_optimization(indicator_type, prepared_data, optimization_config)
+            
+            optimization_time = (datetime.now() - start_time).total_seconds()
+            
+            # Statistiken updaten
+            self.stats["optimizations_run"] += 1
+            self.stats["optimization_time_total"] += optimization_time
+            
+            if best_result.sharpe_ratio > self.stats["best_sharpe_ratio"]:
+                self.stats["best_sharpe_ratio"] = best_result.sharpe_ratio
+                self.best_parameters = best_result.parameters.copy()
+            
+            if best_result.profit_factor > self.stats["best_profit_factor"]:
+                self.stats["best_profit_factor"] = best_result.profit_factor
+            
+            # Optimierten Pine Script generieren
+            optimized_config = PineScriptConfig(
+                script_name=f"Optimized {indicator_type.value.upper()}",
+                indicator_type=indicator_type,
+                parameters=best_result.parameters,
+                ai_features=True
+            )
+            
+            pine_script_result = self.pine_generator.generate_script(optimized_config)
+            
+            return {
+                "success": True,
+                "best_parameters": best_result.parameters,
+                "best_result": best_result,
+                "optimization_config": optimization_config,
+                "pine_script": pine_script_result,
+                "optimization_time": optimization_time,
+                "total_combinations_tested": len(self.optimization_history),
+                "improvement_over_default": self._calculate_improvement(best_result, indicator_type),
+                "timestamp": datetime.now().isoformat(),
+                "metadata": {
+                    "market_data_points": len(prepared_data),
+                    "optimization_method": optimization_config.method.value,
+                    "objective_function": optimization_config.objective.value
+                }
+            }
+            
+        except Exception as e:
+            self.logger.error(f"Optimization error: {e}")
+            return {
+                "success": False,
+                "error": str(e),
+                "timestamp": datetime.now().isoformat()
+            } 
+   
+    def _prepare_market_data(self, market_data: pd.DataFrame) -> pd.DataFrame:
+        """Bereite Marktdaten für Optimierung vor"""
+        
+        # Kopie erstellen
+        data = market_data.copy()
+        
+        # Erforderliche Spalten prüfen
+        required_columns = ['open', 'high', 'low', 'close', 'volume']
+        missing_columns = [col for col in required_columns if col not in data.columns]
+        
+        if missing_columns:
+            raise ValueError(f"Missing required columns: {missing_columns}")
+        
+        # Datum-Index sicherstellen
+        if not isinstance(data.index, pd.DatetimeIndex):
+            if 'timestamp' in data.columns:
+                data['timestamp'] = pd.to_datetime(data['timestamp'])
+                data.set_index('timestamp', inplace=True)
+            else:
+                # Fallback: Numerischen Index zu Datum
+                data.index = pd.date_range(start='2023-01-01', periods=len(data), freq='1H')
+        
+        # NaN-Werte behandeln
+        data.fillna(method='ffill', inplace=True)
+        data.dropna(inplace=True)
+        
+        # Enhanced Features hinzufügen
+        data = self._add_enhanced_features(data)
+        
+        return data
+    
+    def _add_enhanced_features(self, data: pd.DataFrame) -> pd.DataFrame:
+        """Füge Enhanced Features zu Marktdaten hinzu"""
+        
+        try:
+            # Für jeden Bar Enhanced Features extrahieren
+            enhanced_data = data.copy()
+            
+            # Basis technische Indikatoren
+            enhanced_data['sma_5'] = data['close'].rolling(5).mean()
+            enhanced_data['sma_10'] = data['close'].rolling(10).mean()
+            enhanced_data['sma_20'] = data['close'].rolling(20).mean()
+            enhanced_data['ema_5'] = data['close'].ewm(span=5).mean()
+            enhanced_data['ema_10'] = data['close'].ewm(span=10).mean()
+            
+            # RSI
+            delta = data['close'].diff()
+            gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
+            loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
+            rs = gain / loss
+            enhanced_data['rsi_14'] = 100 - (100 / (1 + rs))
+            
+            # Bollinger Bands
+            bb_period = 20
+            bb_std = 2
+            bb_sma = data['close'].rolling(bb_period).mean()
+            bb_std_dev = data['close'].rolling(bb_period).std()
+            enhanced_data['bb_upper'] = bb_sma + (bb_std_dev * bb_std)
+            enhanced_data['bb_lower'] = bb_sma - (bb_std_dev * bb_std)
+            enhanced_data['bb_position'] = (data['close'] - enhanced_data['bb_lower']) / (enhanced_data['bb_upper'] - enhanced_data['bb_lower'])
+            
+            # ATR
+            high_low = data['high'] - data['low']
+            high_close = np.abs(data['high'] - data['close'].shift())
+            low_close = np.abs(data['low'] - data['close'].shift())
+            true_range = np.maximum(high_low, np.maximum(high_close, low_close))
+            enhanced_data['atr_14'] = true_range.rolling(14).mean()
+            
+            # Volatilität
+            enhanced_data['volatility_5'] = data['close'].pct_change().rolling(5).std()
+            enhanced_data['volatility_10'] = data['close'].pct_change().rolling(10).std()
+            
+            # Volume Features
+            enhanced_data['volume_sma_10'] = data['volume'].rolling(10).mean()
+            enhanced_data['volume_ratio'] = data['volume'] / enhanced_data['volume_sma_10']
+            
+            # Price Features
+            enhanced_data['price_change'] = data['close'].pct_change()
+            enhanced_data['price_range'] = (data['high'] - data['low']) / data['close']
+            
+            return enhanced_data
+            
+        except Exception as e:
+            self.logger.error(f"Error adding enhanced features: {e}")
+            return data
+    
+    def _get_default_parameter_ranges(self, indicator_type: IndicatorType) -> List[ParameterRange]:
+        """Erhalte Standard-Parameter-Ranges für Indikator-Typ"""
+        
+        if indicator_type == IndicatorType.RSI:
+            return [
+                ParameterRange("rsi_length", 5, 50, 1, "int"),
+                ParameterRange("rsi_overbought", 60, 90, 5, "int"),
+                ParameterRange("rsi_oversold", 10, 40, 5, "int")
+            ]
+        
+        elif indicator_type == IndicatorType.MACD:
+            return [
+                ParameterRange("fast_length", 5, 20, 1, "int"),
+                ParameterRange("slow_length", 15, 50, 1, "int"),
+                ParameterRange("signal_length", 5, 15, 1, "int")
+            ]
+        
+        elif indicator_type == IndicatorType.BOLLINGER_BANDS:
+            return [
+                ParameterRange("bb_length", 10, 50, 1, "int"),
+                ParameterRange("bb_mult", 1.0, 3.0, 0.1, "float")
+            ]
+        
+        elif indicator_type == IndicatorType.MOVING_AVERAGE:
+            return [
+                ParameterRange("ma_period", 5, 100, 1, "int"),
+                ParameterRange("ma_type", None, None, None, "choice", ["sma", "ema", "wma"])
+            ]
+        
+        else:
+            # Default für unbekannte Indikatoren
+            return [
+                ParameterRange("period", 5, 50, 1, "int"),
+                ParameterRange("multiplier", 1.0, 3.0, 0.1, "float")
+            ]
+    
+    def _grid_search_optimization(
+        self,
+        indicator_type: IndicatorType,
+        market_data: pd.DataFrame,
+        config: OptimizationConfig
+    ) -> BacktestResult:
+        """Grid Search Optimierung"""
+        
+        self.logger.info("Running Grid Search optimization...")
+        
+        # Parameter-Grid erstellen
+        param_grid = self._create_parameter_grid(config.parameter_ranges)
+        
+        best_result = None
+        best_score = -np.inf
+        
+        # Alle Parameter-Kombinationen testen
+        for params in param_grid:
+            try:
+                result = self._evaluate_parameters(
+                    indicator_type,
+                    params,
+                    market_data,
+                    config.objective
+                )
+                
+                if result:
+                    self.optimization_history.append(result)
+                    self.stats["total_backtests"] += 1
+                    
+                    score = self._calculate_objective_score(result, config.objective)
+                    
+                    if score > best_score:
+                        best_score = score
+                        best_result = result
+                        
+            except Exception as e:
+                self.logger.error(f"Error evaluating parameters {params}: {e}")
+        
+        self.stats["parameter_combinations_tested"] += len(param_grid)
+        
+        if best_result is None:
+            raise ValueError("No valid optimization results found")
+        
+        return best_result
+    
+    def _random_search_optimization(
+        self,
+        indicator_type: IndicatorType,
+        market_data: pd.DataFrame,
+        config: OptimizationConfig
+    ) -> BacktestResult:
+        """Random Search Optimierung"""
+        
+        self.logger.info("Running Random Search optimization...")
+        
+        best_result = None
+        best_score = -np.inf
+        
+        np.random.seed(config.random_seed)
+        
+        for i in range(config.max_iterations):
+            # Zufällige Parameter generieren
+            params = self._generate_random_parameters(config.parameter_ranges)
+            
+            try:
+                result = self._evaluate_parameters(
+                    indicator_type,
+                    params,
+                    market_data,
+                    config.objective
+                )
+                
+                if result:
+                    self.optimization_history.append(result)
+                    self.stats["total_backtests"] += 1
+                    
+                    score = self._calculate_objective_score(result, config.objective)
+                    
+                    if score > best_score:
+                        best_score = score
+                        best_result = result
+                        
+                        self.logger.debug(f"New best score: {score:.4f} with params: {params}")
+                
+            except Exception as e:
+                self.logger.error(f"Error evaluating random parameters {params}: {e}")
+        
+        self.stats["parameter_combinations_tested"] += config.max_iterations
+        
+        if best_result is None:
+            raise ValueError("No valid optimization results found")
+        
+        return best_result
+    
+    def _evaluate_parameters(
+        self,
+        indicator_type: IndicatorType,
+        parameters: Dict[str, Any],
+        market_data: pd.DataFrame,
+        objective: ObjectiveFunction
+    ) -> Optional[BacktestResult]:
+        """Evaluiere Parameter-Set durch Backtesting"""
+        
+        try:
+            start_time = datetime.now()
+            
+            # Indikator-Signale berechnen
+            signals = self._calculate_indicator_signals(indicator_type, parameters, market_data)
+            
+            # Backtest durchführen
+            backtest_result = self._run_backtest(signals, market_data)
+            
+            execution_time = (datetime.now() - start_time).total_seconds()
+            
+            # BacktestResult erstellen
+            result = BacktestResult(
+                parameters=parameters,
+                total_return=backtest_result["total_return"],
+                sharpe_ratio=backtest_result["sharpe_ratio"],
+                max_drawdown=backtest_result["max_drawdown"],
+                win_rate=backtest_result["win_rate"],
+                profit_factor=backtest_result["profit_factor"],
+                total_trades=backtest_result["total_trades"],
+                avg_trade_duration=backtest_result["avg_trade_duration"],
+                calmar_ratio=backtest_result["calmar_ratio"],
+                sortino_ratio=backtest_result["sortino_ratio"],
+                volatility=backtest_result["volatility"],
+                best_trade=backtest_result["best_trade"],
+                worst_trade=backtest_result["worst_trade"],
+                consecutive_wins=backtest_result["consecutive_wins"],
+                consecutive_losses=backtest_result["consecutive_losses"],
+                backtest_start=market_data.index[0],
+                backtest_end=market_data.index[-1],
+                execution_time=execution_time
+            )
+            
+            return result
+            
+        except Exception as e:
+            self.logger.error(f"Error evaluating parameters {parameters}: {e}")
+            return None    
+    
+def _calculate_indicator_signals(
+        self,
+        indicator_type: IndicatorType,
+        parameters: Dict[str, Any],
+        market_data: pd.DataFrame
+    ) -> pd.Series:
+        """Berechne Indikator-Signale"""
+        
+        signals = pd.Series(0, index=market_data.index)  # 0=Hold, 1=Buy, -1=Sell
+        
+        try:
+            if indicator_type == IndicatorType.RSI:
+                # RSI-Signale
+                rsi_length = parameters.get("rsi_length", 14)
+                overbought = parameters.get("rsi_overbought", 70)
+                oversold = parameters.get("rsi_oversold", 30)
+                
+                # RSI berechnen
+                delta = market_data['close'].diff()
+                gain = (delta.where(delta > 0, 0)).rolling(window=rsi_length).mean()
+                loss = (-delta.where(delta < 0, 0)).rolling(window=rsi_length).mean()
+                rs = gain / loss
+                rsi = 100 - (100 / (1 + rs))
+                
+                # Signale generieren
+                signals.loc[rsi < oversold] = 1  # Buy
+                signals.loc[rsi > overbought] = -1  # Sell
+            
+            elif indicator_type == IndicatorType.MACD:
+                # MACD-Signale
+                fast = parameters.get("fast_length", 12)
+                slow = parameters.get("slow_length", 26)
+                signal_length = parameters.get("signal_length", 9)
+                
+                # MACD berechnen
+                ema_fast = market_data['close'].ewm(span=fast).mean()
+                ema_slow = market_data['close'].ewm(span=slow).mean()
+                macd_line = ema_fast - ema_slow
+                signal_line = macd_line.ewm(span=signal_length).mean()
+                
+                # Signale generieren
+                macd_cross_up = (macd_line > signal_line) & (macd_line.shift(1) <= signal_line.shift(1))
+                macd_cross_down = (macd_line < signal_line) & (macd_line.shift(1) >= signal_line.shift(1))
+                
+                signals.loc[macd_cross_up] = 1  # Buy
+                signals.loc[macd_cross_down] = -1  # Sell
+            
+            elif indicator_type == IndicatorType.BOLLINGER_BANDS:
+                # Bollinger Bands-Signale
+                bb_length = parameters.get("bb_length", 20)
+                bb_mult = parameters.get("bb_mult", 2.0)
+                
+                # Bollinger Bands berechnen
+                bb_sma = market_data['close'].rolling(bb_length).mean()
+                bb_std = market_data['close'].rolling(bb_length).std()
+                bb_upper = bb_sma + (bb_std * bb_mult)
+                bb_lower = bb_sma - (bb_std * bb_mult)
+                
+                # Signale generieren
+                bb_buy = (market_data['close'] < bb_lower) & (market_data['close'].shift(1) >= bb_lower.shift(1))
+                bb_sell = (market_data['close'] > bb_upper) & (market_data['close'].shift(1) <= bb_upper.shift(1))
+                
+                signals.loc[bb_buy] = 1  # Buy
+                signals.loc[bb_sell] = -1  # Sell
+            
+            elif indicator_type == IndicatorType.MOVING_AVERAGE:
+                # Moving Average-Signale
+                ma_period = parameters.get("ma_period", 20)
+                ma_type = parameters.get("ma_type", "sma")
+                
+                # Moving Average berechnen
+                if ma_type == "sma":
+                    ma = market_data['close'].rolling(ma_period).mean()
+                elif ma_type == "ema":
+                    ma = market_data['close'].ewm(span=ma_period).mean()
+                else:
+                    ma = market_data['close'].rolling(ma_period).mean()  # Fallback
+                
+                # Signale generieren
+                ma_cross_up = (market_data['close'] > ma) & (market_data['close'].shift(1) <= ma.shift(1))
+                ma_cross_down = (market_data['close'] < ma) & (market_data['close'].shift(1) >= ma.shift(1))
+                
+                signals.loc[ma_cross_up] = 1  # Buy
+                signals.loc[ma_cross_down] = -1  # Sell
+            
+            return signals
+            
+        except Exception as e:
+            self.logger.error(f"Error calculating signals for {indicator_type.value}: {e}")
+            return pd.Series(0, index=market_data.index)
+    
+    def _run_backtest(self, signals: pd.Series, market_data: pd.DataFrame) -> Dict[str, float]:
+        """Führe Backtest durch"""
+        
+        try:
+            # Portfolio-Tracking
+            position = 0  # 0=Neutral, 1=Long, -1=Short
+            cash = 10000.0  # Startkapital
+            portfolio_value = cash
+            trades = []
+            portfolio_values = []
+            
+            entry_price = 0.0
+            entry_time = None
+            
+            for i, (timestamp, signal) in enumerate(signals.items()):
+                current_price = market_data.loc[timestamp, 'close']
+                
+                # Signal-Verarbeitung
+                if signal == 1 and position <= 0:  # Buy Signal
+                    if position == -1:  # Close Short
+                        pnl = (entry_price - current_price) * abs(position) * (cash / entry_price)
+                        cash += pnl
+                        trades.append({
+                            'entry_time': entry_time,
+                            'exit_time': timestamp,
+                            'entry_price': entry_price,
+                            'exit_price': current_price,
+                            'position': position,
+                            'pnl': pnl,
+                            'duration': (timestamp - entry_time).total_seconds() / 3600  # Stunden
+                        })
+                    
+                    # Open Long
+                    position = 1
+                    entry_price = current_price
+                    entry_time = timestamp
+                
+                elif signal == -1 and position >= 0:  # Sell Signal
+                    if position == 1:  # Close Long
+                        pnl = (current_price - entry_price) * position * (cash / entry_price)
+                        cash += pnl
+                        trades.append({
+                            'entry_time': entry_time,
+                            'exit_time': timestamp,
+                            'entry_price': entry_price,
+                            'exit_price': current_price,
+                            'position': position,
+                            'pnl': pnl,
+                            'duration': (timestamp - entry_time).total_seconds() / 3600
+                        })
+                    
+                    # Open Short
+                    position = -1
+                    entry_price = current_price
+                    entry_time = timestamp
+                
+                # Portfolio-Wert berechnen
+                if position != 0:
+                    unrealized_pnl = (current_price - entry_price) * position * (cash / entry_price)
+                    portfolio_value = cash + unrealized_pnl
+                else:
+                    portfolio_value = cash
+                
+                portfolio_values.append(portfolio_value)
+            
+            # Finale Position schließen
+            if position != 0 and len(market_data) > 0:
+                final_price = market_data['close'].iloc[-1]
+                final_pnl = (final_price - entry_price) * position * (cash / entry_price)
+                cash += final_pnl
+                trades.append({
+                    'entry_time': entry_time,
+                    'exit_time': market_data.index[-1],
+                    'entry_price': entry_price,
+                    'exit_price': final_price,
+                    'position': position,
+                    'pnl': final_pnl,
+                    'duration': (market_data.index[-1] - entry_time).total_seconds() / 3600
+                })
+            
+            # Performance-Metriken berechnen
+            if not trades:
+                return self._get_zero_backtest_result()
+            
+            # Basis-Metriken
+            total_return = (cash - 10000.0) / 10000.0
+            
+            # Trade-Statistiken
+            trade_pnls = [trade['pnl'] for trade in trades]
+            winning_trades = [pnl for pnl in trade_pnls if pnl > 0]
+            losing_trades = [pnl for pnl in trade_pnls if pnl < 0]
+            
+            win_rate = len(winning_trades) / len(trades) if trades else 0
+            
+            profit_factor = (sum(winning_trades) / abs(sum(losing_trades))) if losing_trades else float('inf')
+            
+            # Sharpe Ratio
+            portfolio_returns = pd.Series(portfolio_values).pct_change().dropna()
+            sharpe_ratio = (portfolio_returns.mean() / portfolio_returns.std() * np.sqrt(252)) if portfolio_returns.std() > 0 else 0
+            
+            # Max Drawdown
+            portfolio_series = pd.Series(portfolio_values)
+            rolling_max = portfolio_series.expanding().max()
+            drawdown = (portfolio_series - rolling_max) / rolling_max
+            max_drawdown = abs(drawdown.min())
+            
+            # Calmar Ratio
+            calmar_ratio = total_return / max_drawdown if max_drawdown > 0 else 0
+            
+            # Sortino Ratio
+            negative_returns = portfolio_returns[portfolio_returns < 0]
+            downside_deviation = negative_returns.std() if len(negative_returns) > 0 else 0
+            sortino_ratio = (portfolio_returns.mean() / downside_deviation * np.sqrt(252)) if downside_deviation > 0 else 0
+            
+            # Zusätzliche Metriken
+            avg_trade_duration = np.mean([trade['duration'] for trade in trades]) if trades else 0
+            best_trade = max(trade_pnls) if trade_pnls else 0
+            worst_trade = min(trade_pnls) if trade_pnls else 0
+            
+            # Consecutive Wins/Losses
+            consecutive_wins = 0
+            consecutive_losses = 0
+            current_streak = 0
+            max_win_streak = 0
+            max_loss_streak = 0
+            
+            for pnl in trade_pnls:
+                if pnl > 0:
+                    if current_streak >= 0:
+                        current_streak += 1
+                    else:
+                        current_streak = 1
+                    max_win_streak = max(max_win_streak, current_streak)
+                else:
+                    if current_streak <= 0:
+                        current_streak -= 1
+                    else:
+                        current_streak = -1
+                    max_loss_streak = max(max_loss_streak, abs(current_streak))
+            
+            consecutive_wins = max_win_streak
+            consecutive_losses = max_loss_streak
+            
+            return {
+                "total_return": total_return,
+                "sharpe_ratio": sharpe_ratio,
+                "max_drawdown": max_drawdown,
+                "win_rate": win_rate,
+                "profit_factor": profit_factor,
+                "total_trades": len(trades),
+                "avg_trade_duration": avg_trade_duration,
+                "calmar_ratio": calmar_ratio,
+                "sortino_ratio": sortino_ratio,
+                "volatility": portfolio_returns.std() * np.sqrt(252) if len(portfolio_returns) > 0 else 0,
+                "best_trade": best_trade,
+                "worst_trade": worst_trade,
+                "consecutive_wins": consecutive_wins,
+                "consecutive_losses": consecutive_losses
+            }
+            
+        except Exception as e:
+            self.logger.error(f"Backtest error: {e}")
+            return self._get_zero_backtest_result()
+    
+    def _get_zero_backtest_result(self) -> Dict[str, float]:
+        """Erhalte Null-Backtest-Ergebnis für Fehlerbehandlung"""
+        return {
+            "total_return": 0.0,
+            "sharpe_ratio": 0.0,
+            "max_drawdown": 0.0,
+            "win_rate": 0.0,
+            "profit_factor": 1.0,
+            "total_trades": 0,
+            "avg_trade_duration": 0.0,
+            "calmar_ratio": 0.0,
+            "sortino_ratio": 0.0,
+            "volatility": 0.0,
+            "best_trade": 0.0,
+            "worst_trade": 0.0,
+            "consecutive_wins": 0,
+            "consecutive_losses": 0
+        }    
+
+    def _calculate_objective_score(self, result: BacktestResult, objective: ObjectiveFunction) -> float:
+        """Berechne Objective-Score für Optimierung"""
+        
+        if objective == ObjectiveFunction.SHARPE_RATIO:
+            return result.sharpe_ratio
+        elif objective == ObjectiveFunction.PROFIT_FACTOR:
+            return result.profit_factor
+        elif objective == ObjectiveFunction.MAX_DRAWDOWN:
+            return -result.max_drawdown  # Negativ weil wir minimieren wollen
+        elif objective == ObjectiveFunction.WIN_RATE:
+            return result.win_rate
+        elif objective == ObjectiveFunction.TOTAL_RETURN:
+            return result.total_return
+        elif objective == ObjectiveFunction.CALMAR_RATIO:
+            return result.calmar_ratio
+        elif objective == ObjectiveFunction.SORTINO_RATIO:
+            return result.sortino_ratio
+        elif objective == ObjectiveFunction.MULTI_OBJECTIVE:
+            # Multi-Objective-Score (gewichteter Durchschnitt)
+            return (
+                result.sharpe_ratio * 0.3 +
+                result.profit_factor * 0.2 +
+                (-result.max_drawdown) * 0.2 +
+                result.win_rate * 0.1 +
+                result.total_return * 0.2
+            )
+        else:
+            return result.sharpe_ratio  # Fallback
+    
+    def _create_parameter_grid(self, parameter_ranges: List[ParameterRange]) -> List[Dict[str, Any]]:
+        """Erstelle Parameter-Grid für Grid Search"""
+        
+        param_dict = {}
+        
+        for param_range in parameter_ranges:
+            if param_range.param_type == "choice":
+                param_dict[param_range.name] = param_range.choices
+            elif param_range.param_type == "int":
+                step = param_range.step or 1
+                param_dict[param_range.name] = list(range(
+                    int(param_range.min_value),
+                    int(param_range.max_value) + 1,
+                    int(step)
+                ))
+            elif param_range.param_type == "float":
+                step = param_range.step or 0.1
+                values = []
+                current = param_range.min_value
+                while current <= param_range.max_value:
+                    values.append(round(current, 3))
+                    current += step
+                param_dict[param_range.name] = values
+        
+        # Manuelles Cartesian Product
+        keys = list(param_dict.keys())
+        values = list(param_dict.values())
+        
+        grid = []
+        for combination in itertools.product(*values):
+            grid.append(dict(zip(keys, combination)))
+        
+        return grid
+    
+    def _generate_random_parameters(self, parameter_ranges: List[ParameterRange]) -> Dict[str, Any]:
+        """Generiere zufällige Parameter"""
+        
+        params = {}
+        
+        for param_range in parameter_ranges:
+            if param_range.param_type == "choice":
+                params[param_range.name] = np.random.choice(param_range.choices)
+            elif param_range.param_type == "int":
+                params[param_range.name] = np.random.randint(
+                    param_range.min_value,
+                    param_range.max_value + 1
+                )
+            elif param_range.param_type == "float":
+                params[param_range.name] = np.random.uniform(
+                    param_range.min_value,
+                    param_range.max_value
+                )
+        
+        return params
+    
+    def _calculate_improvement(self, best_result: BacktestResult, indicator_type: IndicatorType) -> Dict[str, float]:
+        """Berechne Verbesserung gegenüber Standard-Parametern"""
+        
+        try:
+            # Standard-Parameter für Vergleich
+            default_params = self._get_default_parameters(indicator_type)
+            
+            # Mock-Backtest mit Standard-Parametern (vereinfacht)
+            default_sharpe = 0.5  # Angenommener Standard-Wert
+            default_profit_factor = 1.2
+            default_max_drawdown = 0.15
+            
+            improvement = {
+                "sharpe_ratio_improvement": (best_result.sharpe_ratio - default_sharpe) / abs(default_sharpe) if default_sharpe != 0 else 0,
+                "profit_factor_improvement": (best_result.profit_factor - default_profit_factor) / default_profit_factor if default_profit_factor != 0 else 0,
+                "max_drawdown_improvement": (default_max_drawdown - best_result.max_drawdown) / default_max_drawdown if default_max_drawdown != 0 else 0
+            }
+            
+            return improvement
+            
+        except Exception as e:
+            self.logger.error(f"Error calculating improvement: {e}")
+            return {"sharpe_ratio_improvement": 0, "profit_factor_improvement": 0, "max_drawdown_improvement": 0}
+    
+    def _get_default_parameters(self, indicator_type: IndicatorType) -> Dict[str, Any]:
+        """Erhalte Standard-Parameter für Indikator-Typ"""
+        
+        if indicator_type == IndicatorType.RSI:
+            return {"rsi_length": 14, "rsi_overbought": 70, "rsi_oversold": 30}
+        elif indicator_type == IndicatorType.MACD:
+            return {"fast_length": 12, "slow_length": 26, "signal_length": 9}
+        elif indicator_type == IndicatorType.BOLLINGER_BANDS:
+            return {"bb_length": 20, "bb_mult": 2.0}
+        elif indicator_type == IndicatorType.MOVING_AVERAGE:
+            return {"ma_period": 20, "ma_type": "sma"}
+        else:
+            return {"period": 20, "multiplier": 2.0}
+    
+    def get_optimization_history(self) -> List[Dict[str, Any]]:
+        """Erhalte Optimierungs-Historie"""
+        
+        history = []
+        
+        for result in self.optimization_history:
+            history.append({
+                "parameters": result.parameters,
+                "sharpe_ratio": result.sharpe_ratio,
+                "profit_factor": result.profit_factor,
+                "max_drawdown": result.max_drawdown,
+                "win_rate": result.win_rate,
+                "total_return": result.total_return,
+                "total_trades": result.total_trades,
+                "execution_time": result.execution_time
+            })
+        
+        return history
+    
+    def get_statistics(self) -> Dict[str, Any]:
+        """Erhalte Builder-Statistiken"""
+        
+        return {
+            **self.stats,
+            "optimization_history_length": len(self.optimization_history),
+            "best_parameters": self.best_parameters
+        }
+
+
+# Factory Function
+def create_indicator_code_builder(config: Optional[Dict] = None) -> IndicatorCodeBuilder:
+    """
+    Factory Function für Indicator Code Builder
+    
+    Args:
+        config: Builder-Konfiguration
+        
+    Returns:
+        IndicatorCodeBuilder Instance
+    """
+    return IndicatorCodeBuilder(config=config)
+
+
+# Demo/Test Function
+def demo_indicator_code_builder():
+    """Demo für Indicator Code Builder"""
+    
+    print("🧪 Testing Indicator Code Builder...")
+    
+    # Builder erstellen
+    builder = create_indicator_code_builder()
+    
+    # Mock Market Data erstellen
+    dates = pd.date_range(start='2023-01-01', end='2023-12-31', freq='1H')
+    np.random.seed(42)
+    
+    # Simuliere realistische Preis-Bewegungen
+    price_changes = np.random.normal(0, 0.001, len(dates))
+    prices = 1.1000 + np.cumsum(price_changes)
+    
+    market_data = pd.DataFrame({
+        'open': prices + np.random.normal(0, 0.0001, len(dates)),
+        'high': prices + np.abs(np.random.normal(0, 0.0005, len(dates))),
+        'low': prices - np.abs(np.random.normal(0, 0.0005, len(dates))),
+        'close': prices,
+        'volume': np.random.randint(1000, 5000, len(dates))
+    }, index=dates)
+    
+    # Sicherstelle dass High >= Low
+    market_data['high'] = np.maximum(market_data['high'], market_data[['open', 'close']].max(axis=1))
+    market_data['low'] = np.minimum(market_data['low'], market_data[['open', 'close']].min(axis=1))
+    
+    print(f"📊 Created market data: {len(market_data)} bars from {market_data.index[0]} to {market_data.index[-1]}")
+    
+    # Test Optimierungs-Konfiguration
+    config = OptimizationConfig(
+        method=OptimizationMethod.GRID_SEARCH,
+        objective=ObjectiveFunction.SHARPE_RATIO,
+        parameter_ranges=[
+            ParameterRange("rsi_length", 10, 20, 2, "int"),
+            ParameterRange("rsi_overbought", 70, 80, 5, "int"),
+            ParameterRange("rsi_oversold", 20, 30, 5, "int")
+        ],
+        max_iterations=50
+    )
+    
+    print(f"\n🔧 Starting RSI optimization...")
+    
+    # Optimierung durchführen
+    result = builder.optimize_indicator(IndicatorType.RSI, market_data, config)
+    
+    if result["success"]:
+        print(f"✅ Optimization completed:")
+        print(f"   Best Parameters: {result['best_parameters']}")
+        print(f"   Sharpe Ratio: {result['best_result'].sharpe_ratio:.3f}")
+        print(f"   Profit Factor: {result['best_result'].profit_factor:.3f}")
+        print(f"   Max Drawdown: {result['best_result'].max_drawdown:.3f}")
+        print(f"   Win Rate: {result['best_result'].win_rate:.3f}")
+        print(f"   Total Trades: {result['best_result'].total_trades}")
+        print(f"   Optimization Time: {result['optimization_time']:.2f}s")
+        print(f"   Combinations Tested: {result['total_combinations_tested']}")
+        
+        # Pine Script Info
+        if result['pine_script']['success']:
+            print(f"   Pine Script Generated: {result['pine_script']['metadata']['script_length']} chars")
+        
+    else:
+        print(f"❌ Optimization failed: {result['error']}")
+    
+    # Statistiken
+    stats = builder.get_statistics()
+    print(f"\n📈 Builder Statistics:")
+    print(f"   Optimizations Run: {stats['optimizations_run']}")
+    print(f"   Total Backtests: {stats['total_backtests']}")
+    print(f"   Best Sharpe Ratio: {stats['best_sharpe_ratio']:.3f}")
+    print(f"   Best Profit Factor: {stats['best_profit_factor']:.3f}")
+
+
+if __name__ == "__main__":
+    demo_indicator_code_builder()
