@@ -71,6 +71,8 @@ class TorchServeHandler:
     - Performance-Monitoring
     - Multi-Model-Support
     - JSON-basierte Feature-Processing
+    - Live-Model-Switching
+    - Enhanced Performance-Monitoring und Latenz-Tracking
     """
     
     def __init__(self, config: Optional[TorchServeConfig] = None):
@@ -87,10 +89,17 @@ class TorchServeHandler:
         self.model_cache = {}
         self.model_stats = {}
         
-        # Performance-Tracking
+        # Performance-Tracking (Enhanced)
         self.inference_count = 0
         self.total_processing_time = 0.0
         self.batch_processing_count = 0
+        self.latency_history = []
+        self.error_count = 0
+        self.model_switch_count = 0
+        
+        # Live-Model-Switching
+        self.current_model = None
+        self.available_models = {}
         
         # GPU-Setup
         self.device = self._setup_gpu()
@@ -98,7 +107,10 @@ class TorchServeHandler:
         # TorchServe-Verbindung testen
         self.is_connected = self._test_connection()
         
-        self.logger.info(f"TorchServeHandler initialized: GPU={self.device}, Connected={self.is_connected}")
+        # Initialize available models
+        self._discover_available_models()
+        
+        self.logger.info(f"TorchServeHandler initialized: GPU={self.device}, Connected={self.is_connected}, Models={len(self.available_models)}")
     
     def _setup_gpu(self) -> torch.device:
         """Setup GPU für optimale Performance"""
@@ -186,6 +198,9 @@ class TorchServeHandler:
             self.total_processing_time += processing_time
             self.inference_count += 1
             
+            # Track latency for performance monitoring
+            self._track_latency(processing_time)
+            
             # Erstelle Ergebnis
             result = InferenceResult(
                 predictions=predictions[0] if single_input else predictions,
@@ -207,6 +222,7 @@ class TorchServeHandler:
             return result
             
         except Exception as e:
+            self.error_count += 1
             self.logger.error(f"Feature processing failed: {e}")
             return self._create_fallback_result(features, model_type, start_time)
     
@@ -316,9 +332,12 @@ class TorchServeHandler:
                 "batch_size": len(feature_list)
             }
             
+            # Use current model or fallback to model_type
+            endpoint_model = self.current_model or model_type.value
+            
             # TorchServe-Request
             response = requests.post(
-                f"{self.config.base_url}/predictions/{model_type.value}",
+                f"{self.config.base_url}/predictions/{endpoint_model}",
                 json=batch_data,
                 timeout=self.config.timeout,
                 headers={"Content-Type": "application/json"}
@@ -350,8 +369,11 @@ class TorchServeHandler:
         """TorchServe Einzelne Inference"""
         
         try:
+            # Use current model or fallback to model_type
+            endpoint_model = self.current_model or model_type.value
+            
             response = requests.post(
-                f"{self.config.base_url}/predictions/{model_type.value}",
+                f"{self.config.base_url}/predictions/{endpoint_model}",
                 json=features,
                 timeout=self.config.timeout,
                 headers={"Content-Type": "application/json"}
@@ -424,8 +446,8 @@ class TorchServeHandler:
         
         elif model_type == ModelType.CONFIDENCE_SCORING:
             return {
-                "confidence_score": feature_mean,
-                "risk_score": 1.0 - feature_mean,
+                "confidence_score": min(max(feature_mean, 0.0), 1.0),
+                "risk_score": 1.0 - min(max(feature_mean, 0.0), 1.0),
                 "reliability": np.random.uniform(0.6, 0.95),
                 "simulated": True
             }
@@ -580,6 +602,177 @@ class TorchServeHandler:
             health["status"] = "degraded"
         
         return health
+    
+    def _discover_available_models(self) -> None:
+        """Entdecke verfügbare TorchServe-Modelle"""
+        
+        try:
+            if not self.is_connected:
+                self.logger.warning("TorchServe not connected, cannot discover models")
+                return
+            
+            response = requests.get(
+                f"{self.config.base_url}/models",
+                timeout=10
+            )
+            
+            if response.status_code == 200:
+                models_data = response.json()
+                
+                # Parse model information
+                if isinstance(models_data, dict) and "models" in models_data:
+                    for model_info in models_data["models"]:
+                        model_name = model_info.get("modelName", "unknown")
+                        self.available_models[model_name] = {
+                            "name": model_name,
+                            "version": model_info.get("modelVersion", "1.0"),
+                            "status": model_info.get("status", "unknown"),
+                            "workers": model_info.get("workers", []),
+                            "endpoint": f"{self.config.base_url}/predictions/{model_name}"
+                        }
+                
+                self.logger.info(f"Discovered {len(self.available_models)} TorchServe models")
+                
+                # Set default model if none selected
+                if not self.current_model and self.available_models:
+                    self.current_model = list(self.available_models.keys())[0]
+                    self.logger.info(f"Set default model: {self.current_model}")
+            
+            else:
+                self.logger.warning(f"Could not discover models: HTTP {response.status_code}")
+                
+        except Exception as e:
+            self.logger.error(f"Model discovery failed: {e}")
+    
+    def switch_model(self, model_name: str) -> bool:
+        """
+        Wechsle zu einem anderen TorchServe-Modell
+        
+        Args:
+            model_name: Name des Ziel-Modells
+            
+        Returns:
+            True wenn erfolgreich, False sonst
+        """
+        
+        try:
+            if model_name not in self.available_models:
+                self.logger.error(f"Model {model_name} not available. Available: {list(self.available_models.keys())}")
+                return False
+            
+            # Test model availability
+            test_response = requests.get(
+                f"{self.config.base_url}/models/{model_name}",
+                timeout=5
+            )
+            
+            if test_response.status_code == 200:
+                old_model = self.current_model
+                self.current_model = model_name
+                self.model_switch_count += 1
+                
+                self.logger.info(f"Model switched: {old_model} -> {model_name}")
+                return True
+            else:
+                self.logger.error(f"Model {model_name} not ready: HTTP {test_response.status_code}")
+                return False
+                
+        except Exception as e:
+            self.logger.error(f"Model switch failed: {e}")
+            return False
+    
+    def get_current_model(self) -> Optional[str]:
+        """Erhalte aktuell verwendetes Modell"""
+        return self.current_model
+    
+    def list_available_models(self) -> List[str]:
+        """Liste verfügbare Modelle"""
+        return list(self.available_models.keys())
+    
+    def get_model_info(self, model_name: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Erhalte Informationen über ein Modell
+        
+        Args:
+            model_name: Modell-Name (None für aktuelles Modell)
+            
+        Returns:
+            Modell-Informationen
+        """
+        
+        target_model = model_name or self.current_model
+        
+        if target_model and target_model in self.available_models:
+            return self.available_models[target_model]
+        else:
+            return {"error": f"Model {target_model} not found"}
+    
+    def get_performance_metrics(self) -> Dict[str, Any]:
+        """
+        Erhalte detaillierte Performance-Metriken
+        
+        Returns:
+            Performance-Metriken mit Latenz-Tracking
+        """
+        
+        # Berechne Latenz-Statistiken
+        latency_stats = {}
+        if self.latency_history:
+            latency_stats = {
+                "avg_latency_ms": np.mean(self.latency_history) * 1000,
+                "min_latency_ms": np.min(self.latency_history) * 1000,
+                "max_latency_ms": np.max(self.latency_history) * 1000,
+                "p95_latency_ms": np.percentile(self.latency_history, 95) * 1000,
+                "p99_latency_ms": np.percentile(self.latency_history, 99) * 1000,
+                "total_samples": len(self.latency_history)
+            }
+        
+        # Berechne Error-Rate
+        total_requests = self.inference_count + self.error_count
+        error_rate = self.error_count / max(total_requests, 1)
+        
+        # Berechne Throughput
+        avg_processing_time = (
+            self.total_processing_time / self.inference_count
+            if self.inference_count > 0 else 0.0
+        )
+        throughput = 1.0 / avg_processing_time if avg_processing_time > 0 else 0.0
+        
+        return {
+            "inference_metrics": {
+                "total_inferences": self.inference_count,
+                "batch_inferences": self.batch_processing_count,
+                "error_count": self.error_count,
+                "error_rate": error_rate,
+                "success_rate": 1.0 - error_rate
+            },
+            "latency_metrics": latency_stats,
+            "throughput_metrics": {
+                "avg_processing_time_s": avg_processing_time,
+                "throughput_req_per_s": throughput,
+                "total_processing_time_s": self.total_processing_time
+            },
+            "model_metrics": {
+                "current_model": self.current_model,
+                "available_models": len(self.available_models),
+                "model_switches": self.model_switch_count
+            },
+            "system_metrics": {
+                "gpu_enabled": self.device.type == "cuda",
+                "torchserve_connected": self.is_connected,
+                "model_cache_size": len(self.model_cache)
+            },
+            "timestamp": datetime.now().isoformat()
+        }
+    
+    def _track_latency(self, processing_time: float) -> None:
+        """Track Latenz für Performance-Monitoring"""
+        
+        self.latency_history.append(processing_time)
+        
+        # Behalte nur die letzten 1000 Messungen
+        if len(self.latency_history) > 1000:
+            self.latency_history = self.latency_history[-1000:]
 
 
 # Factory Function

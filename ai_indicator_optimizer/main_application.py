@@ -29,6 +29,7 @@ import GPUtil
 from ai_indicator_optimizer.data.dukascopy_connector import DukascopyConnector
 from ai_indicator_optimizer.ai.enhanced_feature_extractor import EnhancedFeatureExtractor
 from ai_indicator_optimizer.ai.confidence_position_sizer import ConfidencePositionSizer
+from ai_indicator_optimizer.ai.torchserve_handler import TorchServeHandler, TorchServeConfig, ModelType
 from ai_indicator_optimizer.library.pattern_validator import PatternValidator
 from ai_indicator_optimizer.library.historical_pattern_miner import HistoricalPatternMiner
 from ai_indicator_optimizer.logging.rotating_parquet_logger import RotatingParquetLogger
@@ -85,6 +86,13 @@ class ConfigurationManager:
                 "level": os.getenv("LOG_LEVEL", "INFO"),
                 "parquet_buffer_size": int(os.getenv("PARQUET_BUFFER_SIZE", 1000)),
                 "enable_performance_logging": os.getenv("ENABLE_PERF_LOG", "true").lower() == "true"
+            },
+            "torchserve": {
+                "base_url": os.getenv("TORCHSERVE_URL", "http://localhost:8080"),
+                "timeout": int(os.getenv("TORCHSERVE_TIMEOUT", 30)),
+                "batch_size": int(os.getenv("TORCHSERVE_BATCH_SIZE", 32)),
+                "gpu_enabled": os.getenv("TORCHSERVE_GPU", "true").lower() == "true",
+                "enable_torchserve": os.getenv("ENABLE_TORCHSERVE", "false").lower() == "true"
             }
         }
         
@@ -269,6 +277,18 @@ class ExperimentRunner:
         self.pattern_validator = PatternValidator()
         self.pattern_miner = HistoricalPatternMiner()
         self.parquet_logger = RotatingParquetLogger()
+        
+        # Initialize TorchServe handler if enabled
+        self.torchserve_handler = None
+        if config.get("torchserve.enable_torchserve", False):
+            torchserve_config = TorchServeConfig(
+                base_url=config.get("torchserve.base_url"),
+                timeout=config.get("torchserve.timeout"),
+                batch_size=config.get("torchserve.batch_size"),
+                gpu_enabled=config.get("torchserve.gpu_enabled")
+            )
+            self.torchserve_handler = TorchServeHandler(torchserve_config)
+            self.logger.info("TorchServe handler initialized")
         
         # Performance tracking
         self.experiment_stats = {
@@ -790,6 +810,77 @@ def test_ollama(ctx, model):
             click.echo(f"   Confidence: {result.get('confidence', 0):.2f}")
             click.echo(f"   Reasoning: {result.get('reasoning', 'N/A')}")
     
+    # Run async function
+    asyncio.run(test_async())
+
+
+@cli.command()
+@click.option('--enable', is_flag=True, help='Enable TorchServe integration')
+@click.option('--batch-size', default=10, help='Batch size for testing')
+@click.pass_context
+def test_torchserve(ctx, enable, batch_size):
+    """Test TorchServe integration (Task 17)"""
+    
+    config = ctx.obj['config']
+    
+    if enable:
+        config.set("torchserve.enable_torchserve", True)
+    
+    click.echo("🔥 Testing TorchServe Integration (Task 17)")
+    
+    # Initialize TorchServe handler
+    torchserve_config = TorchServeConfig(
+        base_url=config.get("torchserve.base_url"),
+        timeout=config.get("torchserve.timeout"),
+        batch_size=config.get("torchserve.batch_size"),
+        gpu_enabled=config.get("torchserve.gpu_enabled")
+    )
+    
+    handler = TorchServeHandler(torchserve_config)
+    
+    # Test single inference
+    click.echo("🔍 Testing single inference...")
+    test_features = {
+        "price_change": 0.001,
+        "volume": 1000.0,
+        "rsi": 65.5,
+        "macd": 0.0005,
+        "bollinger_position": 0.7
+    }
+    
+    result = handler.process_features(test_features, ModelType.PATTERN_RECOGNITION)
+    click.echo(f"   Result: {result.predictions}")
+    click.echo(f"   Confidence: {result.confidence:.3f}")
+    click.echo(f"   Processing Time: {result.processing_time:.3f}s")
+    
+    # Test batch inference
+    click.echo(f"📦 Testing batch inference (size {batch_size})...")
+    batch_features = [test_features.copy() for _ in range(batch_size)]
+    
+    batch_result = handler.process_features(
+        batch_features,
+        ModelType.PATTERN_RECOGNITION,
+        batch_processing=True
+    )
+    
+    click.echo(f"   Batch Size: {batch_result.batch_size}")
+    click.echo(f"   Processing Time: {batch_result.processing_time:.3f}s")
+    click.echo(f"   Throughput: {batch_size / batch_result.processing_time:.2f} req/s")
+    
+    # Performance metrics
+    metrics = handler.get_performance_metrics()
+    click.echo("📊 Performance Metrics:")
+    click.echo(f"   Total Inferences: {metrics['inference_metrics']['total_inferences']}")
+    click.echo(f"   Success Rate: {metrics['inference_metrics']['success_rate']:.2%}")
+    click.echo(f"   Throughput: {metrics['throughput_metrics']['throughput_req_per_s']:.2f} req/s")
+    
+    # Health check
+    health = handler.health_check()
+    click.echo(f"🏥 Health Status: {health['status']}")
+    click.echo(f"   TorchServe Connected: {health['torchserve_connection']}")
+    click.echo(f"   GPU Available: {health['gpu_available']}")
+    
+    click.echo("✅ TorchServe integration test completed!")
     asyncio.run(test_async())
 
 
