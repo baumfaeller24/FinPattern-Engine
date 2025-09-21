@@ -1,0 +1,44 @@
+{
+  "Breakout": {
+    "signals_generated": 201,
+    "long_signals": 99,
+    "short_signals": 102,
+    "performance": {
+      "total_return": -0.0017492216650484282,
+      "sharpe_ratio": -6.525387886609221,
+      "max_drawdown": -0.003974385497959611,
+      "win_rate": 0.4577114427860697,
+      "total_trades": 201,
+      "winning_trades": 92,
+      "losing_trades": 109
+    }
+  },
+  "Mean Reversion": {
+    "signals_generated": 312,
+    "long_signals": 146,
+    "short_signals": 166,
+    "performance": {
+      "total_return": 0.0014547606092880638,
+      "sharpe_ratio": 4.529626966026009,
+      "max_drawdown": -0.004217543804139622,
+      "win_rate": 0.517799352750809,
+      "total_trades": 309,
+      "winning_trades": 160,
+      "losing_trades": 149
+    }
+  },
+  "Momentum": {
+    "signals_generated": 2840,
+    "long_signals": 1298,
+    "short_signals": 1542,
+    "performance": {
+      "total_return": -4.838563188724887e-05,
+      "sharpe_ratio": -0.0009017017828919624,
+      "max_drawdown": -0.01052268727105786,
+      "win_rate": 0.49697185607410044,
+      "total_trades": 2807,
+      "winning_trades": 1395,
+      "losing_trades": 1412
+    }
+  }
+}

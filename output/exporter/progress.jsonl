@@ -2,3 +2,6 @@
 {"timestamp": "2025-09-21T22:59:32.596700+00:00", "module": "exporter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Exporter v1.0 starting"}
 {"timestamp": "2025-09-21T23:00:02.251830+00:00", "module": "exporter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Exporter v1.0 starting"}
 {"timestamp": "2025-09-21T23:00:27.628913+00:00", "module": "exporter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Exporter v1.0 starting"}
+{"timestamp": "2025-09-21T23:00:44.924295+00:00", "module": "exporter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Exporter v1.0 starting"}
+{"timestamp": "2025-09-21T23:00:44.924402+00:00", "module": "exporter", "module_version": "1.0", "step": "load_events", "percent": 10, "message": "Loading labeled events from /home/ubuntu/FinPattern-Engine/output/splitter/splits/split_000/train_data.parquet"}
+{"timestamp": "2025-09-21T23:00:44.929515+00:00", "module": "exporter", "module_version": "1.0", "step": "pine_script", "percent": 30, "message": "Generating TradingView Pine Script"}
