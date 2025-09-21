@@ -2210,3 +2210,5 @@
 {"timestamp": "2025-09-21T08:42:29.075622", "module": "data_ingest", "step": "init", "percent": 1, "message": "init"}
 {"timestamp": "2025-09-21T08:43:26.569609", "module": "data_ingest", "step": "init", "percent": 1, "message": "init"}
 {"timestamp": "2025-09-21T08:44:52.371646", "module": "data_ingest", "step": "init", "percent": 1, "message": "init"}
+{"timestamp": "2025-09-21T09:40:30.162265", "module": "data_ingest", "step": "done", "percent": 100, "message": "done"}
+{"timestamp": "2025-09-21T09:41:34.644607", "module": "data_ingest", "step": "done", "percent": 100, "message": "done"}
