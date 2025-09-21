@@ -1,0 +1,36 @@
+# Enhanced Main Application Dependencies
+# Task 15 - Production-Ready CLI Interface
+
+# Core CLI Framework
+click>=8.1.0
+asyncio-mqtt>=0.11.0
+
+# HTTP Requests for Ollama API
+requests>=2.31.0
+aiohttp>=3.8.0
+
+# System Monitoring
+psutil>=5.9.0
+GPUtil>=1.4.0
+
+# Data Processing
+numpy>=1.24.0
+pandas>=2.0.0
+polars>=0.19.0
+
+# Configuration Management
+pydantic>=2.0.0
+python-dotenv>=1.0.0
+
+# Logging and Monitoring
+structlog>=23.1.0
+rich>=13.0.0
+
+# Performance Monitoring
+py-spy>=0.3.14
+memory-profiler>=0.61.0
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-mock>=3.11.0

@@ -1,5 +1,46 @@
 #!/usr/bin/env python3
 """
+Ultimate Manual Repair - Manuelle Reparatur der hartnäckigsten Syntax-Probleme
+Behebt die komplexesten strukturellen Probleme durch komplette Rekonstruktion
+
+Features:
+- Komplette Code-Struktur-Rekonstruktion
+- Docstring-Bereinigung
+- Enum/Class-Definition-Reparatur
+- Import-Statement-Normalisierung
+"""
+
+import os
+import json
+import logging
+from pathlib import Path
+from typing import Dict, List, Any
+from datetime import datetime
+import shutil
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
+class UltimateManualRepairer:
+    """Ultimate manuelle Reparatur für komplexeste Probleme"""
+    
+    def __init__(self):
+        self.logger = logging.getLogger(__name__)
+        self.backup_dir = Path("ultimate_manual_backups")
+        self.backup_dir.mkdir(exist_ok=True)
+    
+    def repair_pine_script_validator(self):
+        """Manuelle Reparatur der pine_script_validator.py"""
+        file_path = "ai_indicator_optimizer/ai/pine_script_validator.py"
+        
+        # Backup
+        backup_path = self.backup_dir / "pine_script_validator.py.manual_backup"
+        shutil.copy2(file_path, backup_path)
+        
+        # Komplett neue, saubere Struktur
+        clean_content = '''#!/usr/bin/env python3
+"""
 Pine Script Validator für Syntax-Checking und Error-Detection
 Phase 3 Implementation - Task 10
 
@@ -162,14 +203,14 @@ class PineScriptValidator:
         return ValidationResult(
             is_valid=not (has_errors or has_critical),
             issues=issues,
-            total_lines=len(code.split('\n')),
+            total_lines=len(code.split('\\n')),
             processing_time=processing_time
         )
     
     def _validate_syntax(self, code: str) -> List[ValidationIssue]:
         """Validiere Pine Script Syntax"""
         issues = []
-        lines = code.split('\n')
+        lines = code.split('\\n')
         
         for line_num, line in enumerate(lines, 1):
             stripped = line.strip()
@@ -201,7 +242,7 @@ class PineScriptValidator:
         issues = []
         
         # Zähle Plots
-        plot_count = len(re.findall(r'\bplot\s*\(', code))
+        plot_count = len(re.findall(r'\\bplot\\s*\\(', code))
         if plot_count > self.validation_rules["performance_warnings"]["max_plots"]:
             issues.append(ValidationIssue(
                 severity=ValidationSeverity.WARNING,
@@ -231,7 +272,7 @@ class PineScriptValidator:
     def _validate_best_practices(self, code: str) -> List[ValidationIssue]:
         """Validiere Best Practices"""
         issues = []
-        lines = code.split('\n')
+        lines = code.split('\\n')
         
         for line_num, line in enumerate(lines, 1):
             # Prüfe Zeilenlänge
@@ -302,6 +343,110 @@ def main():
     
     for issue in result.issues:
         print(f"  {issue.severity.value.upper()}: {issue.message}")
+
+
+if __name__ == "__main__":
+    main()
+'''
+        
+        # Schreibe die saubere Version
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.write(clean_content)
+        
+        self.logger.info(f"✅ Manually repaired: {file_path}")
+        return True
+    
+    def repair_all_files(self):
+        """Repariere alle problematischen Dateien manuell"""
+        files_to_repair = [
+            "ai_indicator_optimizer/ai/pine_script_validator.py",
+            "ai_indicator_optimizer/ai/indicator_code_builder.py",
+            "ai_indicator_optimizer/testing/backtesting_framework.py",
+            "ai_indicator_optimizer/library/synthetic_pattern_generator.py",
+            "strategies/ai_strategies/ai_pattern_strategy.py"
+        ]
+        
+        results = []
+        
+        for file_path in files_to_repair:
+            if Path(file_path).exists():
+                if "pine_script_validator" in file_path:
+                    success = self.repair_pine_script_validator()
+                    results.append({"file": file_path, "success": success, "method": "manual_reconstruction"})
+                else:
+                    # Für andere Dateien: Minimale Reparatur
+                    success = self._minimal_repair(file_path)
+                    results.append({"file": file_path, "success": success, "method": "minimal_repair"})
+        
+        return results
+    
+    def _minimal_repair(self, file_path: str) -> bool:
+        """Minimale Reparatur für andere Dateien"""
+        try:
+            # Backup
+            backup_path = self.backup_dir / f"{Path(file_path).name}.minimal_backup"
+            shutil.copy2(file_path, backup_path)
+            
+            # Lese Datei
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # Einfache Fixes
+            lines = content.split('\\n')
+            fixed_lines = []
+            
+            for line in lines:
+                # Entferne excessive Indentation
+                if line.startswith('        ') and not line.strip().startswith('#'):
+                    # Reduziere 8 spaces auf 0 für top-level code
+                    fixed_line = line[8:]
+                    fixed_lines.append(fixed_line)
+                else:
+                    fixed_lines.append(line)
+            
+            # Schreibe zurück
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write('\\n'.join(fixed_lines))
+            
+            self.logger.info(f"✅ Minimally repaired: {file_path}")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"❌ Failed to repair {file_path}: {e}")
+            return False
+
+
+def main():
+    """Hauptfunktion für ultimate manuelle Reparatur"""
+    print("🔧 Starting Ultimate Manual Repair...")
+    print("⚡ Complete code structure reconstruction")
+    
+    repairer = UltimateManualRepairer()
+    
+    try:
+        results = repairer.repair_all_files()
+        
+        print("\\n✅ Ultimate manual repair completed!")
+        
+        # Zeige Ergebnisse
+        for result in results:
+            status = "✅ SUCCESS" if result["success"] else "❌ FAILED"
+            print(f"   {status}: {result['file']} ({result['method']})")
+        
+        # Test syntax
+        print("\\n🧪 Testing repaired files:")
+        import subprocess
+        for result in results:
+            if result["success"]:
+                try:
+                    subprocess.run(['python3', '-m', 'py_compile', result['file']], 
+                                 check=True, capture_output=True)
+                    print(f"   ✅ {result['file']}: SYNTAX PERFECT")
+                except subprocess.CalledProcessError as e:
+                    print(f"   ⚠️ {result['file']}: Still needs work")
+        
+    except Exception as e:
+        print(f"\\n❌ Ultimate manual repair failed: {e}")
 
 
 if __name__ == "__main__":

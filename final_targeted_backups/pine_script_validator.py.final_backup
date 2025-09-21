@@ -1,0 +1,1485 @@
+#!/usr/bin/env python3
+"""
+from typing import Dict, List, Any, Optional, Union
+Pine Script Validator für Syntax-Checking und Error-Detection
+Phase 3 Implementation - Task 10
+
+Features:
+        - Comprehensive Syntax-Checking für Pine Script v5
+        - Error-Detection mit detaillierter Fehleranalyse
+        - Best-Practice-Validation
+        - Performance-Issue-Detection
+        - Security-Checks für Pine Script Code
+        """
+
+        import re
+        import json
+        from typing import Dict, List, Optional, Any, Union, Tuple
+        from datetime import datetime
+        from dataclasses import dataclass, field
+        from pathlib import Path
+        import logging
+        from enum import Enum
+
+
+class ValidationSeverity(Enum):
+        """Schweregrade für Validation-Issues"""
+        INFO = "info"
+        WARNING = "warning"
+        ERROR = "error"
+        CRITICAL = "critical"
+
+
+    class ValidationCategory(Enum):
+            """Kategorien für Validation-Issues"""
+            SYNTAX = "syntax"
+            LOGIC = "logic"
+            PERFORMANCE = "performance"
+            SECURITY = "security"
+            BEST_PRACTICE = "best_practice"
+            COMPATIBILITY = "compatibility"
+
+
+            @dataclass
+class ValidationIssue:
+        """Einzelnes Validation-Issue"""
+        severity: ValidationSeverity
+        category: ValidationCategory
+        message: str
+        line_number: Optional[int] = None
+        column: Optional[int] = None
+        code_snippet: Optional[str] = None
+        suggestion: Optional[str] = None
+        rule_id: Optional[str] = None
+
+
+        @dataclass
+class ValidationResult:
+        """Ergebnis einer Pine Script Validation"""
+        is_valid: bool
+        issues: List[ValidationIssue] = field(default_factory=list)
+        total_lines: int = 0
+        validation_time: float = 0.0
+        pine_version: Optional[str] = None
+        error_count: int = 0
+        warning_count: int = 0
+        info_count: int = 0
+        complexity_score: float = 0.0
+        performance_score: float = 100.0
+        security_score: float = 100.0
+    
+def calculate_stats(self):
+        """Berechne Statistiken aus Issues"""
+        self.error_count = len([i for i in self.issues if i.severity == ValidationSeverity.ERROR]):
+                self.warning_count = len([i for i in self.issues if i.severity == ValidationSeverity.WARNING]):
+                        self.info_count = len([i for i in self.issues if i.severity == ValidationSeverity.INFO]):
+                                self.is_valid = self.error_count == 0
+
+
+class PineScriptValidator:
+        """
+        Haupt-Validator für Pine Script Code
+    
+        Features:
+                - Syntax-Checking für Pine Script v5
+                - Error-Detection mit detaillierter Analyse
+                - Best-Practice-Validation
+                - Performance-Issue-Detection
+                """
+    
+def __init__(self, config: Optional[Dict] = None):
+        self.config = config or {}
+        self.logger = logging.getLogger(__name__)
+        
+        # Pine Script Keywords und Funktionen
+        self.pine_keywords = self._load_pine_keywords()
+        self.pine_functions = self._load_pine_functions()
+        self.pine_variables = self._load_pine_variables()
+        
+        # Statistiken
+        self.stats = {
+        "validations_performed": 0,
+        "total_issues_found": 0,
+        "scripts_validated": 0,
+        "avg_validation_time": 0.0,
+        "most_common_issues": {}
+        }
+        
+        self.logger.info("PineScriptValidator initialized")
+    
+def validate_script(self, pine_script: str, filename: Optional[str] = None) -> ValidationResult:
+        """
+        Validiere Pine Script Code
+        
+        Args:
+                pine_script: Pine Script Code als String
+                filename: Optionaler Dateiname
+            
+                Returns:
+                        ValidationResult mit allen gefundenen Issues
+                        """
+                    try:
+    pass
+except Exception as e:
+    pass
+                            pass
+                    except Exception as e:
+    pass
+                            pass
+                            pass
+                        except Exception as e:
+    pass
+                                pass
+                                pass
+                                pass
+                        except Exception as e:
+    pass
+                                pass
+                                pass
+                                pass
+                                pass
+                            except Exception as e:
+    pass
+                                    pass
+                                    pass
+                                    pass
+                                    pass
+                                    pass
+                            except Exception as e:
+    pass
+                                    pass
+                                    pass
+                                    pass
+                                    pass
+                                    pass
+                                    pass
+                                except Exception as e:
+    pass
+                                        pass
+                                        pass
+                                        pass
+                                        pass
+                                        pass
+                                        pass
+                                        pass
+                                except Exception as e:
+    pass
+                                        pass
+                                        pass
+                                        pass
+                                        pass
+                                        pass
+                                        pass
+                                        pass
+                                        pass
+                                    except Exception as e:
+    pass
+                                            pass
+                                            pass
+                                            pass
+                                            pass
+                                            pass
+                                            pass
+                                            pass
+                                            pass
+                                            pass
+                                    except Exception as e:
+    pass
+                                            pass
+                                            pass
+                                            pass
+                                            pass
+                                            pass
+                                            pass
+                                            pass
+                                            pass
+                                            pass
+                                            start_time = datetime.now()
+            
+                                        except Exception as e:
+    pass
+                                                pass
+                                                pass
+                                                pass
+                                                pass
+                                                pass
+                                                pass
+                                                pass
+                                                pass
+                                                pass
+                                                logger.error(f"Error: {e}")
+            
+                                                pass
+            
+                                                lines = pine_script.split('\n')
+                                                total_lines = len(lines)
+                                                pine_version = self._detect_pine_version(pine_script)
+            
+                                                result = ValidationResult(
+                                                is_valid=True,
+                                                total_lines=total_lines,
+                                                pine_version=pine_version
+                                                )
+            
+                                                # Verschiedene Validations durchführen
+                                                result.issues.extend(self._validate_syntax(pine_script, lines))
+                                                result.issues.extend(self._validate_logic(pine_script, lines))
+                                                result.issues.extend(self._validate_performance(pine_script, lines))
+                                                result.issues.extend(self._validate_best_practices(pine_script, lines))
+            
+                                                # Scores berechnen
+                                                result.complexity_score = self._calculate_complexity_score(pine_script, lines)
+                                                result.performance_score = self._calculate_performance_score(result.issues)
+                                                result.security_score = self._calculate_security_score(result.issues)
+            
+                                                # Statistiken berechnen
+                                                result.calculate_stats()
+                                                result.validation_time = (datetime.now() - start_time).total_seconds()
+            
+                                                # Stats updaten
+                                                self.stats["validations_performed"] += 1
+                                                self.stats["total_issues_found"] += len(result.issues)
+                                                self.stats["scripts_validated"] += 1
+            
+                                                return result
+            
+                                        except Exception as e:
+    pass
+                                                pass
+                                                pass
+                                                pass
+                                                pass
+                                                pass
+                                                pass
+                                                pass
+                                                pass
+                                                pass
+                                                self.logger.error(f"Validation error: {e}")
+                                                return ValidationResult(
+                                                is_valid=False,
+                                                issues=[ValidationIssue(
+                                                severity=ValidationSeverity.CRITICAL,
+                                                category=ValidationCategory.SYNTAX,
+                                                message=f"Validation failed: {str(e)}",
+                                                rule_id="VALIDATION_ERROR"
+                                                )]
+                                                )
+    
+def _detect_pine_version(self, pine_script: str) -> Optional[str]:
+        """Erkenne Pine Script Version"""
+        version_match = re.search(r'//@version\s*=\s*(\d+)', pine_script)
+    if version_match::::::
+            return version_match.group(1)
+        
+            # Fallback: Erkenne anhand von Syntax-Features
+        if 'input.int(' in pine_script or 'ta.' in pine_script::::::
+                return "5"
+        elif 'study(' in pine_script:
+                return "4"
+            else:
+                    return "unknown"
+    
+def _validate_syntax(self, pine_script: str, lines: List[str]) -> List[ValidationIssue]:
+        """Validiere Syntax-Regeln"""
+        issues = []
+        
+    try:
+    pass
+except Exception as e:
+    pass
+            pass
+    except Exception as e:
+    pass
+            pass
+            pass
+        except Exception as e:
+    pass
+                pass
+                pass
+                pass
+        except Exception as e:
+    pass
+                pass
+                pass
+                pass
+                pass
+            except Exception as e:
+    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+            except Exception as e:
+    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                except Exception as e:
+    pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                except Exception as e:
+    pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                    except Exception as e:
+    pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                    except Exception as e:
+    pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            # Version-Check
+                        except Exception as e:
+    pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                logger.error(f"Error: {e}")
+                                pass
+                            if not re.search(r'//@version\s*=\s*\d+', pine_script)::::::
+                                    issues.append(ValidationIssue(
+                                    severity=ValidationSeverity.ERROR,
+                                    category=ValidationCategory.SYNTAX,
+                                    message="Missing @version directive",
+                                    line_number=1,
+                                    suggestion="Add '//@version=5' at the beginning",
+                                    rule_id="MISSING_VERSION"
+                                    ))
+            
+                                    # Indicator/Strategy Declaration Check
+                                if not re.search(r'(indicator|strategy)\s*\(', pine_script)::::::
+                                        issues.append(ValidationIssue(
+                                        severity=ValidationSeverity.ERROR,
+                                        category=ValidationCategory.SYNTAX,
+                                        message="Missing indicator() or strategy() declaration",
+                                        line_number=2,
+                                        suggestion="Add 'indicator(\"Script Name\", overlay=true)'",
+                                        rule_id="MISSING_DECLARATION"
+                                        ))
+            
+                                        # Bracket-Matching
+                                        bracket_stack = []
+                                        paren_stack = []
+            
+                                    for line_num, line in enumerate(lines, 1)::::::
+                                        for char_pos, char in enumerate(line)::::::
+                                            if char == '('::::::
+                                                    paren_stack.append((line_num, char_pos))
+                                            elif char == ')':
+                                                if not paren_stack::::::
+                                                        issues.append(ValidationIssue(
+                                                        severity=ValidationSeverity.ERROR,
+                                                        category=ValidationCategory.SYNTAX,
+                                                        message="Unmatched closing parenthesis",
+                                                        line_number=line_num,
+                                                        column=char_pos,
+                                                        code_snippet=line.strip(),
+                                                        rule_id="UNMATCHED_PAREN"
+                                                        ))
+                                                else:
+                                                        paren_stack.pop()
+            
+                                                        # Unclosed parentheses
+                                                    for line_num, char_pos in paren_stack::::::
+                                                            issues.append(ValidationIssue(
+                                                            severity=ValidationSeverity.ERROR,
+                                                            category=ValidationCategory.SYNTAX,
+                                                            message="Unclosed parenthesis",
+                                                            line_number=line_num,
+                                                            column=char_pos,
+                                                            rule_id="UNCLOSED_PAREN"
+                                                            ))
+            
+                                                            # Variable-Naming-Conventions
+                                                        for line_num, line in enumerate(lines, 1)::::::
+                                                                var_matches = re.finditer(r'(\w+)\s*=\s*', line)
+                                                            for match in var_matches::::::
+                                                                    var_name = match.group(1)
+                    
+                                                                    # Prüfe auf reservierte Keywords
+                                                                if var_name in self.pine_keywords::::::
+                                                                        issues.append(ValidationIssue(
+                                                                        severity=ValidationSeverity.ERROR,
+                                                                        category=ValidationCategory.SYNTAX,
+                                                                        message=f"'{var_name}' is a reserved keyword",
+                                                                        line_number=line_num,
+                                                                        code_snippet=line.strip(),
+                                                                        suggestion=f"Use different name instead of '{var_name}'",
+                                                                        rule_id="RESERVED_KEYWORD"
+                                                                        ))
+            
+                                                                except Exception as e:
+    pass
+                                                                        pass
+                                                                        pass
+                                                                        pass
+                                                                        pass
+                                                                        pass
+                                                                        pass
+                                                                        pass
+                                                                        pass
+                                                                        pass
+                                                                        self.logger.error(f"Syntax validation error: {e}")
+                                                                        issues.append(ValidationIssue(
+                                                                        severity=ValidationSeverity.ERROR,
+                                                                        category=ValidationCategory.SYNTAX,
+                                                                        message=f"Syntax validation failed: {str(e)}",
+                                                                        rule_id="SYNTAX_VALIDATION_ERROR"
+                                                                        ))
+        
+                                                                        return issues
+    
+def _validate_logic(self, pine_script: str, lines: List[str]) -> List[ValidationIssue]:
+        """Validiere Logic-Regeln"""
+        issues = []
+        
+    try:
+    pass
+except Exception as e:
+    pass
+            pass
+    except Exception as e:
+    pass
+            pass
+            pass
+        except Exception as e:
+    pass
+                pass
+                pass
+                pass
+        except Exception as e:
+    pass
+                pass
+                pass
+                pass
+                pass
+            except Exception as e:
+    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+            except Exception as e:
+    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                except Exception as e:
+    pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                except Exception as e:
+    pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                    except Exception as e:
+    pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                    except Exception as e:
+    pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            # Undefined Variable Check
+                        except Exception as e:
+    pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                logger.error(f"Error: {e}")
+                                pass
+                                defined_vars = set()
+                                used_vars = set()
+            
+                            for line_num, line in enumerate(lines, 1)::::::
+                                    # Variable-Definitionen finden
+                                    var_defs = re.finditer(r'(\w+)\s*=', line)
+                                for match in var_defs::::::
+                                        defined_vars.add(match.group(1))
+                
+                                        # Variable-Verwendungen finden
+                                        var_uses = re.finditer(r'\b(\w+)\b', line)
+                                    for match in var_uses::::::
+                                            var_name = match.group(1)
+                                        if (var_name not in self.pine_keywords and :::::
+                                                var_name not in self.pine_functions and
+                                                var_name not in self.pine_variables and
+                                                not var_name.isdigit()):
+                                                        used_vars.add((var_name, line_num))
+            
+                                                        # Prüfe auf undefinierte Variablen
+                                                    for var_name, line_num in used_vars::::::
+                                                        if var_name not in defined_vars::::::
+                                                                issues.append(ValidationIssue(
+                                                                severity=ValidationSeverity.ERROR,
+                                                                category=ValidationCategory.LOGIC,
+                                                                message=f"Undefined variable: '{var_name}'",
+                                                                line_number=line_num,
+                                                                suggestion=f"Define '{var_name}' before using it",
+                                                                rule_id="UNDEFINED_VARIABLE"
+                                                                ))
+            
+                                                                # Division by Zero Check
+                                                            for line_num, line in enumerate(lines, 1)::::::
+                                                                if re.search(r'/\s*0\b', line)::::::
+                                                                        issues.append(ValidationIssue(
+                                                                        severity=ValidationSeverity.ERROR,
+                                                                        category=ValidationCategory.LOGIC,
+                                                                        message="Potential division by zero",
+                                                                        line_number=line_num,
+                                                                        code_snippet=line.strip(),
+                                                                        suggestion="Add zero-check before division",
+                                                                        rule_id="DIVISION_BY_ZERO"
+                                                                        ))
+            
+                                                                        # Always true/false conditions
+                                                                    for line_num, line in enumerate(lines, 1)::::::
+                                                                        if re.search(r'if\s*\(\s*true\s*\)', line)::::::
+                                                                                issues.append(ValidationIssue(
+                                                                                severity=ValidationSeverity.WARNING,
+                                                                                category=ValidationCategory.LOGIC,
+                                                                                message="Condition is always true",
+                                                                                line_number=line_num,
+                                                                                code_snippet=line.strip(),
+                                                                                suggestion="Remove unnecessary condition",
+                                                                                rule_id="ALWAYS_TRUE"
+                                                                                ))
+                
+                                                                            if re.search(r'if\s*\(\s*false\s*\)', line)::::::
+                                                                                    issues.append(ValidationIssue(
+                                                                                    severity=ValidationSeverity.WARNING,
+                                                                                    category=ValidationCategory.LOGIC,
+                                                                                    message="Condition is always false",
+                                                                                    line_number=line_num,
+                                                                                    code_snippet=line.strip(),
+                                                                                    suggestion="Remove dead code",
+                                                                                    rule_id="ALWAYS_FALSE"
+                                                                                    ))
+            
+                                                                            except Exception as e:
+    pass
+                                                                                    pass
+                                                                                    pass
+                                                                                    pass
+                                                                                    pass
+                                                                                    pass
+                                                                                    pass
+                                                                                    pass
+                                                                                    pass
+                                                                                    pass
+                                                                                    self.logger.error(f"Logic validation error: {e}")
+                                                                                    issues.append(ValidationIssue(
+                                                                                    severity=ValidationSeverity.ERROR,
+                                                                                    category=ValidationCategory.LOGIC,
+                                                                                    message=f"Logic validation failed: {str(e)}",
+                                                                                    rule_id="LOGIC_VALIDATION_ERROR"
+                                                                                    ))
+        
+                                                                                    return issues
+    
+def _validate_performance(self, pine_script: str, lines: List[str]) -> List[ValidationIssue]:
+        """Validiere Performance-Regeln"""
+        issues = []
+        
+    try:
+    pass
+except Exception as e:
+    pass
+            pass
+    except Exception as e:
+    pass
+            pass
+            pass
+        except Exception as e:
+    pass
+                pass
+                pass
+                pass
+        except Exception as e:
+    pass
+                pass
+                pass
+                pass
+                pass
+            except Exception as e:
+    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+            except Exception as e:
+    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                except Exception as e:
+    pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                except Exception as e:
+    pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                    except Exception as e:
+    pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                    except Exception as e:
+    pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            # Large Loop Detection
+                        except Exception as e:
+    pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                logger.error(f"Error: {e}")
+                                pass
+                            for line_num, line in enumerate(lines, 1)::::::
+                                    for_match = re.search(r'for\s+\w+\s*=\s*\d+\s+to\s+(\d+)', line)
+                                if for_match::::::
+                                        loop_size = int(for_match.group(1))
+                                    if loop_size > 1000::::::
+                                            issues.append(ValidationIssue(
+                                            severity=ValidationSeverity.WARNING,
+                                            category=ValidationCategory.PERFORMANCE,
+                                            message=f"Large loop detected (size: {loop_size})",
+                                            line_number=line_num,
+                                            code_snippet=line.strip(),
+                                            suggestion="Consider optimizing loop",
+                                            rule_id="LARGE_LOOP"
+                                            ))
+            
+                                            # Heavy Function Usage
+                                            heavy_functions = ['request.security', 'request.dividends', 'request.earnings']
+                                        for line_num, line in enumerate(lines, 1)::::::
+                                            for func in heavy_functions::::::
+                                                if func in line::::::
+                                                        issues.append(ValidationIssue(
+                                                        severity=ValidationSeverity.INFO,
+                                                        category=ValidationCategory.PERFORMANCE,
+                                                        message=f"Heavy function usage: '{func}'",
+                                                        line_number=line_num,
+                                                        code_snippet=line.strip(),
+                                                        suggestion="Use sparingly and consider caching",
+                                                        rule_id="HEAVY_FUNCTION"
+                                                        ))
+            
+                                                        # Excessive String Operations
+                                                        string_ops_count = len(re.findall(r'str\.\w+', pine_script))
+                                                    if string_ops_count > 20::::::
+                                                            issues.append(ValidationIssue(
+                                                            severity=ValidationSeverity.WARNING,
+                                                            category=ValidationCategory.PERFORMANCE,
+                                                            message=f"Excessive string operations ({string_ops_count} found)",
+                                                            suggestion="Minimize string operations for better performance",
+                                                            rule_id="EXCESSIVE_STRING_OPS"
+                                                            ))
+            
+                                                    except Exception as e:
+    pass
+                                                            pass
+                                                            pass
+                                                            pass
+                                                            pass
+                                                            pass
+                                                            pass
+                                                            pass
+                                                            pass
+                                                            pass
+                                                            self.logger.error(f"Performance validation error: {e}")
+                                                            issues.append(ValidationIssue(
+                                                            severity=ValidationSeverity.ERROR,
+                                                            category=ValidationCategory.PERFORMANCE,
+                                                            message=f"Performance validation failed: {str(e)}",
+                                                            rule_id="PERFORMANCE_VALIDATION_ERROR"
+                                                            ))
+        
+                                                            return issues
+   
+def _validate_best_practices(self, pine_script: str, lines: List[str]) -> List[ValidationIssue]:
+        """Validiere Best-Practice-Regeln"""
+        issues = []
+        
+    try:
+    pass
+except Exception as e:
+    pass
+            pass
+    except Exception as e:
+    pass
+            pass
+            pass
+        except Exception as e:
+    pass
+                pass
+                pass
+                pass
+        except Exception as e:
+    pass
+                pass
+                pass
+                pass
+                pass
+            except Exception as e:
+    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+            except Exception as e:
+    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                except Exception as e:
+    pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                except Exception as e:
+    pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                    except Exception as e:
+    pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                    except Exception as e:
+    pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            # Code Documentation
+                        except Exception as e:
+    pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                logger.error(f"Error: {e}")
+                                pass
+                                comment_lines = len([line for line in lines if line.strip().startswith('//')]):
+                                        code_lines = len([line for line in lines if line.strip() and not line.strip().startswith('//')]):
+            
+                                            if code_lines > 0::::::
+                                                    comment_ratio = comment_lines / code_lines
+                                                if comment_ratio < 0.1:  # Weniger als 10% Kommentare:::::
+                                                        issues.append(ValidationIssue(
+                                                        severity=ValidationSeverity.INFO,
+                                                        category=ValidationCategory.BEST_PRACTICE,
+                                                        message="Low code documentation ratio",
+                                                        suggestion="Add more comments to explain logic",
+                                                        rule_id="LOW_DOCUMENTATION"
+                                                        ))
+            
+                                                        # Magic Numbers
+                                                    for line_num, line in enumerate(lines, 1)::::::
+                                                            magic_numbers = re.finditer(r'\b(?!0\b|1\b|-1\b)\d+\.?\d*\b', line)
+                                                        for match in magic_numbers::::::
+                                                                number = match.group()
+                                                            if float(number) not in [0, 1, -1, 100]::::::
+                                                                    issues.append(ValidationIssue(
+                                                                    severity=ValidationSeverity.INFO,
+                                                                    category=ValidationCategory.BEST_PRACTICE,
+                                                                    message=f"Magic number detected: {number}",
+                                                                    line_number=line_num,
+                                                                    code_snippet=line.strip(),
+                                                                    suggestion="Consider using named constants",
+                                                                    rule_id="MAGIC_NUMBER"
+                                                                    ))
+            
+                                                                    # Error Handling
+                                                                    has_error_handling = any('na(' in line or 'nz(' in line for line in lines)
+                                                                    has_calculations = any(re.search(r'[+\-*/]', line) for line in lines)
+            
+                                                                if has_calculations and not has_error_handling::::::
+                                                                        issues.append(ValidationIssue(
+                                                                        severity=ValidationSeverity.INFO,
+                                                                        category=ValidationCategory.BEST_PRACTICE,
+                                                                        message="Missing error handling for calculations",
+                                                                        suggestion="Use na() or nz() functions to handle errors",
+                                                                        rule_id="MISSING_ERROR_HANDLING"
+                                                                        ))
+            
+                                                                except Exception as e:
+    pass
+                                                                        pass
+                                                                        pass
+                                                                        pass
+                                                                        pass
+                                                                        pass
+                                                                        pass
+                                                                        pass
+                                                                        pass
+                                                                        pass
+                                                                        self.logger.error(f"Best practices validation error: {e}")
+                                                                        issues.append(ValidationIssue(
+                                                                        severity=ValidationSeverity.ERROR,
+                                                                        category=ValidationCategory.BEST_PRACTICE,
+                                                                        message=f"Best practices validation failed: {str(e)}",
+                                                                        rule_id="BEST_PRACTICE_VALIDATION_ERROR"
+                                                                        ))
+        
+                                                                        return issues
+    
+def _calculate_complexity_score(self, pine_script: str, lines: List[str]) -> float:
+        """Berechne Komplexitäts-Score (0-100, höher = komplexer)"""
+    try:
+    pass
+except Exception as e:
+    pass
+            pass
+    except Exception as e:
+    pass
+            pass
+            pass
+        except Exception as e:
+    pass
+                pass
+                pass
+                pass
+        except Exception as e:
+    pass
+                pass
+                pass
+                pass
+                pass
+            except Exception as e:
+    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+            except Exception as e:
+    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                except Exception as e:
+    pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                except Exception as e:
+    pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                    except Exception as e:
+    pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                    except Exception as e:
+    pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            complexity = 0
+            
+                        except Exception as e:
+    pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                logger.error(f"Error: {e}")
+            
+                                pass
+            
+                                # Zyklomatische Komplexität
+                                complexity += len(re.findall(r'\bif\b', pine_script)) * 2
+                                complexity += len(re.findall(r'\bfor\b', pine_script)) * 3
+                                complexity += len(re.findall(r'\bwhile\b', pine_script)) * 3
+                                complexity += len(re.findall(r'\?.*:', pine_script)) * 1
+            
+                                # Anzahl Funktionen
+                                complexity += len(re.findall(r'\w+\s*\(', pine_script)) * 0.5
+            
+                                # Anzahl Variablen
+                                complexity += len(re.findall(r'\w+\s*=', pine_script)) * 0.2
+            
+                                return min(100, complexity)
+            
+                        except Exception as e:
+    pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                self.logger.error(f"Complexity calculation error: {e}")
+                                return 50.0
+    
+def _calculate_performance_score(self, issues: List[ValidationIssue]) -> float:
+        """Berechne Performance-Score (100 = optimal, 0 = schlecht)"""
+    try:
+    pass
+except Exception as e:
+    pass
+            pass
+    except Exception as e:
+    pass
+            pass
+            pass
+        except Exception as e:
+    pass
+                pass
+                pass
+                pass
+        except Exception as e:
+    pass
+                pass
+                pass
+                pass
+                pass
+            except Exception as e:
+    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+            except Exception as e:
+    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                except Exception as e:
+    pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                except Exception as e:
+    pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                    except Exception as e:
+    pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                    except Exception as e:
+    pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            performance_issues = [i for i in issues if i.category == ValidationCategory.PERFORMANCE]:
+            
+                        except Exception as e:
+    pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                logger.error(f"Error: {e}")
+            
+                                pass
+            
+                            if not performance_issues::::::
+                                    return 100.0
+            
+                                    penalty = 0
+                                for issue in performance_issues::::::
+                                    if issue.severity == ValidationSeverity.ERROR::::::
+                                            penalty += 20
+                                    elif issue.severity == ValidationSeverity.WARNING:
+                                            penalty += 10
+                                        elif issue.severity == ValidationSeverity.INFO:
+                                                penalty += 5
+            
+                                                return max(0, 100 - penalty)
+            
+                                        except Exception as e:
+    pass
+                                                pass
+                                                pass
+                                                pass
+                                                pass
+                                                pass
+                                                pass
+                                                pass
+                                                pass
+                                                pass
+                                                self.logger.error(f"Performance score calculation error: {e}")
+                                                return 50.0
+    
+def _calculate_security_score(self, issues: List[ValidationIssue]) -> float:
+        """Berechne Security-Score (100 = sicher, 0 = unsicher)"""
+    try:
+    pass
+except Exception as e:
+    pass
+            pass
+    except Exception as e:
+    pass
+            pass
+            pass
+        except Exception as e:
+    pass
+                pass
+                pass
+                pass
+        except Exception as e:
+    pass
+                pass
+                pass
+                pass
+                pass
+            except Exception as e:
+    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+            except Exception as e:
+    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                    pass
+                except Exception as e:
+    pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                except Exception as e:
+    pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                        pass
+                    except Exception as e:
+    pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                    except Exception as e:
+    pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            pass
+                            security_issues = [i for i in issues if i.category == ValidationCategory.SECURITY]:
+            
+                        except Exception as e:
+    pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                pass
+                                logger.error(f"Error: {e}")
+            
+                                pass
+            
+                            if not security_issues::::::
+                                    return 100.0
+            
+                                    penalty = 0
+                                for issue in security_issues::::::
+                                    if issue.severity == ValidationSeverity.CRITICAL::::::
+                                            penalty += 50
+                                    elif issue.severity == ValidationSeverity.ERROR:
+                                            penalty += 25
+                                        elif issue.severity == ValidationSeverity.WARNING:
+                                                penalty += 15
+                                        elif issue.severity == ValidationSeverity.INFO:
+                                                penalty += 5
+            
+                                                return max(0, 100 - penalty)
+            
+                                            except Exception as e:
+    pass
+                                                    pass
+                                                    pass
+                                                    pass
+                                                    pass
+                                                    pass
+                                                    pass
+                                                    pass
+                                                    pass
+                                                    pass
+                                                    self.logger.error(f"Security score calculation error: {e}")
+                                                    return 50.0
+    
+def _load_pine_keywords(self) -> set:
+        """Lade Pine Script Keywords"""
+        return {
+        'if', 'else', 'for', 'while', 'break', 'continue', 'return',
+        'true', 'false', 'na', 'and', 'or', 'not',
+        'var', 'varip', 'const', 'import', 'export',
+        'indicator', 'strategy', 'library'
+        }
+    
+def _load_pine_functions(self) -> set:
+        """Lade Pine Script Built-in Funktionen"""
+        return {
+        # Math functions
+        'abs', 'acos', 'asin', 'atan', 'ceil', 'cos', 'exp', 'floor', 'log', 'log10',
+        'max', 'min', 'pow', 'round', 'sign', 'sin', 'sqrt', 'tan',
+            
+        # Technical Analysis
+        'ta.rsi', 'ta.sma', 'ta.ema', 'ta.wma', 'ta.vwma', 'ta.macd', 'ta.stoch',
+        'ta.cci', 'ta.mfi', 'ta.atr', 'ta.tr', 'ta.crossover', 'ta.crossunder',
+        'ta.highest', 'ta.lowest', 'ta.change', 'ta.mom', 'ta.roc',
+            
+        # Plot functions
+        'plot', 'plotshape', 'plotchar', 'plotarrow', 'plotbar', 'plotcandle',
+        'hline', 'fill', 'bgcolor', 'barcolor',
+            
+        # Input functions
+        'input', 'input.bool', 'input.int', 'input.float', 'input.string',
+        'input.color', 'input.resolution', 'input.session', 'input.source',
+            
+        # Request functions
+        'request.security', 'request.dividends', 'request.splits', 'request.earnings',
+            
+        # String functions
+        'str.tostring', 'str.tonumber', 'str.length', 'str.substring', 'str.contains',
+            
+        # Array functions
+        'array.new', 'array.size', 'array.get', 'array.set', 'array.push', 'array.pop',
+            
+        # Alert functions
+        'alert', 'alertcondition',
+            
+        # Utility functions
+        'na', 'nz', 'fixnan', 'iff', 'switch'
+        }
+    
+def _load_pine_variables(self) -> set:
+        """Lade Pine Script Built-in Variablen"""
+        return {
+        'open', 'high', 'low', 'close', 'volume', 'time', 'bar_index',
+        'last_bar_index', 'barstate.isconfirmed', 'barstate.isfirst', 'barstate.islast',
+        'barstate.isnew', 'barstate.isrealtime', 'barstate.ishistory',
+        'syminfo.ticker', 'syminfo.prefix', 'syminfo.type', 'syminfo.timezone',
+        'color.red', 'color.green', 'color.blue', 'color.yellow', 'color.white',
+        'color.black', 'color.gray', 'color.orange', 'color.purple', 'color.navy',
+        'shape.triangleup', 'shape.triangledown', 'shape.circle', 'shape.square',
+        'location.absolute', 'location.top', 'location.bottom', 'location.abovebar', 'location.belowbar',
+        'size.auto', 'size.tiny', 'size.small', 'size.normal', 'size.large', 'size.huge'
+        }
+    
+def get_validation_summary(self, result: ValidationResult) -> Dict[str, Any]:
+        """Erstelle Validation-Summary"""
+        return {
+        "is_valid": result.is_valid,
+        "total_issues": len(result.issues),
+        "error_count": result.error_count,
+        "warning_count": result.warning_count,
+        "info_count": result.info_count,
+        "complexity_score": result.complexity_score,
+        "performance_score": result.performance_score,
+        "security_score": result.security_score,
+        "validation_time": result.validation_time,
+        "pine_version": result.pine_version,
+        "total_lines": result.total_lines
+        }
+    
+def get_statistics(self) -> Dict[str, Any]:
+        """Erhalte Validator-Statistiken"""
+        return {
+        **self.stats,
+        "pine_knowledge_base": {
+        "keywords": len(self.pine_keywords),
+        "functions": len(self.pine_functions),
+        "variables": len(self.pine_variables)
+        }
+        }
+
+
+        # Factory Function
+def create_pine_script_validator(config: Optional[Dict] = None) -> PineScriptValidator:
+        """Factory Function für Pine Script Validator"""
+        return PineScriptValidator(config=config)
+
+
+        # Demo/Test Function
+def demo_pine_script_validator():
+        """Demo für Pine Script Validator"""
+        print("🧪 Testing Pine Script Validator...")
+    
+        validator = create_pine_script_validator()
+    
+        # Test-Script mit verschiedenen Issues
+        test_script = """
+        //@version=5
+        indicator("Test Script", overlay=true)
+
+        // Missing closing parenthesis
+        rsi_value = ta.rsi(close, 14
+
+        // Undefined variable
+        plot(undefined_var, color=color.blue)
+
+        // Division by zero
+        result = close / 0
+
+        // Magic number
+        threshold = 73.456789
+
+        // Always true condition
+    if true:::::
+            alert("Always triggered")
+            """
+    
+            print("🔍 Validating test script...")
+            result = validator.validate_script(test_script)
+    
+            summary = validator.get_validation_summary(result)
+    
+            print(f"✅ Validation completed:")
+            print(f"   Valid: {summary['is_valid']}")
+            print(f"   Total Issues: {summary['total_issues']}")
+            print(f"   Errors: {summary['error_count']}")
+            print(f"   Warnings: {summary['warning_count']}")
+            print(f"   Info: {summary['info_count']}")
+            print(f"   Complexity Score: {summary['complexity_score']:.1f}")
+            print(f"   Performance Score: {summary['performance_score']:.1f}")
+            print(f"   Security Score: {summary['security_score']:.1f}")
+    
+        if result.issues::::::
+                print(f"\n🔍 Issues found:")
+            for issue in result.issues[:5]:  # Zeige nur erste 5:::::
+                    print(f"   {issue.severity.value.upper()}: {issue.message}")
+                if issue.line_number::::::
+                        print(f"     Line {issue.line_number}")
+                    if issue.suggestion::::::
+                            print(f"     Suggestion: {issue.suggestion}")
+
+
+                        if __name__ == "__main__"::::::
+                                demo_pine_script_validator()

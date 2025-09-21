@@ -1,0 +1,48 @@
+{
+  "experiment_info": {
+    "name": "test_run",
+    "timestamp": "2025-09-21T11:31:22.120958",
+    "duration": 2.655237
+  },
+  "hardware_performance": {
+    "cpu": {
+      "cores": 32,
+      "usage_percent": 3.0,
+      "target_cores": 32
+    },
+    "memory": {
+      "total_gb": 182.12,
+      "used_percent": 15.7,
+      "available_gb": 153.59
+    },
+    "gpu": {
+      "name": "NVIDIA GeForce RTX 5090",
+      "memory_total": 32607.0,
+      "memory_used": 8695.0,
+      "memory_free": 23413.0,
+      "load": 6.0,
+      "temperature": 52.0
+    },
+    "timestamp": "2025-09-21T11:31:20.480482"
+  },
+  "ai_analysis": {
+    "action": "HOLD",
+    "confidence": 0.0,
+    "reasoning": "Parse error",
+    "error": "Extra data: line 9 column 1 (char 390)"
+  },
+  "trading_metrics": {
+    "position_size": 0.0,
+    "risk_amount": 0.0,
+    "confidence": 0.0
+  },
+  "system_metrics": {
+    "total_predictions": 0,
+    "successful_predictions": 0,
+    "errors": 0,
+    "success_rate": 0.0,
+    "duration_seconds": 2.655237,
+    "avg_confidence": 0.0
+  },
+  "generated_at": "2025-09-21T11:31:22.121218"
+}
