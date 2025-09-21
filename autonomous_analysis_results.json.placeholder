@@ -1,0 +1,64 @@
+# Autonomous Analysis Results - Large File Placeholder
+
+## 📄 File Information
+- **Original File**: `autonomous_analysis_results.json`
+- **Size**: 85.13 MB (too large for GitHub)
+- **Status**: Available locally only
+- **Location**: Same directory as this placeholder
+
+## 📊 Content Summary
+This file contains the complete autonomous project analysis results with:
+- **Critical Issues**: 3,134 detailed entries
+- **Warnings**: 7,714 detailed entries  
+- **Analysis Duration**: 4 minutes 20 seconds
+- **Files Analyzed**: 26,380+ Python files
+- **Detailed Results**: All 15 analysis phases with full data
+
+## 🔍 How to Access Full Results
+
+### If you have the file locally:
+```bash
+# View file size
+ls -lh autonomous_analysis_results.json
+
+# Extract specific data with jq
+cat autonomous_analysis_results.json | jq '.critical_errors[0:10]'
+cat autonomous_analysis_results.json | jq '.warnings[0:20]'
+```
+
+### If you need to regenerate:
+```bash
+# Run the autonomous analyzer again
+python3 autonomous_project_analysis.py
+```
+
+## 📋 Available Alternatives
+
+1. **Summary Report**: `autonomous_analysis_results_summary.md` (3.8KB)
+   - Human-readable markdown format
+   - Top issues and recommendations
+   - Phase timing information
+
+2. **Essential Data**: `autonomous_analysis_essential.json` (2.7KB)
+   - Compressed JSON with key findings
+   - Top 20 critical errors
+   - Top 50 warnings
+   - All recommendations
+
+## ⚠️ Important Notes
+
+- The full results file is **NOT** in version control due to size
+- Local copy contains complete analysis data
+- Essential information is preserved in smaller files
+- Re-run analysis if full results are needed
+
+## 🔧 Technical Details
+
+- **Generated**: 2025-09-21T02:01:20 - 2025-09-21T02:05:40
+- **Analyzer Version**: Autonomous Project Analyzer v1.0
+- **Analysis Phases**: 15 comprehensive phases
+- **File Format**: JSON with nested analysis results
+
+---
+*This placeholder prevents confusion about missing large files*
+*Full analysis results available locally: autonomous_analysis_results.json*
