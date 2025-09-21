@@ -1,0 +1,16 @@
+{
+  "run_ts": "2025-09-21T07:14:25.697558",
+  "module": "data_ingest",
+  "module_version": "2.3",
+  "outputs": {
+    "1m": {
+      "path": "/home/ubuntu/FinPattern-Engine/output/data_ingest/bars_1m.parquet"
+    },
+    "100t": {
+      "path": "/home/ubuntu/FinPattern-Engine/output/data_ingest/bars_100t.parquet"
+    },
+    "1000t": {
+      "path": "/home/ubuntu/FinPattern-Engine/output/data_ingest/bars_1000t.parquet"
+    }
+  }
+}
