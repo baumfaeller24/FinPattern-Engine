@@ -390,16 +390,30 @@ class MiniCPMModelWrapper:
 class MultimodalAI:
     """
     MiniCPM-4.1-8B Multimodal AI Engine für Trading-Analyse
+    UPDATED: Verwendet echte Ollama-Integration statt Mock-Daten
     """
     
     def __init__(self, 
                  model_config: Optional[ModelConfig] = None,
-                 resource_manager: Optional[ResourceManager] = None):
+                 resource_manager: Optional[ResourceManager] = None,
+                 use_ollama: bool = True):
         
         self.model_config = model_config or ModelConfig()
         self.resource_manager = resource_manager
-        self.model_wrapper = MiniCPMModelWrapper(self.model_config, resource_manager)
+        self.use_ollama = use_ollama
         self.logger = logging.getLogger(__name__)
+        
+        # Wähle AI-Backend
+        if self.use_ollama:
+            # Verwende echte Ollama-Integration
+            from .ollama_multimodal_ai import create_ollama_multimodal_ai
+            self.ai_backend = create_ollama_multimodal_ai()
+            self.logger.info("Using REAL Ollama MiniCPM4.1 integration")
+        else:
+            # Fallback zu HuggingFace (falls verfügbar)
+            self.model_wrapper = MiniCPMModelWrapper(self.model_config, resource_manager)
+            self.ai_backend = None
+            self.logger.info("Using HuggingFace integration (fallback)")
         
         # Trading-spezifische Prompts
         self.trading_prompts = self._load_trading_prompts()
@@ -458,42 +472,59 @@ Format as actionable trading rules.
                             market_context: Optional[Dict[str, Any]] = None) -> PatternAnalysis:
         """
         Analysiert Chart-Pattern mit MiniCPM Vision-Language Model
+        UPDATED: Verwendet echte AI-Inference über Ollama
         """
         try:
             self.analysis_count += 1
             
-            # Bereite Eingabe vor
-            numerical_data = self._extract_numerical_array(numerical_indicators) if numerical_indicators else np.array([])
+            # Verwende echte Ollama-Integration wenn verfügbar
+            if self.use_ollama and self.ai_backend:
+                analysis = self.ai_backend.analyze_chart_pattern(
+                    chart_image=chart_image,
+                    numerical_indicators=numerical_indicators,
+                    market_context=market_context
+                )
+                
+                if analysis.pattern_type != "analysis_failed":
+                    self.successful_analyses += 1
+                    self.logger.info(f"REAL AI Pattern analysis completed: {analysis.pattern_type} (confidence: {analysis.confidence_score:.2f})")
+                
+                return analysis
             
-            # Erstelle Trading-spezifischen Prompt
-            prompt = self.trading_prompts["pattern_analysis"]
-            
-            if market_context:
-                prompt += f"\nMarket Context: {json.dumps(market_context, indent=2)}"
-            
-            # Bereite multimodale Eingabe vor
-            inputs = self.model_wrapper.prepare_multimodal_input(
-                chart_images=[chart_image],
-                numerical_data=numerical_data,
-                text_prompt=prompt
-            )
-            
-            if not inputs:
-                raise RuntimeError("Failed to prepare model inputs")
-            
-            # Generiere Analyse
-            response = self.model_wrapper.generate_response(inputs)
-            
-            if not response:
-                raise RuntimeError("Model generated empty response")
-            
-            # Parse Response zu PatternAnalysis
-            analysis = self._parse_pattern_analysis_response(response, chart_image)
-            
-            self.successful_analyses += 1
-            self.logger.info(f"Pattern analysis completed: {analysis.pattern_type} (confidence: {analysis.confidence_score:.2f})")
-            
-            return analysis
+            # Fallback zu HuggingFace-Integration (alter Code)
+            else:
+                # Bereite Eingabe vor
+                numerical_data = self._extract_numerical_array(numerical_indicators) if numerical_indicators else np.array([])
+                
+                # Erstelle Trading-spezifischen Prompt
+                prompt = self.trading_prompts["pattern_analysis"]
+                
+                if market_context:
+                    prompt += f"\nMarket Context: {json.dumps(market_context, indent=2)}"
+                
+                # Bereite multimodale Eingabe vor
+                inputs = self.model_wrapper.prepare_multimodal_input(
+                    chart_images=[chart_image],
+                    numerical_data=numerical_data,
+                    text_prompt=prompt
+                )
+                
+                if not inputs:
+                    raise RuntimeError("Failed to prepare model inputs")
+                
+                # Generiere Analyse
+                response = self.model_wrapper.generate_response(inputs)
+                
+                if not response:
+                    raise RuntimeError("Model generated empty response")
+                
+                # Parse Response zu PatternAnalysis
+                analysis = self._parse_pattern_analysis_response(response, chart_image)
+                
+                self.successful_analyses += 1
+                self.logger.info(f"Pattern analysis completed: {analysis.pattern_type} (confidence: {analysis.confidence_score:.2f})")
+                
+                return analysis
             
         except Exception as e:
             self.logger.error(f"Chart pattern analysis failed: {e}")
