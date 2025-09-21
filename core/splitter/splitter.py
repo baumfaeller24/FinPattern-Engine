@@ -419,7 +419,12 @@ def run(config: Dict[str, Any]) -> Dict[str, Any]:
     _log_progress(out_dir, "load_data", 10, f"Loading data from {data_path}")
     
     if data_path.suffix == '.parquet':
-        data = pd.read_parquet(data_path)
+            data = pd.read_parquet(data_path)
+    time_column = config.get("time_column", "timestamp")
+    if time_column in data.columns and pd.api.types.is_integer_dtype(data[time_column]):
+              data[time_column] = pd.to_datetime(data[time_column], unit='ns', utc=True)
+
+
     elif data_path.suffix == '.csv':
         data = pd.read_csv(data_path)
     else:

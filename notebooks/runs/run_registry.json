@@ -10,7 +10,190 @@
       "run_dir": "runs/run_20250921_032334_29953433/labeling",
       "updated_at": "2025-09-21T03:23:34.671202",
       "error": "Fehler in Modul 2 (Labeling v2.1): Input or tick slice file not found."
+    },
+    {
+      "run_id": "run_20250921_185159_b1037c5d",
+      "module": "labeling",
+      "created_at": "2025-09-21T18:51:59.712399",
+      "config_hash": "b1037c5d",
+      "status": "error",
+      "config_file": "runs/run_20250921_185159_b1037c5d/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250921_185159_b1037c5d/labeling",
+      "updated_at": "2025-09-21T18:51:59.814777",
+      "error": "Fehler in Modul 2 (Labeling v2.1): 'input_file'"
+    },
+    {
+      "run_id": "run_20250921_185332_cbcd77b5",
+      "module": "feature_engine",
+      "created_at": "2025-09-21T18:53:32.852439",
+      "config_hash": "cbcd77b5",
+      "status": "success",
+      "config_file": "runs/run_20250921_185332_cbcd77b5/feature_engine/config_used.yaml",
+      "run_dir": "runs/run_20250921_185332_cbcd77b5/feature_engine",
+      "updated_at": "2025-09-21T18:53:32.897085",
+      "result": {
+        "success": true,
+        "run_id": "run_20250921_185332_cbcd77b5",
+        "output_dir": "/home/ubuntu/FinPattern-Engine/output/feature_engine",
+        "feature_data_path": "/home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet",
+        "report": {
+          "n_features": 43,
+          "feature_columns": [
+            "symbol",
+            "frame",
+            "t_open_ns",
+            "t_close_ns",
+            "open",
+            "high",
+            "low",
+            "close",
+            "o_bid",
+            "o_ask",
+            "c_bid",
+            "c_ask",
+            "spread_mean",
+            "n_ticks",
+            "v_sum",
+            "tick_first_id",
+            "tick_last_id",
+            "gap_flag",
+            "ret",
+            "label",
+            "rsi",
+            "macd",
+            "macd_signal",
+            "macd_hist",
+            "sma_20",
+            "sma_50",
+            "ema_20",
+            "ema_50",
+            "bollinger_mid",
+            "bollinger_std",
+            "bollinger_upper",
+            "bollinger_lower",
+            "two_bar_reversal",
+            "hour",
+            "day_of_week",
+            "session_london",
+            "session_ny",
+            "session_asia",
+            "spread_vs_rolling_mean",
+            "tick_imbalance",
+            "tick_imbalance_5",
+            "tick_imbalance_20",
+            "liquidity_stress"
+          ],
+          "config_used": {
+            "out_dir": "/home/ubuntu/FinPattern-Engine/output/feature_engine",
+            "input_file": "/home/ubuntu/FinPattern-Engine/output/labeling_sample/sample_labeled.parquet",
+            "feature_config": {
+              "sma_periods": [
+                10,
+                20,
+                50
+              ],
+              "ema_periods": [
+                10,
+                20,
+                50
+              ],
+              "rsi_period": 14,
+              "macd_fast": 12,
+              "macd_slow": 26,
+              "macd_signal": 9,
+              "bbands_period": 20,
+              "bbands_std_dev": 2.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run_20250921_185351_cbcd77b5",
+      "module": "feature_engine",
+      "created_at": "2025-09-21T18:53:51.921635",
+      "config_hash": "cbcd77b5",
+      "status": "success",
+      "config_file": "runs/run_20250921_185351_cbcd77b5/feature_engine/config_used.yaml",
+      "run_dir": "runs/run_20250921_185351_cbcd77b5/feature_engine",
+      "updated_at": "2025-09-21T18:53:51.962586",
+      "result": {
+        "success": true,
+        "run_id": "run_20250921_185351_cbcd77b5",
+        "output_dir": "/home/ubuntu/FinPattern-Engine/output/feature_engine",
+        "feature_data_path": "/home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet",
+        "report": {
+          "n_features": 43,
+          "feature_columns": [
+            "symbol",
+            "frame",
+            "t_open_ns",
+            "t_close_ns",
+            "open",
+            "high",
+            "low",
+            "close",
+            "o_bid",
+            "o_ask",
+            "c_bid",
+            "c_ask",
+            "spread_mean",
+            "n_ticks",
+            "v_sum",
+            "tick_first_id",
+            "tick_last_id",
+            "gap_flag",
+            "ret",
+            "label",
+            "rsi",
+            "macd",
+            "macd_signal",
+            "macd_hist",
+            "sma_20",
+            "sma_50",
+            "ema_20",
+            "ema_50",
+            "bollinger_mid",
+            "bollinger_std",
+            "bollinger_upper",
+            "bollinger_lower",
+            "two_bar_reversal",
+            "hour",
+            "day_of_week",
+            "session_london",
+            "session_ny",
+            "session_asia",
+            "spread_vs_rolling_mean",
+            "tick_imbalance",
+            "tick_imbalance_5",
+            "tick_imbalance_20",
+            "liquidity_stress"
+          ],
+          "config_used": {
+            "out_dir": "/home/ubuntu/FinPattern-Engine/output/feature_engine",
+            "input_file": "/home/ubuntu/FinPattern-Engine/output/labeling_sample/sample_labeled.parquet",
+            "feature_config": {
+              "sma_periods": [
+                10,
+                20,
+                50
+              ],
+              "ema_periods": [
+                10,
+                20,
+                50
+              ],
+              "rsi_period": 14,
+              "macd_fast": 12,
+              "macd_slow": 26,
+              "macd_signal": 9,
+              "bbands_period": 20,
+              "bbands_std_dev": 2.0
+            }
+          }
+        }
+      }
     }
   ],
-  "last_updated": "2025-09-21T03:23:34.671207"
+  "last_updated": "2025-09-21T18:53:51.962593"
 }

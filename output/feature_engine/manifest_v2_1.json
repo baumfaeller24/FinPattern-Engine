@@ -1,0 +1,9 @@
+{
+  "module": "feature_engine",
+  "version": "2.1.0",
+  "run_id": "run_20250921_185351_cbcd77b5",
+  "input_file": "/home/ubuntu/FinPattern-Engine/output/labeling_sample/sample_labeled.parquet",
+  "output_file": "/home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet",
+  "report_file": "/home/ubuntu/FinPattern-Engine/output/feature_engine/feature_engine_report_v2_1.json",
+  "timestamp": "2025-09-21T18:53:51.962466"
+}

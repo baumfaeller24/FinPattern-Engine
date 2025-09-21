@@ -1,0 +1,109 @@
+{"timestamp": "2025-09-21T22:54:16.234644+00:00", "module": "splitter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Splitter v1.0 starting"}
+{"timestamp": "2025-09-21T22:55:03.286042+00:00", "module": "splitter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Splitter v1.0 starting"}
+{"timestamp": "2025-09-21T22:55:03.286227+00:00", "module": "splitter", "module_version": "1.0", "step": "load_data", "percent": 10, "message": "Loading data from /home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet"}
+{"timestamp": "2025-09-21T22:55:03.319137+00:00", "module": "splitter", "module_version": "1.0", "step": "init_splitter", "percent": 20, "message": "Initializing splitter with method: time_based"}
+{"timestamp": "2025-09-21T22:55:25.624684+00:00", "module": "splitter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Splitter v1.0 starting"}
+{"timestamp": "2025-09-21T22:55:25.624863+00:00", "module": "splitter", "module_version": "1.0", "step": "load_data", "percent": 10, "message": "Loading data from /home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet"}
+{"timestamp": "2025-09-21T22:55:25.655529+00:00", "module": "splitter", "module_version": "1.0", "step": "init_splitter", "percent": 20, "message": "Initializing splitter with method: time_based"}
+{"timestamp": "2025-09-21T22:55:42.065635+00:00", "module": "splitter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Splitter v1.0 starting"}
+{"timestamp": "2025-09-21T22:55:42.065848+00:00", "module": "splitter", "module_version": "1.0", "step": "load_data", "percent": 10, "message": "Loading data from /home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet"}
+{"timestamp": "2025-09-21T22:55:42.098155+00:00", "module": "splitter", "module_version": "1.0", "step": "init_splitter", "percent": 20, "message": "Initializing splitter with method: time_based"}
+{"timestamp": "2025-09-21T22:55:42.101324+00:00", "module": "splitter", "module_version": "1.0", "step": "splitting", "percent": 40, "message": "Performing time_based splitting"}
+{"timestamp": "2025-09-21T22:55:42.101831+00:00", "module": "splitter", "module_version": "1.0", "step": "save_splits", "percent": 60, "message": "Saving 1 splits"}
+{"timestamp": "2025-09-21T22:55:42.180853+00:00", "module": "splitter", "module_version": "1.0", "step": "summary", "percent": 80, "message": "Generating summary statistics"}
+{"timestamp": "2025-09-21T22:56:13.461531+00:00", "module": "splitter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Splitter v1.0 starting"}
+{"timestamp": "2025-09-21T22:56:13.461715+00:00", "module": "splitter", "module_version": "1.0", "step": "load_data", "percent": 10, "message": "Loading data from /home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet"}
+{"timestamp": "2025-09-21T22:56:13.496234+00:00", "module": "splitter", "module_version": "1.0", "step": "init_splitter", "percent": 20, "message": "Initializing splitter with method: time_based"}
+{"timestamp": "2025-09-21T22:56:13.499510+00:00", "module": "splitter", "module_version": "1.0", "step": "splitting", "percent": 40, "message": "Performing time_based splitting"}
+{"timestamp": "2025-09-21T22:56:13.500024+00:00", "module": "splitter", "module_version": "1.0", "step": "save_splits", "percent": 60, "message": "Saving 1 splits"}
+{"timestamp": "2025-09-21T22:56:13.587789+00:00", "module": "splitter", "module_version": "1.0", "step": "summary", "percent": 80, "message": "Generating summary statistics"}
+{"timestamp": "2025-09-21T22:56:13.588640+00:00", "module": "splitter", "module_version": "1.0", "step": "manifest", "percent": 90, "message": "Creating split manifest"}
+{"timestamp": "2025-09-21T22:56:13.589377+00:00", "module": "splitter", "module_version": "1.0", "step": "done", "percent": 100, "message": "Splitter v1.0 completed successfully"}
+{"timestamp": "2025-09-21T22:56:32.883971+00:00", "module": "splitter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Splitter v1.0 starting"}
+{"timestamp": "2025-09-21T22:56:32.884164+00:00", "module": "splitter", "module_version": "1.0", "step": "load_data", "percent": 10, "message": "Loading data from /home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet"}
+{"timestamp": "2025-09-21T22:56:32.917633+00:00", "module": "splitter", "module_version": "1.0", "step": "init_splitter", "percent": 20, "message": "Initializing splitter with method: time_based"}
+{"timestamp": "2025-09-21T22:56:32.920696+00:00", "module": "splitter", "module_version": "1.0", "step": "splitting", "percent": 40, "message": "Performing time_based splitting"}
+{"timestamp": "2025-09-21T22:56:32.921168+00:00", "module": "splitter", "module_version": "1.0", "step": "save_splits", "percent": 60, "message": "Saving 1 splits"}
+{"timestamp": "2025-09-21T22:56:33.001394+00:00", "module": "splitter", "module_version": "1.0", "step": "summary", "percent": 80, "message": "Generating summary statistics"}
+{"timestamp": "2025-09-21T22:56:33.002242+00:00", "module": "splitter", "module_version": "1.0", "step": "manifest", "percent": 90, "message": "Creating split manifest"}
+{"timestamp": "2025-09-21T22:56:33.003080+00:00", "module": "splitter", "module_version": "1.0", "step": "done", "percent": 100, "message": "Splitter v1.0 completed successfully"}
+{"timestamp": "2025-09-21T22:56:50.030378+00:00", "module": "splitter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Splitter v1.0 starting"}
+{"timestamp": "2025-09-21T22:56:50.030558+00:00", "module": "splitter", "module_version": "1.0", "step": "load_data", "percent": 10, "message": "Loading data from /home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet"}
+{"timestamp": "2025-09-21T22:56:50.063503+00:00", "module": "splitter", "module_version": "1.0", "step": "init_splitter", "percent": 20, "message": "Initializing splitter with method: time_based"}
+{"timestamp": "2025-09-21T22:56:50.066497+00:00", "module": "splitter", "module_version": "1.0", "step": "splitting", "percent": 40, "message": "Performing time_based splitting"}
+{"timestamp": "2025-09-21T22:56:50.066947+00:00", "module": "splitter", "module_version": "1.0", "step": "save_splits", "percent": 60, "message": "Saving 1 splits"}
+{"timestamp": "2025-09-21T22:56:50.146971+00:00", "module": "splitter", "module_version": "1.0", "step": "summary", "percent": 80, "message": "Generating summary statistics"}
+{"timestamp": "2025-09-21T22:56:50.147861+00:00", "module": "splitter", "module_version": "1.0", "step": "manifest", "percent": 90, "message": "Creating split manifest"}
+{"timestamp": "2025-09-21T22:56:50.148661+00:00", "module": "splitter", "module_version": "1.0", "step": "done", "percent": 100, "message": "Splitter v1.0 completed successfully"}
+{"timestamp": "2025-09-21T22:57:07.234465+00:00", "module": "splitter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Splitter v1.0 starting"}
+{"timestamp": "2025-09-21T22:57:07.234650+00:00", "module": "splitter", "module_version": "1.0", "step": "load_data", "percent": 10, "message": "Loading data from /home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet"}
+{"timestamp": "2025-09-21T22:57:07.267081+00:00", "module": "splitter", "module_version": "1.0", "step": "init_splitter", "percent": 20, "message": "Initializing splitter with method: time_based"}
+{"timestamp": "2025-09-21T22:57:07.270095+00:00", "module": "splitter", "module_version": "1.0", "step": "splitting", "percent": 40, "message": "Performing time_based splitting"}
+{"timestamp": "2025-09-21T22:57:07.270570+00:00", "module": "splitter", "module_version": "1.0", "step": "save_splits", "percent": 60, "message": "Saving 1 splits"}
+{"timestamp": "2025-09-21T22:57:07.360593+00:00", "module": "splitter", "module_version": "1.0", "step": "summary", "percent": 80, "message": "Generating summary statistics"}
+{"timestamp": "2025-09-21T22:57:07.361437+00:00", "module": "splitter", "module_version": "1.0", "step": "manifest", "percent": 90, "message": "Creating split manifest"}
+{"timestamp": "2025-09-21T22:57:07.362205+00:00", "module": "splitter", "module_version": "1.0", "step": "done", "percent": 100, "message": "Splitter v1.0 completed successfully"}
+{"timestamp": "2025-09-21T22:57:40.648903+00:00", "module": "splitter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Splitter v1.0 starting"}
+{"timestamp": "2025-09-21T22:57:40.649079+00:00", "module": "splitter", "module_version": "1.0", "step": "load_data", "percent": 10, "message": "Loading data from /home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet"}
+{"timestamp": "2025-09-21T22:57:40.681612+00:00", "module": "splitter", "module_version": "1.0", "step": "init_splitter", "percent": 20, "message": "Initializing splitter with method: time_based"}
+{"timestamp": "2025-09-21T22:57:40.684573+00:00", "module": "splitter", "module_version": "1.0", "step": "splitting", "percent": 40, "message": "Performing time_based splitting"}
+{"timestamp": "2025-09-21T22:57:40.685008+00:00", "module": "splitter", "module_version": "1.0", "step": "save_splits", "percent": 60, "message": "Saving 1 splits"}
+{"timestamp": "2025-09-21T22:57:40.766256+00:00", "module": "splitter", "module_version": "1.0", "step": "summary", "percent": 80, "message": "Generating summary statistics"}
+{"timestamp": "2025-09-21T22:57:40.767083+00:00", "module": "splitter", "module_version": "1.0", "step": "manifest", "percent": 90, "message": "Creating split manifest"}
+{"timestamp": "2025-09-21T22:57:40.767857+00:00", "module": "splitter", "module_version": "1.0", "step": "done", "percent": 100, "message": "Splitter v1.0 completed successfully"}
+{"timestamp": "2025-09-21T22:57:52.618568+00:00", "module": "splitter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Splitter v1.0 starting"}
+{"timestamp": "2025-09-21T22:57:52.618746+00:00", "module": "splitter", "module_version": "1.0", "step": "load_data", "percent": 10, "message": "Loading data from /home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet"}
+{"timestamp": "2025-09-21T22:57:52.652640+00:00", "module": "splitter", "module_version": "1.0", "step": "init_splitter", "percent": 20, "message": "Initializing splitter with method: time_based"}
+{"timestamp": "2025-09-21T22:57:52.655687+00:00", "module": "splitter", "module_version": "1.0", "step": "splitting", "percent": 40, "message": "Performing time_based splitting"}
+{"timestamp": "2025-09-21T22:57:52.656170+00:00", "module": "splitter", "module_version": "1.0", "step": "save_splits", "percent": 60, "message": "Saving 1 splits"}
+{"timestamp": "2025-09-21T22:57:52.737002+00:00", "module": "splitter", "module_version": "1.0", "step": "summary", "percent": 80, "message": "Generating summary statistics"}
+{"timestamp": "2025-09-21T22:57:52.737835+00:00", "module": "splitter", "module_version": "1.0", "step": "manifest", "percent": 90, "message": "Creating split manifest"}
+{"timestamp": "2025-09-21T22:57:52.738585+00:00", "module": "splitter", "module_version": "1.0", "step": "done", "percent": 100, "message": "Splitter v1.0 completed successfully"}
+{"timestamp": "2025-09-21T22:58:19.334077+00:00", "module": "splitter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Splitter v1.0 starting"}
+{"timestamp": "2025-09-21T22:58:19.334268+00:00", "module": "splitter", "module_version": "1.0", "step": "load_data", "percent": 10, "message": "Loading data from /home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet"}
+{"timestamp": "2025-09-21T22:58:19.367612+00:00", "module": "splitter", "module_version": "1.0", "step": "init_splitter", "percent": 20, "message": "Initializing splitter with method: time_based"}
+{"timestamp": "2025-09-21T22:58:19.370917+00:00", "module": "splitter", "module_version": "1.0", "step": "splitting", "percent": 40, "message": "Performing time_based splitting"}
+{"timestamp": "2025-09-21T22:58:19.371490+00:00", "module": "splitter", "module_version": "1.0", "step": "save_splits", "percent": 60, "message": "Saving 1 splits"}
+{"timestamp": "2025-09-21T22:58:19.452733+00:00", "module": "splitter", "module_version": "1.0", "step": "summary", "percent": 80, "message": "Generating summary statistics"}
+{"timestamp": "2025-09-21T22:58:19.453665+00:00", "module": "splitter", "module_version": "1.0", "step": "manifest", "percent": 90, "message": "Creating split manifest"}
+{"timestamp": "2025-09-21T22:58:19.454547+00:00", "module": "splitter", "module_version": "1.0", "step": "done", "percent": 100, "message": "Splitter v1.0 completed successfully"}
+{"timestamp": "2025-09-21T22:58:55.717602+00:00", "module": "splitter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Splitter v1.0 starting"}
+{"timestamp": "2025-09-21T22:58:55.717780+00:00", "module": "splitter", "module_version": "1.0", "step": "load_data", "percent": 10, "message": "Loading data from /home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet"}
+{"timestamp": "2025-09-21T22:58:55.748664+00:00", "module": "splitter", "module_version": "1.0", "step": "init_splitter", "percent": 20, "message": "Initializing splitter with method: time_based"}
+{"timestamp": "2025-09-21T22:58:55.751606+00:00", "module": "splitter", "module_version": "1.0", "step": "splitting", "percent": 40, "message": "Performing time_based splitting"}
+{"timestamp": "2025-09-21T22:58:55.752083+00:00", "module": "splitter", "module_version": "1.0", "step": "save_splits", "percent": 60, "message": "Saving 1 splits"}
+{"timestamp": "2025-09-21T22:58:55.831329+00:00", "module": "splitter", "module_version": "1.0", "step": "summary", "percent": 80, "message": "Generating summary statistics"}
+{"timestamp": "2025-09-21T22:58:55.832125+00:00", "module": "splitter", "module_version": "1.0", "step": "manifest", "percent": 90, "message": "Creating split manifest"}
+{"timestamp": "2025-09-21T22:58:55.832884+00:00", "module": "splitter", "module_version": "1.0", "step": "done", "percent": 100, "message": "Splitter v1.0 completed successfully"}
+{"timestamp": "2025-09-21T22:59:16.607638+00:00", "module": "splitter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Splitter v1.0 starting"}
+{"timestamp": "2025-09-21T22:59:16.607814+00:00", "module": "splitter", "module_version": "1.0", "step": "load_data", "percent": 10, "message": "Loading data from /home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet"}
+{"timestamp": "2025-09-21T22:59:16.642104+00:00", "module": "splitter", "module_version": "1.0", "step": "init_splitter", "percent": 20, "message": "Initializing splitter with method: time_based"}
+{"timestamp": "2025-09-21T22:59:16.645177+00:00", "module": "splitter", "module_version": "1.0", "step": "splitting", "percent": 40, "message": "Performing time_based splitting"}
+{"timestamp": "2025-09-21T22:59:16.645650+00:00", "module": "splitter", "module_version": "1.0", "step": "save_splits", "percent": 60, "message": "Saving 1 splits"}
+{"timestamp": "2025-09-21T22:59:16.725300+00:00", "module": "splitter", "module_version": "1.0", "step": "summary", "percent": 80, "message": "Generating summary statistics"}
+{"timestamp": "2025-09-21T22:59:16.726140+00:00", "module": "splitter", "module_version": "1.0", "step": "manifest", "percent": 90, "message": "Creating split manifest"}
+{"timestamp": "2025-09-21T22:59:16.726924+00:00", "module": "splitter", "module_version": "1.0", "step": "done", "percent": 100, "message": "Splitter v1.0 completed successfully"}
+{"timestamp": "2025-09-21T22:59:32.478647+00:00", "module": "splitter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Splitter v1.0 starting"}
+{"timestamp": "2025-09-21T22:59:32.478849+00:00", "module": "splitter", "module_version": "1.0", "step": "load_data", "percent": 10, "message": "Loading data from /home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet"}
+{"timestamp": "2025-09-21T22:59:32.512287+00:00", "module": "splitter", "module_version": "1.0", "step": "init_splitter", "percent": 20, "message": "Initializing splitter with method: time_based"}
+{"timestamp": "2025-09-21T22:59:32.515329+00:00", "module": "splitter", "module_version": "1.0", "step": "splitting", "percent": 40, "message": "Performing time_based splitting"}
+{"timestamp": "2025-09-21T22:59:32.515792+00:00", "module": "splitter", "module_version": "1.0", "step": "save_splits", "percent": 60, "message": "Saving 1 splits"}
+{"timestamp": "2025-09-21T22:59:32.594284+00:00", "module": "splitter", "module_version": "1.0", "step": "summary", "percent": 80, "message": "Generating summary statistics"}
+{"timestamp": "2025-09-21T22:59:32.595243+00:00", "module": "splitter", "module_version": "1.0", "step": "manifest", "percent": 90, "message": "Creating split manifest"}
+{"timestamp": "2025-09-21T22:59:32.596015+00:00", "module": "splitter", "module_version": "1.0", "step": "done", "percent": 100, "message": "Splitter v1.0 completed successfully"}
+{"timestamp": "2025-09-21T23:00:02.121445+00:00", "module": "splitter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Splitter v1.0 starting"}
+{"timestamp": "2025-09-21T23:00:02.121639+00:00", "module": "splitter", "module_version": "1.0", "step": "load_data", "percent": 10, "message": "Loading data from /home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet"}
+{"timestamp": "2025-09-21T23:00:02.161824+00:00", "module": "splitter", "module_version": "1.0", "step": "init_splitter", "percent": 20, "message": "Initializing splitter with method: time_based"}
+{"timestamp": "2025-09-21T23:00:02.165090+00:00", "module": "splitter", "module_version": "1.0", "step": "splitting", "percent": 40, "message": "Performing time_based splitting"}
+{"timestamp": "2025-09-21T23:00:02.165564+00:00", "module": "splitter", "module_version": "1.0", "step": "save_splits", "percent": 60, "message": "Saving 1 splits"}
+{"timestamp": "2025-09-21T23:00:02.249503+00:00", "module": "splitter", "module_version": "1.0", "step": "summary", "percent": 80, "message": "Generating summary statistics"}
+{"timestamp": "2025-09-21T23:00:02.250375+00:00", "module": "splitter", "module_version": "1.0", "step": "manifest", "percent": 90, "message": "Creating split manifest"}
+{"timestamp": "2025-09-21T23:00:02.251130+00:00", "module": "splitter", "module_version": "1.0", "step": "done", "percent": 100, "message": "Splitter v1.0 completed successfully"}
+{"timestamp": "2025-09-21T23:00:27.511004+00:00", "module": "splitter", "module_version": "1.0", "step": "start", "percent": 0, "message": "Splitter v1.0 starting"}
+{"timestamp": "2025-09-21T23:00:27.511191+00:00", "module": "splitter", "module_version": "1.0", "step": "load_data", "percent": 10, "message": "Loading data from /home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet"}
+{"timestamp": "2025-09-21T23:00:27.543161+00:00", "module": "splitter", "module_version": "1.0", "step": "init_splitter", "percent": 20, "message": "Initializing splitter with method: time_based"}
+{"timestamp": "2025-09-21T23:00:27.546059+00:00", "module": "splitter", "module_version": "1.0", "step": "splitting", "percent": 40, "message": "Performing time_based splitting"}
+{"timestamp": "2025-09-21T23:00:27.546511+00:00", "module": "splitter", "module_version": "1.0", "step": "save_splits", "percent": 60, "message": "Saving 1 splits"}
+{"timestamp": "2025-09-21T23:00:27.626380+00:00", "module": "splitter", "module_version": "1.0", "step": "summary", "percent": 80, "message": "Generating summary statistics"}
+{"timestamp": "2025-09-21T23:00:27.627300+00:00", "module": "splitter", "module_version": "1.0", "step": "manifest", "percent": 90, "message": "Creating split manifest"}
+{"timestamp": "2025-09-21T23:00:27.628165+00:00", "module": "splitter", "module_version": "1.0", "step": "done", "percent": 100, "message": "Splitter v1.0 completed successfully"}

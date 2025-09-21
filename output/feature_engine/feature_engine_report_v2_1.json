@@ -1,0 +1,70 @@
+{
+  "n_features": 43,
+  "feature_columns": [
+    "symbol",
+    "frame",
+    "t_open_ns",
+    "t_close_ns",
+    "open",
+    "high",
+    "low",
+    "close",
+    "o_bid",
+    "o_ask",
+    "c_bid",
+    "c_ask",
+    "spread_mean",
+    "n_ticks",
+    "v_sum",
+    "tick_first_id",
+    "tick_last_id",
+    "gap_flag",
+    "ret",
+    "label",
+    "rsi",
+    "macd",
+    "macd_signal",
+    "macd_hist",
+    "sma_20",
+    "sma_50",
+    "ema_20",
+    "ema_50",
+    "bollinger_mid",
+    "bollinger_std",
+    "bollinger_upper",
+    "bollinger_lower",
+    "two_bar_reversal",
+    "hour",
+    "day_of_week",
+    "session_london",
+    "session_ny",
+    "session_asia",
+    "spread_vs_rolling_mean",
+    "tick_imbalance",
+    "tick_imbalance_5",
+    "tick_imbalance_20",
+    "liquidity_stress"
+  ],
+  "config_used": {
+    "out_dir": "/home/ubuntu/FinPattern-Engine/output/feature_engine",
+    "input_file": "/home/ubuntu/FinPattern-Engine/output/labeling_sample/sample_labeled.parquet",
+    "feature_config": {
+      "sma_periods": [
+        10,
+        20,
+        50
+      ],
+      "ema_periods": [
+        10,
+        20,
+        50
+      ],
+      "rsi_period": 14,
+      "macd_fast": 12,
+      "macd_slow": 26,
+      "macd_signal": 9,
+      "bbands_period": 20,
+      "bbands_std_dev": 2.0
+    }
+  }
+}

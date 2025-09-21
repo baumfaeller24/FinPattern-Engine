@@ -1,0 +1,11 @@
+{
+  "out_dir": "/home/ubuntu/FinPattern-Engine/output/splitter",
+  "data_path": "/home/ubuntu/FinPattern-Engine/output/feature_engine/sample_labeled_features_v2_1.parquet",
+  "time_column": "t_close_ns",
+  "split_method": "time_based",
+  "split_params": {
+    "train_ratio": 0.7,
+    "val_ratio": 0.15,
+    "test_ratio": 0.15
+  }
+}

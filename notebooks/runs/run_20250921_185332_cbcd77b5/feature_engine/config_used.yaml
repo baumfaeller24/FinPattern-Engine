@@ -1,0 +1,17 @@
+feature_config:
+  bbands_period: 20
+  bbands_std_dev: 2.0
+  ema_periods:
+  - 10
+  - 20
+  - 50
+  macd_fast: 12
+  macd_signal: 9
+  macd_slow: 26
+  rsi_period: 14
+  sma_periods:
+  - 10
+  - 20
+  - 50
+input_file: /home/ubuntu/FinPattern-Engine/output/labeling_sample/sample_labeled.parquet
+out_dir: /home/ubuntu/FinPattern-Engine/output/feature_engine

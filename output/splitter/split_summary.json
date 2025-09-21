@@ -1,0 +1,20 @@
+{
+  "total_splits": 1,
+  "split_method": "time_based",
+  "split_params": {
+    "train_ratio": 0.7,
+    "val_ratio": 0.15,
+    "test_ratio": 0.15
+  },
+  "data_samples": 951,
+  "time_range": {
+    "start": "2025-07-04T08:06:56.608000+00:00",
+    "end": "2025-07-07T22:45:12.425000+00:00",
+    "duration_days": 3
+  },
+  "leakage_audit": {
+    "enabled": true,
+    "splits_with_issues": 0,
+    "clean_splits": 1
+  }
+}

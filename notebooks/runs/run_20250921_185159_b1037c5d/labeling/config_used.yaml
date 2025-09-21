@@ -1,0 +1,9 @@
+barrier_config:
+  max_hold_bars: 10
+  profit_target_pips: 5.0
+  stop_loss_pips: 5.0
+bars_file: /home/ubuntu/FinPattern-Engine/output/data_ingest/bars_1000t
+out_dir: /home/ubuntu/FinPattern-Engine/output/labeling
+pip_size: 0.0001
+symbol: EURUSD
+tick_slice_file: /home/ubuntu/FinPattern-Engine/output/data_ingest/tick_slices_1000t
