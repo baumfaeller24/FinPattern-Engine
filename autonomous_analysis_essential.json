@@ -1,0 +1,155 @@
+{
+  "analysis_summary": {
+    "start_time": "2025-09-21T02:01:20.230916",
+    "end_time": "2025-09-21T02:05:40.208127",
+    "total_duration": 260.208149433136,
+    "critical_error_count": 3134,
+    "warning_count": 7714,
+    "recommendation_count": 7
+  },
+  "top_critical_errors": [
+    {
+      "phase": "Dependency Chain Analysis",
+      "error": "name 'ClassificationTrainer' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/alex/KI Pattern/autonomous_project_analysis.py\", line 107, in run_full_analysis\n    phase_results = phase_func()\n  File \"/home/alex/KI Pattern/autonomous_project_analysis.py\", line 314, in _analyze_dependencies\n    importlib.util.find_spec(dep)\n    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^\n  File \"<frozen importlib.util>\", line 91, in find_spec\n  File \"/home/alex/KI Pattern/test_env/lib/python3.13/site-packages/wandb/integration/ultralytics/__init__.py\", line 6, in <module>\n    from wandb.integration.ultralytics.callback import (\n    ...<2 lines>...\n    )\n  File \"/home/alex/KI Pattern/test_env/lib/python3.13/site-packages/wandb/integration/ultralytics/callback.py\", line 74, in <module>\n    ClassificationTrainer, DetectionTrainer, SegmentationTrainer, PoseTrainer\n    ^^^^^^^^^^^^^^^^^^^^^\nNameError: name 'ClassificationTrainer' is not defined\n"
+    },
+    "Syntax Error in ./ai_indicator_optimizer/ai/pine_script_validator.py: unindent does not match any outer indentation level (<unknown>, line 167)",
+    "Syntax Error in ./ai_indicator_optimizer/ai/indicator_code_builder.py: unindent does not match any outer indentation level (<unknown>, line 608)",
+    "Syntax Error in ./ai_indicator_optimizer/testing/backtesting_framework.py: unindent does not match any outer indentation level (<unknown>, line 684)",
+    "Syntax Error in ./ai_indicator_optimizer/library/synthetic_pattern_generator.py: unindent does not match any outer indentation level (<unknown>, line 322)",
+    "Syntax Error in ./strategies/ai_strategies/ai_pattern_strategy.py: expected 'except' or 'finally' block (<unknown>, line 483)",
+    "Syntax Error in ./test_env/lib/python3.13/site-packages/joblib/test/test_func_inspect_special_encoding.py: File read error: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte",
+    "Security issue in ./nautilus_benchmark.py:187: Use of eval() can be dangerous",
+    "Security issue in ./autonomous_project_analysis.py:511: Use of eval() can be dangerous",
+    "Security issue in ./autonomous_project_analysis.py:512: Use of exec() can be dangerous",
+    "Security issue in ./autonomous_project_analysis.py:513: subprocess with shell=True can be dangerous",
+    "Security issue in ./autonomous_project_analysis.py:514: Hardcoded password detected",
+    "Security issue in ./autonomous_project_analysis.py:515: Hardcoded API key detected",
+    "Security issue in ./autonomous_project_analysis.py:516: Hardcoded secret detected",
+    "Security issue in ./ai_indicator_optimizer/training/gpu_training_loop.py:131: Use of eval() can be dangerous",
+    "Security issue in ./ai_indicator_optimizer/training/gpu_training_loop.py:563: Use of eval() can be dangerous",
+    "Security issue in ./ai_indicator_optimizer/ai/multimodal_ai.py:234: Use of eval() can be dangerous",
+    "Security issue in ./ai_indicator_optimizer/recovery/data_source_failover.py:239: Hardcoded API key detected",
+    "Security issue in ./ai_indicator_optimizer/recovery/model_fallback_system.py:236: Use of eval() can be dangerous",
+    "Security issue in ./ai_indicator_optimizer/recovery/robust_error_handler.py:744: Hardcoded password detected"
+  ],
+  "top_warnings": [
+    "Mock implementation in ./nautilus_config.py:53",
+    "Mock implementation in ./nautilus_config.py:109",
+    "Mock implementation in ./autonomous_project_analysis.py:244",
+    "Mock implementation in ./autonomous_project_analysis.py:245",
+    "Mock implementation in ./autonomous_project_analysis.py:246",
+    "Mock implementation in ./autonomous_project_analysis.py:247",
+    "Mock implementation in ./autonomous_project_analysis.py:249",
+    "Mock implementation in ./autonomous_project_analysis.py:250",
+    "Mock implementation in ./autonomous_project_analysis.py:251",
+    "Mock implementation in ./nautilus_dev_setup.py:541",
+    "Mock implementation in ./nautilus_dev_setup.py:569",
+    "Mock implementation in ./demos/minicpm_demo.py:386",
+    "Mock implementation in ./demos/minicpm_demo.py:448",
+    "Mock implementation in ./tests/test_minicpm_integration.py:49",
+    "Mock implementation in ./tests/test_minicpm_integration.py:123",
+    "Mock implementation in ./tests/test_minicpm_integration.py:124",
+    "Mock implementation in ./tests/test_minicpm_integration.py:125",
+    "Mock implementation in ./tests/test_data_connector.py:219",
+    "Mock implementation in ./tests/test_data_connector.py:231",
+    "Mock implementation in ./tests/test_data_connector.py:280",
+    "Mock implementation in ./tests/test_data_connector.py:343",
+    "Mock implementation in ./tests/test_fine_tuning_pipeline.py:512",
+    "Mock implementation in ./tests/test_fine_tuning_pipeline.py:513",
+    "Mock implementation in ./tests/test_fine_tuning_pipeline.py:514",
+    "Mock implementation in ./ai_indicator_optimizer/testing/multimodal_accuracy_tests.py:1083",
+    "Mock implementation in ./ai_indicator_optimizer/testing/multimodal_accuracy_tests.py:1088",
+    "Mock implementation in ./chatgpt_review_files/ai_pattern_strategy.py:267",
+    "Mock implementation in ./chatgpt_review_files/ai_pattern_strategy.py:462",
+    "Mock implementation in ./strategies/ai_strategies/enhanced_ai_pattern_strategy.py:338",
+    "Mock implementation in ./strategies/ai_strategies/ai_pattern_strategy.py:369",
+    "Mock implementation in ./strategies/ai_strategies/ai_pattern_strategy.py:580",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/peewee.py:764",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/peewee.py:2096",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/peewee.py:2110",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/peewee.py:2717",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/peewee.py:3249",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/peewee.py:3355",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/peewee.py:3358",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/peewee.py:3489",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/peewee.py:3492",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/peewee.py:3495",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/peewee.py:3498",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/peewee.py:3501",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/peewee.py:3504",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/peewee.py:3515",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/peewee.py:3518",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/peewee.py:3521",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/peewee.py:3524",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/peewee.py:7878",
+    "Mock implementation in ./test_env/lib/python3.13/site-packages/memory_profiler.py:157"
+  ],
+  "recommendations": [
+    "Replace mock implementations with real functionality",
+    "Fix critical syntax and import errors immediately",
+    "Implement comprehensive error handling",
+    "Add unit tests for all modules",
+    "Document all public functions and classes",
+    "Review security patterns and remove hardcoded secrets",
+    "Optimize performance-critical code paths"
+  ],
+  "phase_summary": {
+    "1 Project Structure Analysis": {
+      "duration": 0.1324172019958496,
+      "timestamp": "2025-09-21T02:01:20.363604"
+    },
+    "2 Code Syntax & Import Analysis": {
+      "duration": 60.11132788658142,
+      "timestamp": "2025-09-21T02:02:21.475245"
+    },
+    "3 Mock Vs Real Implementation Detection": {
+      "duration": 18.55960988998413,
+      "timestamp": "2025-09-21T02:02:41.035172"
+    },
+    "5 Architecture Consistency Check": {
+      "duration": 9.72747802734375e-05,
+      "timestamp": "2025-09-21T02:03:21.484357"
+    },
+    "6 Performance Bottleneck Detection": {
+      "duration": 12.422000885009766,
+      "timestamp": "2025-09-21T02:03:34.906725"
+    },
+    "7 Configuration Completeness": {
+      "duration": 0.04668998718261719,
+      "timestamp": "2025-09-21T02:03:35.953746"
+    },
+    "8 Database Schema Validation": {
+      "duration": 0.04046797752380371,
+      "timestamp": "2025-09-21T02:03:36.994535"
+    },
+    "9 Error Handling Coverage": {
+      "duration": 41.387986183166504,
+      "timestamp": "2025-09-21T02:04:19.392490"
+    },
+    "10 Test Coverage Analysis": {
+      "duration": 0.0437779426574707,
+      "timestamp": "2025-09-21T02:04:20.436649"
+    },
+    "11 Security Vulnerability Scan": {
+      "duration": 21.930799961090088,
+      "timestamp": "2025-09-21T02:04:43.367817"
+    },
+    "12 Documentation Gap Analysis": {
+      "duration": 43.57780861854553,
+      "timestamp": "2025-09-21T02:05:27.946289"
+    },
+    "13 Integration Point Validation": {
+      "duration": 2.6226043701171875e-06,
+      "timestamp": "2025-09-21T02:05:28.946647"
+    },
+    "14 Resource Usage Analysis": {
+      "duration": 8.257517337799072,
+      "timestamp": "2025-09-21T02:05:38.204593"
+    },
+    "15 Final Report Generation": {
+      "duration": 0.002857685089111328,
+      "timestamp": "2025-09-21T02:05:39.208012"
+    }
+  }
+}
