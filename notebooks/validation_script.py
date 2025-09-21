@@ -1,50 +1,38 @@
 import sys
 import os
 import json
-import pandas as pd
+import pyarrow.dataset as ds
 
-# Add the project root to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), '..')))
 
-from core.data_ingest.data_ingest import run as data_ingest_run
+from core.data_ingest.data_ingest_streaming import run as data_ingest_run
 
-# Configuration for the DataIngest module
 config = {
     "out_dir": "/home/ubuntu/FinPattern-Engine/output/data_ingest",
     "csv": {
         "path": "/home/ubuntu/FinPattern-Engine/data/EURUSD-2025-07.csv"
     },
     "symbol": "EURUSD",
-    "price_basis": "mid",
-    "max_missing_gap_seconds": 60,
-    "trim_weekend": True,
-    "bar_frames": [
-        {"type": "time", "unit": "1m"},
-        {"type": "tick", "count": 100},
-        {"type": "tick", "count": 1000}
-    ],
-    "pip_size": 0.0001,
-    "chunksize": 50000
+    "chunk_bytes": 64 * 1024 * 1024,
+    "flush_every_bars": 2000
 }
 
-# Run the DataIngest module
 data_ingest_output = data_ingest_run(config)
 
-# Print the output manifest
 print(json.dumps(data_ingest_output, indent=2))
 
-# Verify the output files
 for frame, output in data_ingest_output["outputs"].items():
     path = output["path"]
-    print(f"Checking {frame} output file: {path}")
+    print(f"Checking {frame} output directory: {path}")
     if os.path.exists(path):
-        print(f"File exists.")
+        print(f"Directory exists.")
         try:
-            df = pd.read_parquet(path)
-            print(f"Successfully read {len(df)} rows.")
-            print(df.head())
+            dataset = ds.dataset(path, format="parquet")
+            table = dataset.to_table()
+            print(f"Successfully read {table.num_rows} rows.")
+            print(table.to_pandas().head())
         except Exception as e:
-            print(f"Error reading Parquet file: {e}")
+            print(f"Error reading Parquet dataset: {e}")
     else:
-        print(f"File does not exist.")
+        print(f"Directory does not exist.")
 

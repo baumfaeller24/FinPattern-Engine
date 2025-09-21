@@ -2204,3 +2204,9 @@
 {"timestamp": "2025-09-21T08:14:53.914818", "module": "data_ingest", "step": "process_line", "percent": 79, "message": "Processing line 6950000"}
 {"timestamp": "2025-09-21T08:15:03.896266", "module": "data_ingest", "step": "process_line", "percent": 80, "message": "Processing line 7000000"}
 {"timestamp": "2025-09-21T08:15:14.312763", "module": "data_ingest", "step": "process_line", "percent": 80, "message": "Processing line 7050000"}
+{"timestamp": "2025-09-21T08:39:59.840523", "module": "data_ingest", "step": "process_line", "percent": 81, "message": "Processing line 7100000"}
+{"timestamp": "2025-09-21T08:40:57.282921", "module": "data_ingest", "step": "init", "percent": 1, "message": "init"}
+{"timestamp": "2025-09-21T08:41:33.577887", "module": "data_ingest", "step": "init", "percent": 1, "message": "init"}
+{"timestamp": "2025-09-21T08:42:29.075622", "module": "data_ingest", "step": "init", "percent": 1, "message": "init"}
+{"timestamp": "2025-09-21T08:43:26.569609", "module": "data_ingest", "step": "init", "percent": 1, "message": "init"}
+{"timestamp": "2025-09-21T08:44:52.371646", "module": "data_ingest", "step": "init", "percent": 1, "message": "init"}
