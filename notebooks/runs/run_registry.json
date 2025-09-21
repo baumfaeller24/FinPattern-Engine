@@ -1,0 +1,16 @@
+{
+  "runs": [
+    {
+      "run_id": "run_20250921_032334_29953433",
+      "module": "labeling",
+      "created_at": "2025-09-21T03:23:34.569821",
+      "config_hash": "29953433",
+      "status": "error",
+      "config_file": "runs/run_20250921_032334_29953433/labeling/config_used.yaml",
+      "run_dir": "runs/run_20250921_032334_29953433/labeling",
+      "updated_at": "2025-09-21T03:23:34.671202",
+      "error": "Fehler in Modul 2 (Labeling v2.1): Input or tick slice file not found."
+    }
+  ],
+  "last_updated": "2025-09-21T03:23:34.671207"
+}

@@ -23,7 +23,8 @@ config = {
         {"type": "tick", "count": 100},
         {"type": "tick", "count": 1000}
     ],
-    "pip_size": 0.0001
+    "pip_size": 0.0001,
+    "chunksize": 50000
 }
 
 # Run the DataIngest module
@@ -38,9 +39,12 @@ for frame, output in data_ingest_output["outputs"].items():
     print(f"Checking {frame} output file: {path}")
     if os.path.exists(path):
         print(f"File exists.")
-        df = pd.read_parquet(path)
-        print(f"Successfully read {len(df)} rows.")
-        print(df.head())
+        try:
+            df = pd.read_parquet(path)
+            print(f"Successfully read {len(df)} rows.")
+            print(df.head())
+        except Exception as e:
+            print(f"Error reading Parquet file: {e}")
     else:
         print(f"File does not exist.")
 

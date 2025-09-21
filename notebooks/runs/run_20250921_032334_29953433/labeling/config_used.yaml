@@ -1,0 +1,8 @@
+input_file: /home/ubuntu/FinPattern-Engine/output/data_ingest/bars_1000tick.parquet
+out_dir: /home/ubuntu/FinPattern-Engine/output/labeling
+side: long
+sl_pips: 10
+tick_slice_file: /home/ubuntu/FinPattern-Engine/output/data_ingest/tick_slices_1000t.parquet
+timeout_bars: 24
+tp_pips: 20
+volatility_span: 100
